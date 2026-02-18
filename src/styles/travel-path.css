@@ -114,18 +114,21 @@
   gap: 2px;
   white-space: nowrap;
   pointer-events: none;
+  /* Semi-transparent background so text is readable over the line */
+  background: rgba(250, 243, 232, 0.9); /* --color-surface with alpha */
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
 }
 
 /* --right: label floats to the right of the dot */
 .stop-label-group--right {
-  left: 16px;
+  left: 20px;  /* clear the 20px dot fully */
   text-align: start;
 }
 
-/* --left: label floats to the left of the dot.
-   translateX(-100%) moves the entire label block to the left of its anchor. */
+/* --left: label floats to the left of the dot */
 .stop-label-group--left {
-  left: -16px;
+  left: -20px;  /* clear the dot */
   transform: translateY(-50%) translateX(-100%);
   text-align: end;
 }
