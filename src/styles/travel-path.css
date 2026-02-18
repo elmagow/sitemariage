@@ -53,7 +53,6 @@
   position: absolute;
   left: var(--sx);
   top: var(--sy);
-  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -73,14 +72,19 @@
   cursor: pointer;
 }
 
-/* --right: label sits to the RIGHT of the dot (default: row) */
+/* --right: dot on curve point, label to the right.
+   translate: shift left by half the dot (10px) so dot center = curve point. */
 .journey-stop.stop-label--right {
   flex-direction: row;
+  transform: translate(-10px, -50%);
 }
 
-/* --left: label sits to the LEFT of the dot */
+/* --left: dot on curve point, label to the left.
+   The dot is the last visual item (row-reverse).
+   Shift right so dot center aligns with the curve point. */
 .journey-stop.stop-label--left {
   flex-direction: row-reverse;
+  transform: translate(calc(-100% + 10px), -50%);
 }
 
 /* ═══ Stop Dot — always on the line ═══ */
