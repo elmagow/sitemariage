@@ -63,10 +63,10 @@ export function initTravelPath() {
 
   ScrollTrigger.create({
     trigger: section,
-    // Start when the TOP of the section hits the TOP of the viewport
-    // so the animation runs for the full scroll length of the section.
-    start: 'top top',
-    end:   'bottom bottom',
+    // Start the moment the section's top edge enters the viewport (bottom of screen).
+    // End when the section's bottom edge leaves the top of the viewport.
+    start: 'top bottom',
+    end:   'bottom top',
     scrub: true,
     onUpdate: (self) => {
       const progress = self.progress
