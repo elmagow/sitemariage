@@ -36,15 +36,14 @@
 /* ═══ Traveler (animated icon) ═══ */
 
 .traveler {
-  position: sticky;
-  top: 50%;
-  inset-inline-start: calc(50% - 28px);
+  position: absolute;
+  /* top is set dynamically by JS (travel-path.js) */
+  left: 50%;
+  transform: translateX(-50%);
   width: 56px;
   height: 56px;
-  margin-inline-start: calc(50% - 28px);
   z-index: 10;
   pointer-events: none;
-  /* Will be repositioned by GSAP */
 }
 
 .traveler svg {

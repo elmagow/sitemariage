@@ -54,3 +54,15 @@
 :root[dir="rtl"] .hero {
   direction: rtl;
 }
+
+/* Hebrew font overrides — Frank Ruhl Libre for body text */
+[lang="he"] body,
+[lang="he"] p,
+[lang="he"] li,
+[lang="he"] label,
+[lang="he"] input,
+[lang="he"] textarea,
+[lang="he"] select,
+[lang="he"] button {
+  font-family: var(--font-hebrew);
+}

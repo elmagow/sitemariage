@@ -8,6 +8,7 @@ import { setLanguage, t } from './i18n/index.js'
 import { initTravelPath } from './modules/travel-path.js'
 import { initEventModal, updateEventModalLang } from './modules/event-modal.js'
 import { initRsvpForm, updateRsvpFormLang } from './modules/rsvp-form.js'
+import { initCountdown } from './modules/countdown.js'
 
 // ─── Initialize default language (French) ───────────────────────────────────
 // This sets document.documentElement.lang = 'fr', dir = 'ltr',
@@ -22,6 +23,7 @@ if (frBtn) frBtn.classList.add('is-active')
 initTravelPath()
 initEventModal(t)   // Pass t() reference — modal uses this to resolve i18n keys
 initRsvpForm(t)
+initCountdown()
 
 // ─── Language switcher ────────────────────────────────────────────────────────
 // CRITICAL: Only updateEventModalLang() is called on lang switch — NOT initEventModal().

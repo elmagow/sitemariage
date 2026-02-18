@@ -7,6 +7,10 @@ export default {
     location: 'תל אביב, ישראל',
     scroll_hint: 'גללו לגלות את המסע'
   },
+  countdown: {
+    months: 'חודשים',
+    days: 'ימים',
+  },
   journey: {
     paris: 'פריז, צרפת',
     stop_1_name: 'ארוחת קבלת פנים',
