@@ -97,9 +97,15 @@
   background: var(--color-primary);
   border: 2.5px solid var(--color-surface);
   box-shadow: 0 0 0 2px var(--color-primary);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform var(--transition-fast);
   z-index: 2;
   flex-shrink: 0;
+}
+
+/* Dot turns green when the traveler crosses it */
+.stop-dot--active {
+  background: var(--color-olive);
+  box-shadow: 0 0 0 2px var(--color-olive), 0 0 8px rgba(107, 124, 69, 0.4);
 }
 
 .event-stop:hover .stop-dot {

@@ -61,11 +61,21 @@ export function initTravelPath() {
   const PATH_Y_START = 2
   const PATH_Y_END   = 90
 
+  // Collect all stop dots + their y-positions for color animation
+  const stopDots = []
+  section.querySelectorAll('.journey-stop').forEach(stop => {
+    const dot = stop.querySelector('.stop-dot')
+    if (!dot) return
+    // Read --sy from inline style (e.g. "10%") → number
+    const syStr = stop.style.getPropertyValue('--sy').trim()
+    const sy = parseFloat(syStr) || 0
+    stopDots.push({ dot, sy })
+  })
+
   function update(scrollProgress) {
-    const sectionH = section.offsetWidth // recalc width for x pixel conversion
     const sectionHeight = section.offsetHeight
 
-    // progress 0→1 maps to y 0→90 in viewBox units
+    // progress 0→1 maps to y 2→90 in viewBox units
     const yPct = PATH_Y_START + scrollProgress * (PATH_Y_END - PATH_Y_START)
     const xPct = getXAtY(yPct)
 
@@ -77,6 +87,18 @@ export function initTravelPath() {
     const icon = getIconForProgress(scrollProgress)
     if (traveler.textContent !== ICONS[icon]) {
       traveler.textContent = ICONS[icon]
+    }
+
+    // Dot color: green (olive) when traveler has reached or just passed it,
+    // back to red (primary) once traveler moves further away
+    for (const { dot, sy } of stopDots) {
+      const dist = yPct - sy // positive = traveler is below this dot
+      if (dist >= -1 && dist <= 4) {
+        // Traveler is on or just past this dot → green
+        dot.classList.add('stop-dot--active')
+      } else {
+        dot.classList.remove('stop-dot--active')
+      }
     }
   }
 
