@@ -118,13 +118,15 @@
 
 /* --right: label floats to the right of the dot */
 .stop-label-group--right {
-  left: calc(50% + 16px); /* dot radius + gap */
+  left: 16px;
   text-align: start;
 }
 
-/* --left: label floats to the left of the dot */
+/* --left: label floats to the left of the dot.
+   translateX(-100%) moves the entire label block to the left of its anchor. */
 .stop-label-group--left {
-  right: calc(50% + 16px);
+  left: -16px;
+  transform: translateY(-50%) translateX(-100%);
   text-align: end;
 }
 

@@ -127,9 +127,9 @@
     <svg class="travel-line" aria-hidden="true"
          viewBox="0 0 100 100" preserveAspectRatio="none"
          id="travel-snake-svg">
-      <!-- Paris(50,2) → left TLV(25,10) → right WD(65,34) → left Beach(25,51) → right Wedding(65,68) → center Return(50,90) -->
+      <!-- Paris(50,2) → left TLV(25,10) → right WD(75,34) → left Beach(25,51) → right Wedding(75,68) → center Return(50,90) -->
       <path id="snake-path"
-        d="M50,0 L50,2 C50,5 25,7 25,10 C25,16 65,28 65,34 C65,40 25,45 25,51 C25,57 65,62 65,68 C65,74 50,82 50,90"
+        d="M50,0 L50,2 C50,5 25,7 25,10 C25,16 75,28 75,34 C75,40 25,45 25,51 C25,57 75,62 75,68 C75,74 50,82 50,90"
         fill="none"
         stroke="var(--color-olive)"
         stroke-width="1.2"
@@ -163,10 +163,10 @@
       </div>
     </div>
 
-    <!-- STOP 3: Welcome Dinner — x=65%, y=34% → labels RIGHT (toward center) -->
-    <button class="journey-stop event-stop" data-event="welcome-dinner" style="--sx:65%;--sy:34%" aria-haspopup="dialog">
+    <!-- STOP 3: Welcome Dinner — x=75%, y=34% → labels LEFT (inside snake) -->
+    <button class="journey-stop event-stop" data-event="welcome-dinner" style="--sx:75%;--sy:34%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--right">
+      <div class="stop-label-group stop-label-group--left">
         <span class="stop-label" data-i18n="journey.stop_1_name">Welcome Dinner</span>
         <span class="stop-sublabel" data-i18n="journey.stop_1_location">Neve Tsedek</span>
         <span class="stop-date" data-i18n="journey.stop_1_date">Oct 18</span>
@@ -183,10 +183,10 @@
       </div>
     </button>
 
-    <!-- STOP 5: Wedding — x=65%, y=68% → labels RIGHT (toward center) -->
-    <button class="journey-stop event-stop" data-event="wedding" style="--sx:65%;--sy:68%" aria-haspopup="dialog">
+    <!-- STOP 5: Wedding — x=75%, y=68% → labels LEFT (inside snake) -->
+    <button class="journey-stop event-stop" data-event="wedding" style="--sx:75%;--sy:68%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--right">
+      <div class="stop-label-group stop-label-group--left">
         <span class="stop-label" data-i18n="journey.stop_3_name">Wedding 💍</span>
         <span class="stop-sublabel" data-i18n="journey.stop_3_location">Achuza, Beit Hanan</span>
         <span class="stop-date" data-i18n="journey.stop_3_date">Oct 20</span>
