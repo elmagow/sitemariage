@@ -20,7 +20,7 @@ body::after {
   height: 30vh;
   background: url('/hero-bg-v2.jpg') center bottom / cover no-repeat;
   opacity: 0.3;
-  z-index: 999;
+  z-index: 0;
   pointer-events: none;
   mask-image: linear-gradient(to bottom, transparent, black);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black);
