@@ -106,7 +106,7 @@ export function initTravelPath() {
 
   ScrollTrigger.create({
     trigger: section,
-    start: 'top 80%',      // starts when section top is 80% down the viewport
+    start: 'top top',       // animation begins when section top reaches viewport top
     end: 'bottom bottom',
     scrub: true,
     onUpdate: (self) => update(self.progress)
