@@ -21,7 +21,7 @@
 /* ═══ Logo ═══ */
 
 .hero__logo {
-  margin-bottom: var(--space-md);
+  margin-bottom: 0.25rem;
   color: var(--color-olive);
 }
 
