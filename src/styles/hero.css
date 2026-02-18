@@ -84,6 +84,8 @@
   border-radius: var(--radius-lg);
   object-fit: cover;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
 }
 
 /* ═══ Scroll Hint ═══ */
