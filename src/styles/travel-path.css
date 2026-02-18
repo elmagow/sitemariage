@@ -174,11 +174,11 @@
 
 @media (max-width: 500px) {
   /* nudge stops closer to center on small screens */
-  .journey-stop[style*="--sx:75%"] {
-    --sx: 65%;
+  .journey-stop[style*="--sx:65%"] {
+    --sx: 58%;
   }
-  .journey-stop[style*="--sx:25%"] {
-    --sx: 35%;
+  .journey-stop[style*="--sx:35%"] {
+    --sx: 42%;
   }
 }
 
