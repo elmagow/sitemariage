@@ -147,56 +147,56 @@
       The label group is absolutely positioned to the side (left or right) via CSS class.
     -->
 
-    <!-- STOP 1: Paris departure — x=50%, y=2% -->
-    <div class="journey-stop journey-stop--city" data-stop="paris-departure" style="--sx:50%;--sy:2%">
+    <!-- STOP 1: Paris departure — x=50%, y=2% — label right -->
+    <div class="journey-stop journey-stop--city stop-label--right" data-stop="paris-departure" style="--sx:50%;--sy:2%">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--right">
+      <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.paris">Paris 🇫🇷</span>
       </div>
     </div>
 
-    <!-- STOP 2: Tel Aviv arrival — x=25%, y=10% (left side of curve) -->
-    <div class="journey-stop journey-stop--city" data-stop="tel-aviv" style="--sx:25%;--sy:10%">
+    <!-- STOP 2: Tel Aviv — x=25%, y=10% — label right (inside snake) -->
+    <div class="journey-stop journey-stop--city stop-label--right" data-stop="tel-aviv" style="--sx:25%;--sy:10%">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--right">
+      <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.telaviv">Tel Aviv 🇮🇱</span>
       </div>
     </div>
 
-    <!-- STOP 3: Welcome Dinner — x=75%, y=34% → labels LEFT (inside snake) -->
-    <button class="journey-stop event-stop" data-event="welcome-dinner" style="--sx:75%;--sy:34%" aria-haspopup="dialog">
+    <!-- STOP 3: Welcome Dinner — x=75%, y=34% — label LEFT (inside snake) -->
+    <button class="journey-stop event-stop stop-label--left" data-event="welcome-dinner" style="--sx:75%;--sy:34%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--left">
+      <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.stop_1_name">Welcome Dinner</span>
         <span class="stop-sublabel" data-i18n="journey.stop_1_location">Neve Tsedek</span>
         <span class="stop-date" data-i18n="journey.stop_1_date">Oct 18</span>
       </div>
     </button>
 
-    <!-- STOP 4: Beach Party — x=25%, y=51% → labels RIGHT -->
-    <button class="journey-stop event-stop" data-event="beach-party" style="--sx:25%;--sy:51%" aria-haspopup="dialog">
+    <!-- STOP 4: Beach Party — x=25%, y=51% — label RIGHT (inside snake) -->
+    <button class="journey-stop event-stop stop-label--right" data-event="beach-party" style="--sx:25%;--sy:51%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--right">
+      <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.stop_2_name">Beach Party</span>
         <span class="stop-sublabel" data-i18n="journey.stop_2_location">Herzliya Beach</span>
         <span class="stop-date" data-i18n="journey.stop_2_date">Oct 19</span>
       </div>
     </button>
 
-    <!-- STOP 5: Wedding — x=75%, y=68% → labels LEFT (inside snake) -->
-    <button class="journey-stop event-stop" data-event="wedding" style="--sx:75%;--sy:68%" aria-haspopup="dialog">
+    <!-- STOP 5: Wedding — x=75%, y=68% — label LEFT (inside snake) -->
+    <button class="journey-stop event-stop stop-label--left" data-event="wedding" style="--sx:75%;--sy:68%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--left">
+      <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.stop_3_name">Wedding 💍</span>
         <span class="stop-sublabel" data-i18n="journey.stop_3_location">Achuza, Beit Hanan</span>
         <span class="stop-date" data-i18n="journey.stop_3_date">Oct 20</span>
       </div>
     </button>
 
-    <!-- STOP 6: Return — x=50%, y=90% -->
-    <div class="journey-stop journey-stop--city" data-stop="return" style="--sx:50%;--sy:90%">
+    <!-- STOP 6: Return — x=50%, y=90% — label right -->
+    <div class="journey-stop journey-stop--city stop-label--right" data-stop="return" style="--sx:50%;--sy:90%">
       <span class="stop-dot"></span>
-      <div class="stop-label-group stop-label-group--right">
+      <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.return">À bientôt ! 👋</span>
       </div>
     </div>

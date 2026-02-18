@@ -45,23 +45,24 @@
 }
 
 /* ═══ Journey Stops ═══
-   Each stop is a pin anchored to the curve via --sx / --sy CSS vars.
-   The dot is the anchor; the label group floats to the side via absolute positioning.
+   Each stop is anchored to the curve via --sx / --sy CSS vars.
+   Flexbox lays out dot + label side by side — no overlap.
 ═══════════════════════ */
 
 .journey-stop {
   position: absolute;
   left: var(--sx);
   top: var(--sy);
-  /* center the dot on the curve point */
   transform: translate(-50%, -50%);
-  width: 0; /* dot has its own size; label group overflows absolutely */
-  height: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: none;
   border: none;
   cursor: default;
   padding: 0;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .journey-stop--city {
@@ -72,15 +73,22 @@
   cursor: pointer;
 }
 
+/* --right: label sits to the RIGHT of the dot (default: row) */
+.journey-stop.stop-label--right {
+  flex-direction: row;
+}
+
+/* --left: label sits to the LEFT of the dot */
+.journey-stop.stop-label--left {
+  flex-direction: row-reverse;
+}
+
 /* ═══ Stop Dot — always on the line ═══ */
 
 .stop-dot {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 20px;
   height: 20px;
+  min-width: 20px;
   border-radius: 50%;
   background: var(--color-primary);
   border: 2.5px solid var(--color-surface);
@@ -91,7 +99,7 @@
 }
 
 .event-stop:hover .stop-dot {
-  transform: translate(-50%, -50%) scale(1.4);
+  transform: scale(1.3);
   box-shadow: 0 0 0 3px var(--color-primary), 0 0 12px rgba(193,81,58,0.3);
 }
 
@@ -103,33 +111,23 @@
   box-shadow: 0 0 0 4px var(--color-primary);
 }
 
-/* ═══ Label Groups — float to the side of the dot ═══ */
+/* ═══ Label Groups ═══ */
 
 .stop-label-group {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 2px;
-  white-space: nowrap;
   pointer-events: none;
-  /* Semi-transparent background so text is readable over the line */
-  background: rgba(250, 243, 232, 0.9); /* --color-surface with alpha */
-  padding: 4px 8px;
+  background: rgba(250, 243, 232, 0.92);
+  padding: 4px 10px;
   border-radius: var(--radius-sm);
 }
 
-/* --right: label floats to the right of the dot */
-.stop-label-group--right {
-  left: 20px;  /* clear the 20px dot fully */
+.stop-label--right .stop-label-group {
   text-align: start;
 }
 
-/* --left: label floats to the left of the dot */
-.stop-label-group--left {
-  left: -20px;  /* clear the dot */
-  transform: translateY(-50%) translateX(-100%);
+.stop-label--left .stop-label-group {
   text-align: end;
 }
 
@@ -165,14 +163,7 @@
 /* ═══ Responsive ═══ */
 
 @media (max-width: 500px) {
-  /* On small screens, move all labels to the right and shift stops toward center */
-  .stop-label-group--left {
-    right: auto;
-    left: calc(50% + 14px);
-    text-align: start;
-  }
-
-  /* nudge stops that are at 75% or 25% closer to center */
+  /* nudge stops closer to center on small screens */
   .journey-stop[style*="--sx:75%"] {
     --sx: 65%;
   }
