@@ -5,7 +5,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const ICONS = {
   plane:   '✈️',
-  dinner:  '🍽️',
+  dinner:  '🥂',
   beach:   '🏖️',
   wedding: '🤵🏻‍♂️👰🏻‍♀️',
 }
