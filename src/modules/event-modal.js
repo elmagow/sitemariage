@@ -8,6 +8,14 @@
 
 // Keys for each event's modal content — dot-notation i18n keys
 const EVENT_KEYS = {
+  'mairie': {
+    emoji:     '💍',
+    name:      'journey.stop_0_name',
+    date:      'journey.stop_0_date',
+    location:  'journey.stop_0_location',
+    transport: 'journey.stop_0_transport',
+    dresscode: 'journey.stop_0_dresscode'
+  },
   'welcome-dinner': {
     emoji:     '🥂',
     name:      'journey.stop_1_name',
