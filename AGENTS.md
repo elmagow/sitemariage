@@ -1,5 +1,7 @@
 # Agent Instructions — sitemariage
 
+The task should be done with the relevant bmad subagents. Keeping context free.
+
 ## Project Overview
 Wedding website for Anaël & Eric (October 18–20, 2026, Tel Aviv, Israel).
 Single-page, trilingual (French default, Hebrew RTL, English), hosted on GitHub Pages.

@@ -57,9 +57,9 @@
     </div>
 
     <nav class="lang-switcher" aria-label="Language switcher">
-      <button class="lang-btn is-active" data-lang="fr" data-i18n="nav.lang_fr">FR</button>
-      <button class="lang-btn" data-lang="he" data-i18n="nav.lang_he">HE</button>
-      <button class="lang-btn" data-lang="en" data-i18n="nav.lang_en">EN</button>
+      <button class="lang-btn is-active" data-lang="fr" aria-label="Français">🇫🇷</button>
+      <button class="lang-btn" data-lang="he" aria-label="עברית">🇮🇱</button>
+      <button class="lang-btn" data-lang="en" aria-label="English">🇬🇧</button>
     </nav>
 
     <button class="rsvp-btn" data-i18n="nav.rsvp">RSVP</button>
@@ -119,93 +119,84 @@
   <section class="travel-section" aria-label="Journey">
 
     <!--
-      Snake path SVG — fills the entire section.
-      viewBox: 0 0 100 100 (percentage units).
-      The path starts at center (50,0), curves right to ~75 at stop 1 (25%),
-      swings left to ~25 at stop 2 (50%), right to ~75 at stop 3 (75%),
-      then back to center (50,100).
-      Stop dots are positioned inline at those x/y percentages via data attributes
-      read by JS, and also pre-set as inline styles for no-JS.
+      Snake path SVG — fills the entire section (viewBox 0 0 100 100, preserveAspectRatio none).
+      6 stops: Paris(50,0) → Tel Aviv(50,17) → Welcome Dinner(75,34) →
+               Beach Party(25,51) → Wedding(75,68) → Return(50,85→100)
+      The path snakes: center → center → right → left → right → center
     -->
     <svg class="travel-line" aria-hidden="true"
          viewBox="0 0 100 100" preserveAspectRatio="none"
          id="travel-snake-svg">
       <path id="snake-path"
-        d="M50,0 C50,8 75,17 75,25 C75,33 25,42 25,50 C25,58 75,67 75,75 C75,83 50,92 50,100"
+        d="M50,0 L50,10 C50,14 50,14 50,17 C50,22 65,28 75,34 C85,40 25,45 25,51 C25,57 65,62 75,68 C85,74 50,82 50,88 L50,100"
         fill="none"
         stroke="var(--color-olive)"
-        stroke-width="0.5"
-        stroke-dasharray="2 3"
-        opacity="0.55"
+        stroke-width="1.2"
+        stroke-dasharray="4 6"
+        opacity="0.9"
         vector-effect="non-scaling-stroke"
       />
     </svg>
 
-    <!-- Traveler icon — x+y driven by JS via getPointAtLength on #snake-path -->
-    <div class="traveler" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="32" height="32" class="traveler-icon">
-        <path d="M6 28 L20 20 L28 4 L32 6 L26 22 L38 18 L40 22 L28 28 L26 42 L22 42 L20 32 L8 36 Z" fill="currentColor"/>
-      </svg>
-    </div>
+    <!-- Traveler emoji — x+y driven by JS via getPointAtLength on #snake-path -->
+    <div class="traveler" aria-hidden="true" id="traveler">✈️</div>
 
-    <!-- STOP: Paris (departure) — curve x≈50% at y=2% -->
-    <div class="journey-stop journey-stop--city" data-stop="paris-departure"
-         style="top: 2%; left: 50%">
+    <!--
+      Each stop: the dot is centered on the curve via left/top inline style + translate(-50%,-50%).
+      The label group is absolutely positioned to the side (left or right) via CSS class.
+    -->
+
+    <!-- STOP 1: Paris departure — x=50%, y=2% -->
+    <div class="journey-stop journey-stop--city" data-stop="paris-departure" style="--sx:50%;--sy:2%">
       <span class="stop-dot stop-dot--city"></span>
-      <div class="stop-label-group">
-        <span class="stop-label" data-i18n="journey.paris">Paris, France</span>
-        <span class="stop-icon-city" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="28" height="28">
-            <path d="M6 28 L20 20 L28 4 L32 6 L26 22 L38 18 L40 22 L28 28 L26 42 L22 42 L20 32 L8 36 Z" fill="currentColor"/>
-          </svg>
-        </span>
+      <div class="stop-label-group stop-label-group--right">
+        <span class="stop-label" data-i18n="journey.paris">Paris 🇫🇷</span>
       </div>
     </div>
 
-    <!-- STOP: Welcome Dinner — curve x≈75% at y=25% → labels go LEFT -->
-    <button class="journey-stop event-stop stop--right" data-event="welcome-dinner"
-            style="top: 25%; left: 75%" aria-haspopup="dialog">
+    <!-- STOP 2: Tel Aviv arrival — x=50%, y=17% (curve still centered here) -->
+    <div class="journey-stop journey-stop--city" data-stop="tel-aviv" style="--sx:50%;--sy:17%">
+      <span class="stop-dot stop-dot--city stop-dot--telaviv"></span>
+      <div class="stop-label-group stop-label-group--left">
+        <span class="stop-label" data-i18n="journey.telaviv">Tel Aviv 🇮🇱</span>
+      </div>
+    </div>
+
+    <!-- STOP 3: Welcome Dinner — x=75%, y=34% → labels LEFT -->
+    <button class="journey-stop event-stop" data-event="welcome-dinner" style="--sx:75%;--sy:34%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group">
+      <div class="stop-label-group stop-label-group--left">
         <span class="stop-label" data-i18n="journey.stop_1_name">Welcome Dinner</span>
         <span class="stop-sublabel" data-i18n="journey.stop_1_location">Neve Tsedek</span>
         <span class="stop-date" data-i18n="journey.stop_1_date">Oct 18</span>
       </div>
     </button>
 
-    <!-- STOP: Beach Party — curve x≈25% at y=50% → labels go RIGHT -->
-    <button class="journey-stop event-stop stop--left" data-event="beach-party"
-            style="top: 50%; left: 25%" aria-haspopup="dialog">
+    <!-- STOP 4: Beach Party — x=25%, y=51% → labels RIGHT -->
+    <button class="journey-stop event-stop" data-event="beach-party" style="--sx:25%;--sy:51%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group">
+      <div class="stop-label-group stop-label-group--right">
         <span class="stop-label" data-i18n="journey.stop_2_name">Beach Party</span>
         <span class="stop-sublabel" data-i18n="journey.stop_2_location">Herzliya Beach</span>
         <span class="stop-date" data-i18n="journey.stop_2_date">Oct 19</span>
       </div>
     </button>
 
-    <!-- STOP: Wedding — curve x≈75% at y=75% → labels go LEFT -->
-    <button class="journey-stop event-stop stop--right" data-event="wedding"
-            style="top: 75%; left: 75%" aria-haspopup="dialog">
+    <!-- STOP 5: Wedding — x=75%, y=68% → labels LEFT -->
+    <button class="journey-stop event-stop" data-event="wedding" style="--sx:75%;--sy:68%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
-      <div class="stop-label-group">
-        <span class="stop-label" data-i18n="journey.stop_3_name">Wedding Ceremony</span>
+      <div class="stop-label-group stop-label-group--left">
+        <span class="stop-label" data-i18n="journey.stop_3_name">Wedding 💍</span>
         <span class="stop-sublabel" data-i18n="journey.stop_3_location">Achuza, Beit Hanan</span>
         <span class="stop-date" data-i18n="journey.stop_3_date">Oct 20</span>
       </div>
     </button>
 
-    <!-- STOP: Return (Paris) — curve x≈50% at y=97% -->
-    <div class="journey-stop journey-stop--city" data-stop="return"
-         style="top: 97%; left: 50%">
+    <!-- STOP 6: Return — x=50%, y=90% -->
+    <div class="journey-stop journey-stop--city" data-stop="return" style="--sx:50%;--sy:90%">
       <span class="stop-dot stop-dot--city"></span>
-      <div class="stop-label-group">
-        <span class="stop-label" data-i18n="journey.return">À bientôt!</span>
-        <span class="stop-icon-city" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="28" height="28">
-            <path d="M6 28 L20 20 L28 4 L32 6 L26 22 L38 18 L40 22 L28 28 L26 42 L22 42 L20 32 L8 36 Z" fill="currentColor" transform="scale(-1,1) translate(-48,0)"/>
-          </svg>
-        </span>
+      <div class="stop-label-group stop-label-group--right">
+        <span class="stop-label" data-i18n="journey.return">À bientôt ! 👋</span>
       </div>
     </div>
 

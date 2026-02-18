@@ -4,7 +4,7 @@
 
 .travel-section {
   position: relative;
-  min-height: 300vh;
+  min-height: 400vh; /* taller = animation starts earlier relative to scroll */
   background-color: var(--color-surface);
   background-image:
     radial-gradient(ellipse at 50% 10%, rgba(232, 184, 75, 0.08) 0%, transparent 50%),
@@ -23,116 +23,125 @@
   overflow: visible;
 }
 
-/* ═══ Traveler (animated icon) ═══ */
+/* ═══ Traveler (emoji) ═══ */
 
 .traveler {
   position: absolute;
-  /* top + left are both set dynamically by JS (travel-path.js) */
+  /* top + left set by JS */
   transform: translate(-50%, -50%);
-  width: 56px;
-  height: 56px;
+  font-size: 2rem;
+  line-height: 1;
   z-index: 10;
   pointer-events: none;
+  /* smooth hop between waypoints */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
-.traveler svg {
-  width: 100%;
-  height: 100%;
-  color: var(--color-primary);
-  filter: drop-shadow(0 2px 6px rgba(193, 81, 58, 0.3));
-}
-
-/* ═══ Journey Stops ═══ */
+/* ═══ Journey Stops ═══
+   Each stop is a pin anchored to the curve via --sx / --sy CSS vars.
+   The dot is the anchor; the label group floats to the side via absolute positioning.
+═══════════════════════ */
 
 .journey-stop {
   position: absolute;
-  /* left is set via inline style; translateX(-50%) centers the dot on the curve */
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
+  left: var(--sx);
+  top: var(--sy);
+  /* center the dot on the curve point */
+  transform: translate(-50%, -50%);
+  width: 0; /* dot has its own size; label group overflows absolutely */
+  height: 0;
   background: none;
   border: none;
   cursor: default;
-  padding: var(--space-xs) var(--space-sm);
+  padding: 0;
   font-family: inherit;
-  text-align: start;
 }
 
 .journey-stop--city {
   cursor: default;
 }
 
-/*
-  stop--right: dot is on the right side of the section.
-  Labels sit to the LEFT of the dot (row-reverse).
-*/
-.stop--right {
-  flex-direction: row-reverse;
-  text-align: end;
-}
-
-/*
-  stop--left: dot is on the left side of the section.
-  Labels sit to the RIGHT of the dot (row).
-*/
-.stop--left {
-  flex-direction: row;
-  text-align: start;
-}
-
-/* ═══ Event Stops (clickable) ═══ */
-
 .event-stop {
   cursor: pointer;
-  transition: transform var(--transition-fast);
-  border-radius: var(--radius-md);
 }
 
-.event-stop:hover {
-  transform: translateX(-50%) scale(1.05);
-}
-
-.event-stop:hover .stop-dot {
-  box-shadow: 0 0 0 4px rgba(193, 81, 58, 0.2);
-}
-
-.event-stop:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 4px;
-}
-
-/* ═══ Stop Dot ═══ */
+/* ═══ Stop Dot — always on the line ═══ */
 
 .stop-dot {
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--color-primary);
-  border: 2.5px solid white;
-  box-shadow: 0 2px 6px rgba(193, 81, 58, 0.3);
-  transition: box-shadow var(--transition-fast);
+  border: 2.5px solid var(--color-surface);
+  box-shadow: 0 0 0 2px var(--color-primary);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  z-index: 2;
+  flex-shrink: 0;
 }
 
 .stop-dot--city {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   background: var(--color-olive);
-  box-shadow: 0 2px 8px rgba(107, 124, 69, 0.35);
+  box-shadow: 0 0 0 2px var(--color-olive);
+}
+
+.stop-dot--telaviv {
+  background: var(--color-accent-2);
+  box-shadow: 0 0 0 2px var(--color-accent-2);
+}
+
+.event-stop:hover .stop-dot {
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 0 0 0 3px var(--color-primary), 0 0 12px rgba(193,81,58,0.3);
+}
+
+.event-stop:focus-visible {
+  outline: none;
+}
+
+.event-stop:focus-visible .stop-dot {
+  box-shadow: 0 0 0 4px var(--color-primary);
+}
+
+/* ═══ Label Groups — float to the side of the dot ═══ */
+
+.stop-label-group {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* --right: label floats to the right of the dot */
+.stop-label-group--right {
+  left: calc(50% + 16px); /* dot radius + gap */
+  text-align: start;
+}
+
+/* --left: label floats to the left of the dot */
+.stop-label-group--left {
+  right: calc(50% + 16px);
+  text-align: end;
+}
+
+.event-stop .stop-label-group {
+  pointer-events: auto;
 }
 
 /* ═══ Stop Labels ═══ */
 
-.stop-label-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .stop-label {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-dark);
   line-height: 1.2;
@@ -140,38 +149,47 @@
 
 .stop-sublabel {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--color-dark);
   opacity: 0.6;
 }
 
 .stop-date {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--color-primary);
   font-weight: 500;
   letter-spacing: 0.04em;
 }
 
-.stop-icon-city {
-  color: var(--color-olive);
-  opacity: 0.7;
-}
+/* ═══ Responsive ═══ */
 
-/* On mobile, all stops collapse to centered layout */
-@media (max-width: 480px) {
-  .journey-stop {
-    left: 50% !important;
-    flex-direction: column !important;
-    align-items: center;
-    text-align: center;
+@media (max-width: 500px) {
+  /* On small screens, move all labels to the right and shift stops toward center */
+  .stop-label-group--left {
+    right: auto;
+    left: calc(50% + 14px);
+    text-align: start;
+  }
+
+  /* nudge stops that are at 75% or 25% closer to center */
+  .journey-stop[style*="--sx:75%"] {
+    --sx: 65%;
+  }
+  .journey-stop[style*="--sx:25%"] {
+    --sx: 35%;
   }
 }
 
-/* ═══ Responsive ═══ */
-
 @media (min-width: 768px) {
   .stop-label {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
+  }
+
+  .stop-label-group--right {
+    left: calc(50% + 20px);
+  }
+  .stop-label-group--left {
+    right: calc(50% + 20px);
   }
 }
