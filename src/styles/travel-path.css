@@ -79,8 +79,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--color-primary);
   border: 2.5px solid var(--color-surface);
@@ -88,18 +88,6 @@
   transition: box-shadow var(--transition-fast), transform var(--transition-fast);
   z-index: 2;
   flex-shrink: 0;
-}
-
-.stop-dot--city {
-  width: 20px;
-  height: 20px;
-  background: var(--color-olive);
-  box-shadow: 0 0 0 2px var(--color-olive);
-}
-
-.stop-dot--telaviv {
-  background: var(--color-accent-2);
-  box-shadow: 0 0 0 2px var(--color-accent-2);
 }
 
 .event-stop:hover .stop-dot {
