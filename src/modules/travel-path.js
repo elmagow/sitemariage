@@ -58,7 +58,7 @@ export function initTravelPath() {
   // The snake path runs from y=0 to y=90 in viewBox units (0–100).
   // Map scroll progress 0–1 directly to that y range so the
   // traveler starts at the very top of the line (y=0) at progress=0.
-  const PATH_Y_START = 0
+  const PATH_Y_START = 1
   const PATH_Y_END   = 90
 
   function update(scrollProgress) {
@@ -84,7 +84,7 @@ export function initTravelPath() {
 
   ScrollTrigger.create({
     trigger: section,
-    start: 'top top',
+    start: 'top bottom',   // animation starts as soon as section enters viewport
     end: 'bottom bottom',
     scrub: true,
     onUpdate: (self) => update(self.progress)
