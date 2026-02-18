@@ -70,6 +70,11 @@ function setTravelerIcon(travelerEl, iconKey) {
 /**
  * Initialize the GSAP ScrollTrigger travel path animation.
  * Called once on app startup.
+ *
+ * Strategy: the .traveler is position:absolute (not sticky).
+ * We use ScrollTrigger onUpdate to manually set its `top` style
+ * as a percentage of the section height, so it physically follows
+ * the dotted line from top to bottom as the user scrolls.
  */
 export function initTravelPath() {
   const section = document.querySelector('.travel-section')
@@ -80,12 +85,12 @@ export function initTravelPath() {
     return
   }
 
-  // Set initial icon
+  // Set initial icon and position
   setTravelerIcon(traveler, 'plane')
+  traveler.style.top = '2%'
 
   // GSAP ScrollTrigger: scrub: true = 1:1 scroll fidelity (no lag)
-  // This keeps the icon exactly in sync with scroll position on mobile fast-swipes.
-  // Do NOT use scrub: 1.5 — that introduces a trailing lag that is disorienting on mobile.
+  // onUpdate drives both icon swap AND vertical position of the traveler.
   ScrollTrigger.create({
     trigger: section,
     start: 'top top',
@@ -93,6 +98,12 @@ export function initTravelPath() {
     scrub: true,
     onUpdate: (self) => {
       const progress = self.progress  // 0 to 1
+
+      // Move traveler along the dotted line (2% → 97% matches stop positions)
+      const topPct = 2 + progress * 95
+      traveler.style.top = topPct + '%'
+
+      // Swap icon based on which stop we've passed
       const activeIcon = getIconForProgress(progress)
       setTravelerIcon(traveler, activeIcon)
     }

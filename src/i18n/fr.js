@@ -7,6 +7,10 @@ export default {
     location: 'Tel Aviv, Israël',
     scroll_hint: 'Faites défiler pour découvrir le voyage'
   },
+  countdown: {
+    months: 'mois',
+    days: 'jours',
+  },
   journey: {
     paris: 'Paris, France',
     stop_1_name: 'Dîner de bienvenue',

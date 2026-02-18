@@ -7,6 +7,10 @@ export default {
     location: 'Tel Aviv, Israel',
     scroll_hint: 'Scroll to discover the journey'
   },
+  countdown: {
+    months: 'months',
+    days: 'days',
+  },
   journey: {
     paris: 'Paris, France',
     stop_1_name: 'Welcome Dinner',
