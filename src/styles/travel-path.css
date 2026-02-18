@@ -27,8 +27,10 @@
 
 .traveler {
   position: absolute;
-  /* top + left both set by JS to follow the snake path */
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  /* transform is set entirely by JS — GPU composited, no layout reflow */
+  will-change: transform;
   font-size: 2rem;
   line-height: 1;
   z-index: 10;
