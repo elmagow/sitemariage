@@ -127,8 +127,9 @@
     <svg class="travel-line" aria-hidden="true"
          viewBox="0 0 100 100" preserveAspectRatio="none"
          id="travel-snake-svg">
+      <!-- Straight from top to Paris (y=2), straight to Tel Aviv (y=17), then snake, ends at See you soon (y=90) -->
       <path id="snake-path"
-        d="M50,0 L50,10 C50,14 50,14 50,17 C50,22 65,28 75,34 C85,40 25,45 25,51 C25,57 65,62 75,68 C85,74 50,82 50,88 L50,100"
+        d="M50,2 L50,17 C50,22 65,28 75,34 C85,40 25,45 25,51 C25,57 65,62 75,68 C85,74 50,82 50,90"
         fill="none"
         stroke="var(--color-olive)"
         stroke-width="1.2"
@@ -148,7 +149,7 @@
 
     <!-- STOP 1: Paris departure — x=50%, y=2% -->
     <div class="journey-stop journey-stop--city" data-stop="paris-departure" style="--sx:50%;--sy:2%">
-      <span class="stop-dot stop-dot--city"></span>
+      <span class="stop-dot"></span>
       <div class="stop-label-group stop-label-group--right">
         <span class="stop-label" data-i18n="journey.paris">Paris 🇫🇷</span>
       </div>
@@ -156,7 +157,7 @@
 
     <!-- STOP 2: Tel Aviv arrival — x=50%, y=17% (curve still centered here) -->
     <div class="journey-stop journey-stop--city" data-stop="tel-aviv" style="--sx:50%;--sy:17%">
-      <span class="stop-dot stop-dot--city stop-dot--telaviv"></span>
+      <span class="stop-dot"></span>
       <div class="stop-label-group stop-label-group--left">
         <span class="stop-label" data-i18n="journey.telaviv">Tel Aviv 🇮🇱</span>
       </div>
@@ -194,7 +195,7 @@
 
     <!-- STOP 6: Return — x=50%, y=90% -->
     <div class="journey-stop journey-stop--city" data-stop="return" style="--sx:50%;--sy:90%">
-      <span class="stop-dot stop-dot--city"></span>
+      <span class="stop-dot"></span>
       <div class="stop-label-group stop-label-group--right">
         <span class="stop-label" data-i18n="journey.return">À bientôt ! 👋</span>
       </div>
