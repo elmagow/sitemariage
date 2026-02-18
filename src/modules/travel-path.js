@@ -55,16 +55,23 @@ export function initTravelPath() {
     return snakePath.getPointAtLength((lo + hi) / 2).x
   }
 
+  // The snake path runs from y=0 to y=90 in viewBox units (0–100).
+  // Map scroll progress 0–1 directly to that y range so the
+  // traveler starts at the very top of the line (y=0) at progress=0.
+  const PATH_Y_START = 0
+  const PATH_Y_END   = 90
+
   function update(scrollProgress) {
-    const sectionH = section.offsetHeight
-    const vpH = window.innerHeight
-    const centerY = scrollProgress * (sectionH - vpH) + vpH / 2
-    const yPct = (centerY / sectionH) * 100
+    const sectionH = section.offsetWidth // recalc width for x pixel conversion
+    const sectionHeight = section.offsetHeight
+
+    // progress 0→1 maps to y 0→90 in viewBox units
+    const yPct = PATH_Y_START + scrollProgress * (PATH_Y_END - PATH_Y_START)
     const xPct = getXAtY(yPct)
 
     // Single transform — GPU composited, CSS transition smooths it
     const xPx = (xPct / 100) * section.offsetWidth
-    const yPx = (yPct / 100) * sectionH
+    const yPx = (yPct / 100) * sectionHeight
     traveler.style.transform = `translate(${xPx}px, ${yPx}px) translate(-50%, -50%)`
 
     const icon = getIconForProgress(scrollProgress)
