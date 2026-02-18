@@ -1,8 +1,7 @@
 import fr from './fr.js'
 import he from './he.js'
-import en from './en.js'
 
-const LANGUAGES = { fr, he, en }
+const LANGUAGES = { fr, he }
 
 let currentLang = 'fr'
 
