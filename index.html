@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <!-- SVG symbol definitions (deduplication) — referenced via <use> throughout the page -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anaël &amp; Eric — Mariage · Octobre 2026</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       SVG SYMBOL DEFINITIONS (hidden, reusable)
+  ═══════════════════════════════════════ -->
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+    <defs>
+      <!-- Olive tree symbol — referenced by #olive-tree-symbol -->
+      <symbol id="olive-tree-symbol" viewBox="0 0 80 100">
+        <path d="M40 95 L40 55" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M40 70 L25 55" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M40 70 L55 55" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M40 60 L30 45" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M40 60 L50 45" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M40 55 L40 35" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M25 55 L18 45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M25 55 L28 44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M55 55 L62 45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M55 55 L52 44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="18" cy="43" rx="4" ry="2.5" fill="currentColor" transform="rotate(-30 18 43)"/>
+        <ellipse cx="28" cy="42" rx="4" ry="2.5" fill="currentColor" transform="rotate(20 28 42)"/>
+        <ellipse cx="62" cy="43" rx="4" ry="2.5" fill="currentColor" transform="rotate(30 62 43)"/>
+        <ellipse cx="52" cy="42" rx="4" ry="2.5" fill="currentColor" transform="rotate(-20 52 42)"/>
+        <ellipse cx="30" cy="43" rx="4" ry="2.5" fill="currentColor" transform="rotate(-20 30 43)"/>
+        <ellipse cx="50" cy="43" rx="4" ry="2.5" fill="currentColor" transform="rotate(20 50 43)"/>
+        <ellipse cx="40" cy="33" rx="4" ry="2.5" fill="currentColor" transform="rotate(0 40 33)"/>
+        <ellipse cx="35" cy="38" rx="3.5" ry="2" fill="currentColor" transform="rotate(-15 35 38)"/>
+        <ellipse cx="45" cy="38" rx="3.5" ry="2" fill="currentColor" transform="rotate(15 45 38)"/>
+        <circle cx="22" cy="50" r="2" fill="currentColor" opacity="0.7"/>
+        <circle cx="58" cy="50" r="2" fill="currentColor" opacity="0.7"/>
+        <circle cx="33" cy="48" r="2" fill="currentColor" opacity="0.7"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ═══════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="logo" aria-label="Olive tree logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 100" class="logo-svg" aria-hidden="true">
+        <use href="#olive-tree-symbol"/>
+      </svg>
+    </div>
+
+    <nav class="lang-switcher" aria-label="Language switcher">
+      <button class="lang-btn is-active" data-lang="fr" data-i18n="nav.lang_fr">FR</button>
+      <button class="lang-btn" data-lang="he" data-i18n="nav.lang_he">HE</button>
+      <button class="lang-btn" data-lang="en" data-i18n="nav.lang_en">EN</button>
+    </nav>
+
+    <button class="rsvp-btn" data-i18n="nav.rsvp">RSVP</button>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════ -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__logo" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 100" class="hero-logo-svg">
+        <use href="#olive-tree-symbol"/>
+      </svg>
+    </div>
+
+    <h1 class="hero__names" data-i18n="hero.title">Anaël &amp; Eric</h1>
+    <p class="hero__subtitle" data-i18n="hero.subtitle">se marient</p>
+    <p class="hero__date" data-i18n="hero.date">18–20 octobre 2026</p>
+    <p class="hero__location" data-i18n="hero.location">Tel Aviv, Israël</p>
+
+    <!-- Photo placeholder: replace this div with <img src="..." alt="Anaël & Eric"> when photos are ready -->
+    <div class="hero__photo-placeholder" aria-hidden="true">
+      <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="280" height="200" rx="12" fill="#E8B84B" opacity="0.15"/>
+        <rect x="1" y="1" width="278" height="198" rx="11" stroke="#6B7C45" stroke-width="2" stroke-dasharray="8 6"/>
+        <circle cx="115" cy="80" r="24" fill="#E07B39" opacity="0.3"/>
+        <circle cx="165" cy="80" r="24" fill="#C1513A" opacity="0.3"/>
+        <path d="M80 150 Q115 120 140 130 Q165 140 200 150" stroke="#6B7C45" stroke-width="2" fill="none" opacity="0.4"/>
+        <!-- No text: was hard-coded French 'Photo à venir' — not translatable -->
+      </svg>
+    </div>
+
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <p data-i18n="hero.scroll_hint">Faites défiler pour découvrir le voyage</p>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="scroll-arrow">
+        <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       TRAVEL PATH SECTION
+  ═══════════════════════════════════════ -->
+  <section class="travel-section" aria-label="Journey">
+
+    <!-- Dashed vertical line (decorative) -->
+    <svg class="travel-line" aria-hidden="true" preserveAspectRatio="none">
+      <line x1="50%" y1="0" x2="50%" y2="100%" stroke-dasharray="8 12"/>
+    </svg>
+
+    <!-- Traveler icon — animated by JS -->
+    <div class="traveler" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="32" height="32" class="traveler-icon">
+        <path d="M6 28 L20 20 L28 4 L32 6 L26 22 L38 18 L40 22 L28 28 L26 42 L22 42 L20 32 L8 36 Z" fill="currentColor"/>
+      </svg>
+    </div>
+
+    <!-- STOP: Paris (departure) -->
+    <div class="journey-stop journey-stop--city" data-stop="paris-departure" style="top: 2%">
+      <span class="stop-dot stop-dot--city"></span>
+      <div class="stop-label-group">
+        <span class="stop-label" data-i18n="journey.paris">Paris, France</span>
+        <span class="stop-icon-city" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="28" height="28">
+            <path d="M6 28 L20 20 L28 4 L32 6 L26 22 L38 18 L40 22 L28 28 L26 42 L22 42 L20 32 L8 36 Z" fill="currentColor"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- STOP: Welcome Dinner -->
+    <button class="journey-stop event-stop" data-event="welcome-dinner" style="top: 25%" aria-haspopup="dialog">
+      <span class="stop-dot"></span>
+      <div class="stop-label-group">
+        <span class="stop-label" data-i18n="journey.stop_1_name">Welcome Dinner</span>
+        <span class="stop-sublabel" data-i18n="journey.stop_1_location">Neve Tsedek</span>
+        <span class="stop-date" data-i18n="journey.stop_1_date">Oct 18</span>
+      </div>
+    </button>
+
+    <!-- STOP: Beach Party -->
+    <button class="journey-stop event-stop" data-event="beach-party" style="top: 50%" aria-haspopup="dialog">
+      <span class="stop-dot"></span>
+      <div class="stop-label-group">
+        <span class="stop-label" data-i18n="journey.stop_2_name">Beach Party</span>
+        <span class="stop-sublabel" data-i18n="journey.stop_2_location">Herzliya Beach</span>
+        <span class="stop-date" data-i18n="journey.stop_2_date">Oct 19</span>
+      </div>
+    </button>
+
+    <!-- STOP: Wedding -->
+    <button class="journey-stop event-stop" data-event="wedding" style="top: 75%" aria-haspopup="dialog">
+      <span class="stop-dot"></span>
+      <div class="stop-label-group">
+        <span class="stop-label" data-i18n="journey.stop_3_name">Wedding Ceremony</span>
+        <span class="stop-sublabel" data-i18n="journey.stop_3_location">Achuza, Beit Hanan</span>
+        <span class="stop-date" data-i18n="journey.stop_3_date">Oct 20</span>
+      </div>
+    </button>
+
+    <!-- STOP: Return (Paris) -->
+    <div class="journey-stop journey-stop--city" data-stop="return" style="top: 97%">
+      <span class="stop-dot stop-dot--city"></span>
+      <div class="stop-label-group">
+        <span class="stop-label" data-i18n="journey.return">À bientôt!</span>
+        <span class="stop-icon-city" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="28" height="28">
+            <path d="M6 28 L20 20 L28 4 L32 6 L26 22 L38 18 L40 22 L28 28 L26 42 L22 42 L20 32 L8 36 Z" fill="currentColor" transform="scale(-1,1) translate(-48,0)"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       PRACTICAL INFO SECTION
+  ═══════════════════════════════════════ -->
+  <section class="practical-info" aria-labelledby="practical-title">
+    <h2 class="section-title" id="practical-title" data-i18n="practical.title">Informations pratiques</h2>
+    <p class="section-subtitle" data-i18n="practical.subtitle">Tout ce que vous devez savoir pour votre voyage</p>
+
+    <div class="practical-grid">
+      <div class="practical-card">
+        <h3 data-i18n="practical.getting_there_title"></h3>
+        <p data-i18n="practical.getting_there_body"></p>
+      </div>
+      <div class="practical-card">
+        <h3 data-i18n="practical.where_to_stay_title"></h3>
+        <p data-i18n="practical.where_to_stay_body"></p>
+      </div>
+      <div class="practical-card">
+        <h3 data-i18n="practical.getting_around_title"></h3>
+        <p data-i18n="practical.getting_around_body"></p>
+      </div>
+      <div class="practical-card">
+        <h3 data-i18n="practical.currency_title"></h3>
+        <p data-i18n="practical.currency_body"></p>
+      </div>
+      <div class="practical-card">
+        <h3 data-i18n="practical.language_title"></h3>
+        <p data-i18n="practical.language_body"></p>
+      </div>
+      <div class="practical-card">
+        <h3 data-i18n="practical.emergency_title"></h3>
+        <p data-i18n="practical.emergency_body"></p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       EVENT MODAL
+  ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="modal-event-name" hidden>
+    <div class="modal-card" tabindex="-1">
+      <button class="modal-close" aria-label="Close dialog" data-i18n="modal.close">&times;</button>
+      <h2 class="modal-title" id="modal-event-name"></h2>
+      <dl class="modal-details">
+        <dt data-i18n="modal.date_label"></dt>
+        <dd id="modal-event-date"></dd>
+        <dt data-i18n="modal.location_label"></dt>
+        <dd id="modal-event-location"></dd>
+        <dt data-i18n="modal.transport_label"></dt>
+        <dd id="modal-event-transport"></dd>
+        <dt data-i18n="modal.dresscode_label"></dt>
+        <dd id="modal-event-dresscode"></dd>
+      </dl>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       RSVP MODAL
+  ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="rsvp-modal" role="dialog" aria-modal="true" aria-labelledby="rsvp-modal-title" hidden>
+    <div class="modal-card modal-card--rsvp" tabindex="-1">
+      <button class="modal-close" aria-label="Close dialog">&times;</button>
+
+      <h2 id="rsvp-modal-title" data-i18n="rsvp.title">RSVP</h2>
+      <p class="rsvp-subtitle" data-i18n="rsvp.subtitle">Nous avons hâte de fêter cela avec vous !</p>
+
+      <form id="rsvp-form" novalidate>
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="rsvp-name" data-i18n="rsvp.name_label"></label>
+          <input type="text" id="rsvp-name" name="name" data-i18n-placeholder="rsvp.name_placeholder" required autocomplete="name" />
+          <span class="field-error" id="error-name" hidden></span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="rsvp-email" data-i18n="rsvp.email_label"></label>
+          <input type="email" id="rsvp-email" name="email" data-i18n-placeholder="rsvp.email_placeholder" required autocomplete="email" />
+          <span class="field-error" id="error-email" hidden></span>
+        </div>
+
+        <!-- Events checkboxes -->
+        <fieldset class="form-group form-group--checkboxes">
+          <legend data-i18n="rsvp.events_label"></legend>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="welcome-dinner" />
+            <span data-i18n="rsvp.event_1"></span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="beach-party" />
+            <span data-i18n="rsvp.event_2"></span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="wedding" />
+            <span data-i18n="rsvp.event_3"></span>
+          </label>
+          <span class="field-error" id="error-events" hidden></span>
+        </fieldset>
+
+        <!-- Additional guests -->
+        <div class="form-group">
+          <label for="rsvp-guests" data-i18n="rsvp.guests_label"></label>
+          <input type="number" id="rsvp-guests" name="guests" min="0" max="9" value="0" />
+        </div>
+
+        <!-- Dietary requirements -->
+        <div class="form-group">
+          <label for="rsvp-dietary" data-i18n="rsvp.dietary_label"></label>
+          <textarea id="rsvp-dietary" name="dietary" rows="2" data-i18n-placeholder="rsvp.dietary_placeholder"></textarea>
+        </div>
+
+        <!-- Message -->
+        <div class="form-group">
+          <label for="rsvp-message" data-i18n="rsvp.message_label"></label>
+          <textarea id="rsvp-message" name="message" rows="3" data-i18n-placeholder="rsvp.message_placeholder"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="rsvp-submit" data-i18n="rsvp.submit"></button>
+      </form>
+
+      <!-- Success / Error states -->
+      <div class="rsvp-success" hidden>
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 24l8 8 12-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p data-i18n="rsvp.success"></p>
+      </div>
+      <div class="rsvp-error" hidden>
+        <p data-i18n="rsvp.error"></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>Anaël &amp; Eric · Octobre 2026 · Tel Aviv</p>
+  </footer>
+
+  <!-- App entry point -->
+  <script type="module" src="/src/main.js"></script>
+
+</body>
+</html>
