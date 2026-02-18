@@ -10,21 +10,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Fixed flower background pinned to bottom of viewport */
-body::after {
-  content: '';
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30vh;
-  background: url('/hero-bg-v2.jpg') center bottom / cover no-repeat;
-  opacity: 0.3;
-  z-index: 0;
-  pointer-events: none;
-  mask-image: linear-gradient(to bottom, transparent, black);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black);
-}
+
 
 /* ═══════════════════════════════════════
    SITE HEADER
