@@ -4,7 +4,7 @@
 
 .practical-info {
   padding: var(--space-2xl) var(--space-md);
-  background: var(--color-surface);
+  background: var(--color-light);
   border-top: 1px solid rgba(107, 124, 69, 0.12);
 }
 
