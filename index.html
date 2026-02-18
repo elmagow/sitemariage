@@ -127,9 +127,9 @@
     <svg class="travel-line" aria-hidden="true"
          viewBox="0 0 100 100" preserveAspectRatio="none"
          id="travel-snake-svg">
-      <!-- Paris(50,2) → left TLV(25,10) → right WD(75,34) → left Beach(25,51) → right Wedding(75,68) → center Return(50,90) -->
+      <!-- Paris(50,2) → left TLV(25,20) → right WD(75,37) → left Beach(25,55) → right Wedding(75,72) → center Return(50,90) -->
       <path id="snake-path"
-        d="M50,0 L50,2 C50,5 25,7 25,10 C25,16 75,28 75,34 C75,40 25,45 25,51 C25,57 75,62 75,68 C75,74 50,82 50,90"
+        d="M50,0 L50,2 C50,7 25,13 25,20 C25,27 75,30 75,37 C75,44 25,48 25,55 C25,62 75,65 75,72 C75,79 50,84 50,90"
         fill="none"
         stroke="var(--color-olive)"
         stroke-width="1.2"
@@ -155,16 +155,16 @@
       </div>
     </div>
 
-    <!-- STOP 2: Tel Aviv — x=25%, y=10% — label right (inside snake) -->
-    <div class="journey-stop journey-stop--city stop-label--right" data-stop="tel-aviv" style="--sx:25%;--sy:10%">
+    <!-- STOP 2: Tel Aviv — x=25%, y=20% — label right (inside snake) -->
+    <div class="journey-stop journey-stop--city stop-label--right" data-stop="tel-aviv" style="--sx:25%;--sy:20%">
       <span class="stop-dot"></span>
       <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.telaviv">Tel Aviv 🇮🇱</span>
       </div>
     </div>
 
-    <!-- STOP 3: Welcome Dinner — x=75%, y=34% — label LEFT (inside snake) -->
-    <button class="journey-stop event-stop stop-label--left" data-event="welcome-dinner" style="--sx:75%;--sy:34%" aria-haspopup="dialog">
+    <!-- STOP 3: Welcome Dinner — x=75%, y=37% — label LEFT (inside snake) -->
+    <button class="journey-stop event-stop stop-label--left" data-event="welcome-dinner" style="--sx:75%;--sy:37%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
       <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.stop_1_name">Welcome Dinner</span>
@@ -173,8 +173,8 @@
       </div>
     </button>
 
-    <!-- STOP 4: Beach Party — x=25%, y=51% — label RIGHT (inside snake) -->
-    <button class="journey-stop event-stop stop-label--right" data-event="beach-party" style="--sx:25%;--sy:51%" aria-haspopup="dialog">
+    <!-- STOP 4: Beach Party — x=25%, y=55% — label RIGHT (inside snake) -->
+    <button class="journey-stop event-stop stop-label--right" data-event="beach-party" style="--sx:25%;--sy:55%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
       <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.stop_2_name">Beach Party</span>
@@ -183,8 +183,8 @@
       </div>
     </button>
 
-    <!-- STOP 5: Wedding — x=75%, y=68% — label LEFT (inside snake) -->
-    <button class="journey-stop event-stop stop-label--left" data-event="wedding" style="--sx:75%;--sy:68%" aria-haspopup="dialog">
+    <!-- STOP 5: Wedding — x=75%, y=72% — label LEFT (inside snake) -->
+    <button class="journey-stop event-stop stop-label--left" data-event="wedding" style="--sx:75%;--sy:72%" aria-haspopup="dialog">
       <span class="stop-dot"></span>
       <div class="stop-label-group">
         <span class="stop-label" data-i18n="journey.stop_3_name">Wedding 💍</span>

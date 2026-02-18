@@ -11,13 +11,15 @@ const ICONS = {
   wedding: '💍',
 }
 
+// Progress thresholds match evenly-spaced stops:
+// y-positions: 2, 20, 37, 55, 72, 90 → progress = (y - 2) / 88
 const STOPS = [
-  { id: 'paris-departure', progress: 0,    icon: 'plane'   },
-  { id: 'tel-aviv',        progress: 0.18, icon: 'walk'    },
-  { id: 'welcome-dinner',  progress: 0.35, icon: 'walk'    },
-  { id: 'beach-party',     progress: 0.52, icon: 'party'   },
-  { id: 'wedding',         progress: 0.68, icon: 'wedding' },
-  { id: 'return',          progress: 0.88, icon: 'plane'   },
+  { id: 'paris-departure', progress: 0,     icon: 'plane'   },
+  { id: 'tel-aviv',        progress: 0.20,  icon: 'walk'    },
+  { id: 'welcome-dinner',  progress: 0.40,  icon: 'walk'    },
+  { id: 'beach-party',     progress: 0.60,  icon: 'party'   },
+  { id: 'wedding',         progress: 0.80,  icon: 'wedding' },
+  { id: 'return',          progress: 1.0,   icon: 'plane'   },
 ]
 
 function getIconForProgress(progress) {
@@ -89,12 +91,10 @@ export function initTravelPath() {
       traveler.textContent = ICONS[icon]
     }
 
-    // Dot color: green (olive) when traveler has reached or just passed it,
-    // back to red (primary) once traveler moves further away
+    // Dot color: turns green once the traveler reaches it,
+    // stays green until the traveler scrolls back above it
     for (const { dot, sy } of stopDots) {
-      const dist = yPct - sy // positive = traveler is below this dot
-      if (dist >= -1 && dist <= 4) {
-        // Traveler is on or just past this dot → green
+      if (yPct >= sy - 1) {
         dot.classList.add('stop-dot--active')
       } else {
         dot.classList.remove('stop-dot--active')
