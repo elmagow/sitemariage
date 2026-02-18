@@ -14,7 +14,7 @@ export default {
   journey: {
     paris: 'פריז, צרפת',
     telaviv: 'תל אביב, ישראל',
-    stop_1_name: 'Welcome Party',
+    stop_1_name: 'ארוחת ברוכים הבאים',
     stop_1_location: 'נווה צדק, תל אביב',
     stop_1_date: 'ראשון, 18 באוקטובר',
     stop_1_time: 'בקרוב',
@@ -65,7 +65,7 @@ export default {
     email_label: 'אימייל',
     email_placeholder: 'your@email.com',
     events_label: 'לאילו אירועים תגיעו?',
-    event_1: 'Welcome Party (18 באוקטובר)',
+    event_1: 'ארוחת ברוכים הבאים (18 באוקטובר)',
     event_2: 'מסיבת חוף (19 באוקטובר)',
     event_3: 'חתונה (20 באוקטובר)',
     guests_label: 'כמה אנשים מגיעים איתך? (הכנס 0 אם אתה מגיע לבד)',

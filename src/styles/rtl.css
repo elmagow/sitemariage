@@ -11,7 +11,14 @@
   flex-direction: row-reverse;
 }
 
-:root[dir="rtl"] .journey-stop {
+/* Journey stops: left/right is spatial (relative to the snake curve),
+   NOT textual — so we must preserve the LTR flex-direction in RTL.
+   Without these overrides the generic RTL row-reverse would flip
+   labels to the wrong side of the S-line. */
+:root[dir="rtl"] .journey-stop.stop-label--right {
+  flex-direction: row;
+}
+:root[dir="rtl"] .journey-stop.stop-label--left {
   flex-direction: row-reverse;
 }
 
