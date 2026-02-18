@@ -246,17 +246,42 @@
   <div class="modal-overlay" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="modal-event-name" hidden>
     <div class="modal-card" tabindex="-1">
       <button class="modal-close" aria-label="Close dialog">&times;</button>
-      <h2 class="modal-title" id="modal-event-name"></h2>
-      <dl class="modal-details">
-        <dt data-i18n="modal.date_label"></dt>
-        <dd id="modal-event-date"></dd>
-        <dt data-i18n="modal.location_label"></dt>
-        <dd id="modal-event-location"></dd>
-        <dt data-i18n="modal.transport_label"></dt>
-        <dd id="modal-event-transport"></dd>
-        <dt data-i18n="modal.dresscode_label"></dt>
-        <dd id="modal-event-dresscode"></dd>
-      </dl>
+
+      <div class="modal-header">
+        <span class="modal-emoji" id="modal-event-emoji"></span>
+        <h2 class="modal-title" id="modal-event-name"></h2>
+      </div>
+
+      <div class="modal-details">
+        <div class="modal-detail-row">
+          <span class="modal-detail-icon">📅</span>
+          <div class="modal-detail-content">
+            <span class="modal-detail-label" data-i18n="modal.date_label">Date</span>
+            <span class="modal-detail-value" id="modal-event-date"></span>
+          </div>
+        </div>
+        <div class="modal-detail-row">
+          <span class="modal-detail-icon">📍</span>
+          <div class="modal-detail-content">
+            <span class="modal-detail-label" data-i18n="modal.location_label">Lieu</span>
+            <span class="modal-detail-value" id="modal-event-location"></span>
+          </div>
+        </div>
+        <div class="modal-detail-row">
+          <span class="modal-detail-icon">🚌</span>
+          <div class="modal-detail-content">
+            <span class="modal-detail-label" data-i18n="modal.transport_label">Transport</span>
+            <span class="modal-detail-value" id="modal-event-transport"></span>
+          </div>
+        </div>
+        <div class="modal-detail-row">
+          <span class="modal-detail-icon">👔</span>
+          <div class="modal-detail-content">
+            <span class="modal-detail-label" data-i18n="modal.dresscode_label">Code vestimentaire</span>
+            <span class="modal-detail-value" id="modal-event-dresscode"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

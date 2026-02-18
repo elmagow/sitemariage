@@ -9,6 +9,7 @@
 // Keys for each event's modal content — dot-notation i18n keys
 const EVENT_KEYS = {
   'welcome-dinner': {
+    emoji:     '🍷',
     name:      'journey.stop_1_name',
     date:      'journey.stop_1_date',
     location:  'journey.stop_1_location',
@@ -16,6 +17,7 @@ const EVENT_KEYS = {
     dresscode: 'journey.stop_1_dresscode'
   },
   'beach-party': {
+    emoji:     '🏖️',
     name:      'journey.stop_2_name',
     date:      'journey.stop_2_date',
     location:  'journey.stop_2_location',
@@ -23,6 +25,7 @@ const EVENT_KEYS = {
     dresscode: 'journey.stop_2_dresscode'
   },
   'wedding': {
+    emoji:     '💍',
     name:      'journey.stop_3_name',
     date:      'journey.stop_3_date',
     location:  'journey.stop_3_location',
@@ -44,6 +47,7 @@ function openModal(eventId) {
 
   // Populate modal content
   const modalEl = document.getElementById('event-modal')
+  document.getElementById('modal-event-emoji').textContent     = keys.emoji
   document.getElementById('modal-event-name').textContent      = currentT(keys.name)
   document.getElementById('modal-event-date').textContent      = currentT(keys.date)
   document.getElementById('modal-event-location').textContent  = currentT(keys.location)
