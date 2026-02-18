@@ -14,7 +14,7 @@ export default {
   journey: {
     paris: 'Paris, France',
     telaviv: 'Tel Aviv, Israel',
-    stop_1_name: 'Welcome Dinner',
+    stop_1_name: 'Welcome Party',
     stop_1_location: 'Neve Tsedek, Tel Aviv',
     stop_1_date: 'Sunday, October 18',
     stop_1_time: 'TBD',
@@ -65,7 +65,7 @@ export default {
     email_label: 'Email',
     email_placeholder: 'your@email.com',
     events_label: 'Which events will you attend?',
-    event_1: 'Welcome Dinner (Oct 18)',
+    event_1: 'Welcome Party (Oct 18)',
     event_2: 'Beach Party (Oct 19)',
     event_3: 'Wedding (Oct 20)',
     guests_label: 'How many people are you coming with? (enter 0 if coming alone)',
