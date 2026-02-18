@@ -71,26 +71,45 @@ function setTravelerIcon(travelerEl, iconKey) {
  * Initialize the GSAP ScrollTrigger travel path animation.
  * Called once on app startup.
  *
- * Strategy: the .traveler is position:absolute (not sticky).
- * We use ScrollTrigger onUpdate to manually set its `top` style
- * as a percentage of the section height, so it physically follows
- * the dotted line from top to bottom as the user scrolls.
+ * Strategy:
+ * - The snake path SVG fills the whole section (viewBox 0 0 100 100, preserveAspectRatio none).
+ * - We use SVGPathElement.getPointAtLength to map scroll progress → (x%, y%) on the curve.
+ * - The traveler is position:absolute; we set both `top` and `left` from those coordinates
+ *   so it physically tracks the snake rather than staying in the center column.
  */
 export function initTravelPath() {
-  const section = document.querySelector('.travel-section')
+  const section  = document.querySelector('.travel-section')
   const traveler = document.querySelector('.traveler')
+  const snakePath = document.getElementById('snake-path')
 
   if (!section || !traveler) {
     console.warn('[travel-path] Required elements not found')
     return
   }
 
-  // Set initial icon and position
+  // Set initial icon
   setTravelerIcon(traveler, 'plane')
-  traveler.style.top = '2%'
 
-  // GSAP ScrollTrigger: scrub: true = 1:1 scroll fidelity (no lag)
-  // onUpdate drives both icon swap AND vertical position of the traveler.
+  /**
+   * Given a progress value 0–1, return the (x, y) percentage point on the snake.
+   * Falls back to simple linear if the SVG path API is unavailable.
+   */
+  function getPathPoint(progress) {
+    if (snakePath && snakePath.getTotalLength) {
+      const totalLen = snakePath.getTotalLength()
+      const pt = snakePath.getPointAtLength(progress * totalLen)
+      // pt.x and pt.y are in viewBox units (0–100)
+      return { x: pt.x, y: pt.y }
+    }
+    // Fallback: straight center line
+    return { x: 50, y: progress * 100 }
+  }
+
+  // Set initial position at top of path
+  const startPt = getPathPoint(0)
+  traveler.style.left = startPt.x + '%'
+  traveler.style.top  = startPt.y + '%'
+
   ScrollTrigger.create({
     trigger: section,
     start: 'top top',
@@ -99,9 +118,10 @@ export function initTravelPath() {
     onUpdate: (self) => {
       const progress = self.progress  // 0 to 1
 
-      // Move traveler along the dotted line (2% → 97% matches stop positions)
-      const topPct = 2 + progress * 95
-      traveler.style.top = topPct + '%'
+      // Follow the snake curve in both axes
+      const pt = getPathPoint(progress)
+      traveler.style.left = pt.x + '%'
+      traveler.style.top  = pt.y + '%'
 
       // Swap icon based on which stop we've passed
       const activeIcon = getIconForProgress(progress)
