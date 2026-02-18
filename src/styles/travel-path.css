@@ -4,7 +4,7 @@
 
 .travel-section {
   position: relative;
-  min-height: 250vh;
+  min-height: 200vh;
   background-color: var(--color-surface);
   background-image:
     radial-gradient(ellipse at 50% 10%, rgba(232, 184, 75, 0.08) 0%, transparent 50%),
