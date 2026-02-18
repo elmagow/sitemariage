@@ -26,15 +26,21 @@
 /* ═══ Traveler (emoji) ═══ */
 
 .traveler {
-  position: absolute;
-  /* top + left set by JS */
+  position: sticky;
+  /* vertical center of viewport — stays in view the whole time the section scrolls */
+  top: 50vh;
+  /* left is updated by JS for horizontal snake tracking */
   transform: translate(-50%, -50%);
   font-size: 2rem;
   line-height: 1;
   z-index: 10;
   pointer-events: none;
-  /* smooth hop between waypoints */
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  /* must be a block-level flow element inside the section for sticky to work */
+  display: block;
+  width: 0;
+  height: 0;
+  margin-top: -2rem; /* compensate so it starts at the top of the section */
 }
 
 /* ═══ Journey Stops ═══

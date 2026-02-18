@@ -56,29 +56,29 @@ export function initTravelPath() {
     return { x: 50, y: progress * 100 }
   }
 
-  // Position traveler at start
-  const p0 = getPathPoint(0)
-  traveler.style.left = p0.x + '%'
-  traveler.style.top  = p0.y + '%'
+  // With position:sticky, the traveler stays vertically centered in the viewport.
+  // JS only needs to update `left` to follow the snake horizontally.
+  function updateTraveler(progress) {
+    const pt = getPathPoint(progress)
+    traveler.style.left = pt.x + '%'
+    // top is controlled by CSS sticky (50vh) — no JS needed for vertical
+    const icon = getIconForProgress(progress)
+    if (traveler.textContent !== ICONS[icon]) {
+      traveler.textContent = ICONS[icon]
+    }
+  }
+
+  // Draw at progress=0 immediately so it's visible on load
+  updateTraveler(0)
 
   ScrollTrigger.create({
     trigger: section,
-    // Start the moment the section's top edge enters the viewport (bottom of screen).
-    // End when the section's bottom edge leaves the top of the viewport.
-    start: 'top bottom',
-    end:   'bottom top',
+    // top of section hits top of viewport → start
+    // bottom of section hits bottom of viewport → end
+    // This means the traveler moves exactly as the user scrolls through the section.
+    start: 'top top',
+    end:   'bottom bottom',
     scrub: true,
-    onUpdate: (self) => {
-      const progress = self.progress
-
-      const pt = getPathPoint(progress)
-      traveler.style.left = pt.x + '%'
-      traveler.style.top  = pt.y + '%'
-
-      const icon = getIconForProgress(progress)
-      if (traveler.textContent !== ICONS[icon]) {
-        traveler.textContent = ICONS[icon]
-      }
-    }
+    onUpdate: (self) => updateTraveler(self.progress)
   })
 }
