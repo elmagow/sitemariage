@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Head -->
+  <circle cx="30" cy="8" r="4" fill="currentColor"/>
+  <!-- Body -->
+  <path d="M30 12 L28 22 L22 30 L25 31 L30 24 L33 30 L36 30 L32 21 L34 14 Z" fill="currentColor"/>
+  <!-- Left arm -->
+  <path d="M28 16 L20 20 L21 22 L29 19 Z" fill="currentColor"/>
+  <!-- Left leg -->
+  <path d="M28 22 L22 32 L24 33 L30 25 Z" fill="currentColor"/>
+  <!-- Right leg -->
+  <path d="M30 22 L34 32 L36 31 L33 21 Z" fill="currentColor"/>
+  <!-- Right arm -->
+  <path d="M32 16 L38 18 L38 20 L31 19 Z" fill="currentColor"/>
+</svg>

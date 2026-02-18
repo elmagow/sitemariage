@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════
+   BASE LAYOUT
+═══════════════════════════════════════ */
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   SITE HEADER
+═══════════════════════════════════════ */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(245, 236, 215, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(107, 124, 69, 0.15);
+  z-index: var(--z-header);
+  gap: var(--space-sm);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: var(--color-olive);
+  flex-shrink: 0;
+}
+
+.logo-svg {
+  width: 32px;
+  height: 40px;
+}
+
+/* ═══════════════════════════════════════
+   LANGUAGE SWITCHER
+═══════════════════════════════════════ */
+
+.lang-switcher {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.lang-btn {
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-dark);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-transform: uppercase;
+  min-height: 32px;
+}
+
+.lang-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.lang-btn.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* ═══════════════════════════════════════
+   RSVP BUTTON (header)
+═══════════════════════════════════════ */
+
+.rsvp-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1.25rem;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  white-space: nowrap;
+  min-height: 44px;
+  flex-shrink: 0;
+}
+
+.rsvp-btn:hover {
+  background: var(--color-accent-1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(193, 81, 58, 0.3);
+}
+
+.rsvp-btn:active {
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+
+.site-footer {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  background: var(--color-dark);
+  color: var(--color-light);
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  .site-header {
+    padding: var(--space-sm) var(--space-xl);
+  }
+
+  .lang-btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+  }
+}

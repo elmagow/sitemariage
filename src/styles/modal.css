@@ -1,0 +1,136 @@
+/* ═══════════════════════════════════════
+   MODAL SHARED STYLES
+═══════════════════════════════════════ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 35, 20, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+}
+
+/* hidden attribute hides overlay */
+.modal-overlay[hidden] {
+  display: none;
+}
+
+/* ═══ Modal Card ═══ */
+
+.modal-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow:
+    0 8px 32px rgba(61, 35, 20, 0.15),
+    0 2px 8px rgba(61, 35, 20, 0.08);
+
+  /* Entry animation */
+  transform: translateY(20px);
+  opacity: 0;
+  transition:
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
+}
+
+.modal-overlay.is-open .modal-card {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ═══ Close Button ═══ */
+
+.modal-close {
+  position: absolute;
+  top: var(--space-md);
+  inset-inline-end: var(--space-md);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid rgba(61, 35, 20, 0.15);
+  color: var(--color-dark);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  padding: 0;
+}
+
+.modal-close:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* ═══ Modal Title ═══ */
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--color-dark);
+  margin-bottom: var(--space-lg);
+  padding-inline-end: var(--space-xl);
+  line-height: 1.2;
+}
+
+/* ═══ Modal Details (dl) ═══ */
+
+.modal-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-sm) var(--space-md);
+  align-items: baseline;
+}
+
+.modal-details dt {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-olive);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.modal-details dd {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  margin-inline-start: 0;
+}
+
+/* ═══ Reduced Motion ═══ */
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-card {
+    transition: none;
+  }
+
+  .modal-overlay.is-open .modal-card {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ═══ Responsive ═══ */
+
+@media (min-width: 640px) {
+  .modal-card {
+    padding: var(--space-2xl);
+  }
+}

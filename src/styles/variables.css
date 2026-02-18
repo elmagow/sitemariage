@@ -1,0 +1,39 @@
+:root {
+  /* Color Palette */
+  --color-primary: #C1513A;       /* Terracotta */
+  --color-accent-1: #E07B39;      /* Burnt Orange */
+  --color-accent-2: #E8B84B;      /* Warm Yellow */
+  --color-dark: #3D2314;          /* Deep Brown */
+  --color-light: #F5ECD7;         /* Warm Cream */
+  --color-olive: #6B7C45;         /* Olive Green */
+  --color-surface: #FAF3E8;       /* Off-white warm surface */
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Transition Durations */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Z-Index Scale */
+  --z-base: 1;
+  --z-header: 100;
+  --z-modal: 200;  /* Used by .modal-overlay */
+}
