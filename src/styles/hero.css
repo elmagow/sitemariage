@@ -75,20 +75,15 @@
   margin-bottom: var(--space-lg);
 }
 
-/* ═══ Photo Placeholder ═══ */
+/* ═══ Couple Photo ═══ */
 
-.hero__photo-placeholder {
+.hero__photo {
   width: min(280px, 90vw);
   height: auto;
   margin: 0 auto var(--space-lg);
   border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.hero__photo-placeholder svg {
-  width: 100%;
-  height: auto;
-  display: block;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* ═══ Scroll Hint ═══ */
@@ -148,7 +143,7 @@
     height: 320px;
   }
 
-  .hero__photo-placeholder {
+  .hero__photo {
     width: 360px;
   }
 }
