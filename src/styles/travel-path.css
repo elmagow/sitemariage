@@ -29,13 +29,19 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* transform is set entirely by JS — GPU composited, no layout reflow */
-  will-change: transform;
   font-size: 2rem;
   line-height: 1;
   z-index: 10;
   pointer-events: none;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  will-change: transform;
+  transition: transform 0.15s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traveler {
+    transition: none;
+  }
 }
 
 /* ═══ Journey Stops ═══

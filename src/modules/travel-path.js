@@ -3,16 +3,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Emoji for each travel segment
 const ICONS = {
-  plane:    '✈️',
-  walk:     '🚶',
-  bus:      '🚌',
-  party:    '🎉',
-  wedding:  '💍',
+  plane:   '✈️',
+  walk:    '🚶',
+  bus:     '🚌',
+  party:   '🎉',
+  wedding: '💍',
 }
 
-// 6 stops — progress thresholds 0–1 at which the emoji changes
 const STOPS = [
   { id: 'paris-departure', progress: 0,    icon: 'plane'   },
   { id: 'tel-aviv',        progress: 0.18, icon: 'walk'    },
@@ -30,84 +28,41 @@ function getIconForProgress(progress) {
   return active
 }
 
-/**
- * Build a lookup table of 200 evenly-spaced points along the snake path.
- * Done once at init — avoids expensive getPointAtLength calls during scroll.
- * Each entry: { y: 0–100, x: 0–100 } in viewBox units.
- */
-function buildPathLUT(snakePath, steps) {
-  const lut = []
-  if (!snakePath || !snakePath.getTotalLength) return lut
-  const totalLen = snakePath.getTotalLength()
-  for (let i = 0; i <= steps; i++) {
-    const pt = snakePath.getPointAtLength((i / steps) * totalLen)
-    lut.push({ x: pt.x, y: pt.y })
-  }
-  return lut
-}
-
-/**
- * Binary search the LUT for the x value at a given y (0–100).
- * LUT is sorted by y (snake only goes downward).
- */
-function getXAtY(lut, targetY) {
-  if (!lut.length) return 50
-  let lo = 0, hi = lut.length - 1
-  while (lo < hi) {
-    const mid = (lo + hi) >> 1
-    if (lut[mid].y < targetY) lo = mid + 1
-    else hi = mid
-  }
-  // Interpolate between lo-1 and lo for smoothness
-  if (lo > 0) {
-    const a = lut[lo - 1], b = lut[lo]
-    const dy = b.y - a.y
-    if (dy > 0) {
-      const t = (targetY - a.y) / dy
-      return a.x + (b.x - a.x) * t
-    }
-  }
-  return lut[lo].x
-}
-
 export function initTravelPath() {
   const section   = document.querySelector('.travel-section')
   const traveler  = document.getElementById('traveler')
   const snakePath = document.getElementById('snake-path')
 
-  if (!section || !traveler) {
-    console.warn('[travel-path] Required elements not found')
-    return
-  }
+  if (!section || !traveler) return
 
   traveler.textContent = ICONS.plane
 
-  // Pre-compute lookup table (one-time, ~200 getPointAtLength calls)
-  const LUT = buildPathLUT(snakePath, 200)
-
-  // Cache section dimensions (recalc on resize)
-  let sectionH = section.offsetHeight
-  let vpH = window.innerHeight
-
-  const onResize = () => {
-    sectionH = section.offsetHeight
-    vpH = window.innerHeight
-  }
-  window.addEventListener('resize', onResize, { passive: true })
+  // Cache path length (doesn't change)
+  const pathLen = snakePath ? snakePath.getTotalLength() : 0
 
   /**
-   * Update traveler position using GPU-composited transform.
-   * No top/left changes = no layout reflow = smooth on mobile.
+   * Get x at a given y on the snake (binary search, ~15 iterations).
+   * Only called once per scroll frame — the CSS transition smooths between frames.
    */
-  function updateTraveler(scrollProgress) {
-    // Viewport center's position within the section (as % of section height)
-    const centerInSection = scrollProgress * (sectionH - vpH) + vpH / 2
-    const yPct = (centerInSection / sectionH) * 100
+  function getXAtY(targetY) {
+    if (!pathLen) return 50
+    let lo = 0, hi = pathLen
+    for (let i = 0; i < 15; i++) {
+      const mid = (lo + hi) / 2
+      const pt = snakePath.getPointAtLength(mid)
+      if (pt.y < targetY) lo = mid; else hi = mid
+    }
+    return snakePath.getPointAtLength((lo + hi) / 2).x
+  }
 
-    // LUT lookup — fast, no SVG calls
-    const xPct = getXAtY(LUT, yPct)
+  function update(scrollProgress) {
+    const sectionH = section.offsetHeight
+    const vpH = window.innerHeight
+    const centerY = scrollProgress * (sectionH - vpH) + vpH / 2
+    const yPct = (centerY / sectionH) * 100
+    const xPct = getXAtY(yPct)
 
-    // Use transform instead of top/left — GPU composited, no layout thrash
+    // Single transform — GPU composited, CSS transition smooths it
     const xPx = (xPct / 100) * section.offsetWidth
     const yPx = (yPct / 100) * sectionH
     traveler.style.transform = `translate(${xPx}px, ${yPx}px) translate(-50%, -50%)`
@@ -118,14 +73,13 @@ export function initTravelPath() {
     }
   }
 
-  // Position at start
-  updateTraveler(0)
+  update(0)
 
   ScrollTrigger.create({
     trigger: section,
     start: 'top top',
-    end:   'bottom bottom',
+    end: 'bottom bottom',
     scrub: true,
-    onUpdate: (self) => updateTraveler(self.progress)
+    onUpdate: (self) => update(self.progress)
   })
 }
