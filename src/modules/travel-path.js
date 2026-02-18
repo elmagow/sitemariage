@@ -4,22 +4,24 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const ICONS = {
-  plane:   '✈️',
-  dinner:  '🥂',
-  beach:   '🏖️',
-  wedding: '🤵🏻‍♂️👰🏻‍♀️',
+  plane:    '✈️',
+  ring:     '💍',
+  dinner:   '🥂',
+  beach:    '🏖️',
+  wedding:  '🤵🏻‍♂️👰🏻‍♀️',
 }
 
-// Progress thresholds match evenly-spaced stops:
-// y-positions: 2, 20, 37, 55, 72, 90 → progress = (y - 2) / 88
-// Emoji per segment: plane → dinner → beach → party → plane → plane
+// Progress thresholds match evenly-spaced 7 stops:
+// y-positions: 2, 17, 31, 46, 61, 75, 90 → progress = (y - 2) / 88
+// Emoji per segment: plane → ring → plane → dinner → beach → wedding → plane
 const STOPS = [
-  { id: 'paris-departure', progress: 0,     icon: 'plane'   },
-  { id: 'tel-aviv',        progress: 0.20,  icon: 'dinner'  },
-  { id: 'welcome-dinner',  progress: 0.40,  icon: 'beach'   },
-  { id: 'beach-party',     progress: 0.60,  icon: 'wedding' },
-  { id: 'wedding',         progress: 0.80,  icon: 'plane'   },
-  { id: 'return',          progress: 1.0,   icon: 'plane'   },
+  { id: 'paris-departure', progress: 0,        icon: 'ring'    },
+  { id: 'mairie',          progress: 0.17,     icon: 'plane'   },
+  { id: 'tel-aviv',        progress: 0.33,     icon: 'dinner'  },
+  { id: 'welcome-dinner',  progress: 0.50,     icon: 'beach'   },
+  { id: 'beach-party',     progress: 0.67,     icon: 'wedding' },
+  { id: 'wedding',         progress: 0.83,     icon: 'plane'   },
+  { id: 'return',          progress: 1.0,      icon: 'plane'   },
 ]
 
 function getIconForProgress(progress) {
@@ -57,9 +59,9 @@ export function initTravelPath() {
     return snakePath.getPointAtLength((lo + hi) / 2).x
   }
 
-  // The snake path runs from y=0 to y=90 in viewBox units (0–100).
+  // The snake path runs from y=2 to y=90 in viewBox units (0–100).
   // Map scroll progress 0–1 directly to that y range so the
-  // traveler starts at the very top of the line (y=0) at progress=0.
+  // traveler starts at the very top of the line (y=2) at progress=0.
   const PATH_Y_START = 2
   const PATH_Y_END   = 90
 
