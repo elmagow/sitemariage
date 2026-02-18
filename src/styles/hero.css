@@ -26,8 +26,8 @@
 }
 
 .hero-logo-img {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   opacity: 0.9;
 }
@@ -144,8 +144,8 @@
 
 @media (min-width: 768px) {
   .hero-logo-img {
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
   }
 
   .hero__photo-placeholder {
