@@ -13,6 +13,7 @@ export default {
   },
   journey: {
     paris: 'פריז, צרפת',
+    telaviv: 'תל אביב, ישראל',
     stop_1_name: 'ארוחת קבלת פנים',
     stop_1_location: 'נווה צדק, תל אביב',
     stop_1_date: 'ראשון, 18 באוקטובר',

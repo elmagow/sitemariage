@@ -13,6 +13,7 @@ export default {
   },
   journey: {
     paris: 'Paris, France',
+    telaviv: 'Tel Aviv, Israël',
     stop_1_name: 'Dîner de bienvenue',
     stop_1_location: 'Neve Tsedek, Tel Aviv',
     stop_1_date: 'Dimanche 18 octobre',
