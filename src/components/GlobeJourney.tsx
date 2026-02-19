@@ -14,7 +14,7 @@ import { events } from '@/data/events';
 import type { EventId } from '@/data/events';
 import { globeKeyframes } from '@/data/globe-keyframes';
 
-import worldData from '@/assets/geo/world-110m.json';
+import worldData from '@/assets/geo/world-50m.json';
 
 import { StaticMapFallback } from './StaticMapFallback';
 
@@ -372,11 +372,11 @@ export function GlobeJourney() {
     svg.appendChild(travelerGroup);
 
     function updateMarkers(highlightId: EventId | null, currentScale: number) {
-      // Log-scale marker sizing for extreme zoom ranges (300 → 120000)
-      const baseR = Math.max(5, Math.min(14, Math.log10(currentScale) * 3));
-      const highlightR = baseR * 1.4;
-      const baseFontSize = Math.max(11, Math.min(16, Math.log10(currentScale) * 3.2));
-      const emojiFontSize = Math.max(14, Math.min(24, Math.log10(currentScale) * 4));
+      // Scale range 250-8000: linear sizing tuned for moderate zoom
+      const baseR = Math.max(4, Math.min(10, currentScale / 700));
+      const highlightR = baseR * 1.5;
+      const baseFontSize = Math.max(10, Math.min(15, currentScale / 500));
+      const emojiFontSize = Math.max(14, Math.min(22, currentScale / 400));
 
       events.forEach((ev) => {
         const els = markerEls[ev.id];
@@ -454,8 +454,8 @@ export function GlobeJourney() {
           travelerEmoji.textContent = icon;
         }
 
-        // Scale emoji based on zoom (log-scale)
-        const emojiSize = Math.max(20, Math.min(32, Math.log10(currentScale) * 5));
+        // Scale emoji based on zoom (linear for 250-8000 range)
+        const emojiSize = Math.max(16, Math.min(28, currentScale / 350));
         travelerEmoji.setAttribute('font-size', String(emojiSize));
       } else {
         travelerGroup.setAttribute('display', 'none');
@@ -510,7 +510,7 @@ export function GlobeJourney() {
     const trigger = ScrollTrigger.create({
       trigger: container,
       start: 'top top',
-      end: '+=600%',
+      end: '+=700%',
       pin: true,
       scrub: true,
       onUpdate: (self) => { targetProgress = self.progress; },
