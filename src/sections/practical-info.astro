@@ -1,0 +1,34 @@
+---
+const cards = [
+  { emoji: '✈️', titleKey: 'practical.flights.title', contentKey: 'practical.flights.content', titleFr: 'Vols vers Tel Aviv', contentFr: "L'aéroport Ben Gourion (TLV) est à 20 min de Tel Aviv. Vols directs depuis Paris CDG avec El Al, Air France et Transavia. Réservez tôt pour les meilleurs tarifs." },
+  { emoji: '🏨', titleKey: 'practical.hotels.title', contentKey: 'practical.hotels.content', titleFr: 'Hébergement', contentFr: 'Quartiers recommandés : Neve Tsedek (charme), Jaffa (authenticité), centre de Tel Aviv (vie nocturne). AirBnB et hôtels disponibles pour tous budgets.' },
+  { emoji: '🚕', titleKey: 'practical.transport.title', contentKey: 'practical.transport.content', titleFr: 'Se déplacer', contentFr: 'Taxis : app Gett (équivalent Uber). Bus et trains fiables. Des navettes seront organisées pour le mariage. Le permis de conduire français est valide en Israël.' },
+  { emoji: '💰', titleKey: 'practical.currency.title', contentKey: 'practical.currency.content', titleFr: 'Monnaie', contentFr: 'Shekel israélien (₪ / ILS). Cartes bancaires acceptées partout. Distributeurs dans tout Tel Aviv. Taux de change approximatif : 1 € ≈ 4 ₪.' },
+  { emoji: '🚨', titleKey: 'practical.emergency.title', contentKey: 'practical.emergency.content', titleFr: 'Urgences', contentFr: 'Police : 100 · Ambulance : 101 · Pompiers : 102. Ambassade de France à Tel Aviv : +972 3 520 8500. Aucun visa requis pour les ressortissants français.' },
+  { emoji: '☀️', titleKey: 'practical.weather.title', contentKey: 'practical.weather.content', titleFr: 'Météo & conseils', contentFr: "Octobre en Israël : ~25°C, ensoleillé et agréable. Prévoyez crème solaire, chapeau et tenue légère en journée. Les soirées peuvent être fraîches en bord de mer." },
+];
+---
+
+<section id="practical" class="py-16 sm:py-24 px-4 bg-background">
+  <div class="mx-auto max-w-6xl">
+    <!-- Section title -->
+    <h2 class="font-heading text-3xl sm:text-4xl text-center text-foreground mb-12" data-i18n="practical.title">
+      Infos pratiques
+    </h2>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {cards.map((card) => (
+        <article class="bg-card rounded-2xl shadow-md p-6 border-t-4 border-accent">
+          <div class="text-3xl mb-3" aria-hidden="true">{card.emoji}</div>
+          <h3 class="font-heading text-lg text-foreground mb-2" data-i18n={card.titleKey}>
+            {card.titleFr}
+          </h3>
+          <p class="font-body text-foreground/80 text-sm leading-relaxed" data-i18n={card.contentKey}>
+            {card.contentFr}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

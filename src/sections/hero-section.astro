@@ -1,0 +1,36 @@
+---
+import { Countdown } from '@/components/Countdown';
+---
+
+<section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-12 px-4 bg-background text-center">
+  <!-- Decorative top line -->
+  <div class="w-16 h-px bg-accent/40 mb-8" aria-hidden="true"></div>
+
+  <!-- Couple names -->
+  <h1 class="font-heading italic text-accent text-[clamp(2.5rem,8vw,5rem)] leading-tight">
+    Anaël &amp; Eric
+  </h1>
+
+  <!-- Subtitle -->
+  <p class="mt-4 font-body text-foreground/70 text-lg sm:text-xl max-w-md" data-i18n="hero.subtitle">
+    Nous nous marions !
+  </p>
+
+  <!-- Date -->
+  <p class="mt-6 font-heading text-foreground text-xl sm:text-2xl tracking-wide" data-i18n="hero.date">
+    18 – 20 octobre 2026
+  </p>
+
+  <!-- Location -->
+  <p class="mt-2 font-body text-foreground/60 text-base sm:text-lg" data-i18n="hero.location">
+    Tel Aviv, Israël
+  </p>
+
+  <!-- Countdown -->
+  <div class="mt-10">
+    <Countdown client:load />
+  </div>
+
+  <!-- Decorative bottom line -->
+  <div class="w-16 h-px bg-accent/40 mt-10" aria-hidden="true"></div>
+</section>

@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Self-hosted fonts ── */
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+    src: url('/sitemariage/fonts/playfair-display-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/sitemariage/fonts/playfair-display-italic-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400 500;
+    font-display: swap;
+    src: url('/sitemariage/fonts/dm-sans-400-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400 500;
+    font-display: swap;
+    src: url('/sitemariage/fonts/dm-sans-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/sitemariage/fonts/frank-ruhl-libre-400-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/sitemariage/fonts/frank-ruhl-libre-400-hebrew.woff2') format('woff2');
+    unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+
+@font-face {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/sitemariage/fonts/frank-ruhl-libre-700-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Frank Ruhl Libre';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/sitemariage/fonts/frank-ruhl-libre-700-hebrew.woff2') format('woff2');
+    unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+
+@theme inline {
+    /* ── Radius tokens (shadcn) ── */
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+    --radius-3xl: calc(var(--radius) + 12px);
+    --radius-4xl: calc(var(--radius) + 16px);
+
+    /* ── shadcn semantic color tokens ── */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    /* ── Wedding palette color tokens ── */
+    --color-wedding-primary: #C1513A;
+    --color-wedding-accent1: #E07B39;
+    --color-wedding-accent2: #E8B84B;
+    --color-wedding-dark: #3D2314;
+    --color-wedding-light: #F5ECD7;
+    --color-wedding-olive: #6B7C45;
+    --color-wedding-surface: #FAF3E8;
+
+    /* ── Font family tokens ── */
+    --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+    --font-hebrew: 'Frank Ruhl Libre', 'Times New Roman', serif;
+}
+
+/* ── Light theme (wedding palette mapped to shadcn tokens) ── */
+:root {
+    --radius: 0.625rem;
+    --background: #FAF3E8;
+    --foreground: #3D2314;
+    --card: #F5ECD7;
+    --card-foreground: #3D2314;
+    --popover: #FAF3E8;
+    --popover-foreground: #3D2314;
+    --primary: #C1513A;
+    --primary-foreground: #FAF3E8;
+    --secondary: #F5ECD7;
+    --secondary-foreground: #3D2314;
+    --muted: #F5ECD7;
+    --muted-foreground: #6B7C45;
+    --accent: #E8B84B;
+    --accent-foreground: #3D2314;
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: #E8DCC6;
+    --input: #E8DCC6;
+    --ring: #C1513A;
+    --chart-1: #C1513A;
+    --chart-2: #E07B39;
+    --chart-3: #E8B84B;
+    --chart-4: #6B7C45;
+    --chart-5: #3D2314;
+    --sidebar: #F5ECD7;
+    --sidebar-foreground: #3D2314;
+    --sidebar-primary: #C1513A;
+    --sidebar-primary-foreground: #FAF3E8;
+    --sidebar-accent: #E8B84B;
+    --sidebar-accent-foreground: #3D2314;
+    --sidebar-border: #E8DCC6;
+    --sidebar-ring: #C1513A;
+}
+
+/* ── Dark theme (not primary for wedding, but kept for shadcn compat) ── */
+.dark {
+    --background: #3D2314;
+    --foreground: #FAF3E8;
+    --card: #4D2E1A;
+    --card-foreground: #FAF3E8;
+    --popover: #4D2E1A;
+    --popover-foreground: #FAF3E8;
+    --primary: #E07B39;
+    --primary-foreground: #3D2314;
+    --secondary: #4D2E1A;
+    --secondary-foreground: #FAF3E8;
+    --muted: #4D2E1A;
+    --muted-foreground: #C1A87C;
+    --accent: #E8B84B;
+    --accent-foreground: #3D2314;
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: rgba(255, 255, 255, 0.1);
+    --input: rgba(255, 255, 255, 0.15);
+    --ring: #E07B39;
+    --chart-1: #C1513A;
+    --chart-2: #E07B39;
+    --chart-3: #E8B84B;
+    --chart-4: #6B7C45;
+    --chart-5: #F5ECD7;
+    --sidebar: #4D2E1A;
+    --sidebar-foreground: #FAF3E8;
+    --sidebar-primary: #E07B39;
+    --sidebar-primary-foreground: #FAF3E8;
+    --sidebar-accent: #4D2E1A;
+    --sidebar-accent-foreground: #FAF3E8;
+    --sidebar-border: rgba(255, 255, 255, 0.1);
+    --sidebar-ring: #E07B39;
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    body {
+        @apply bg-background text-foreground font-body;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-heading;
+    }
+}
+
+/* Hebrew font override */
+.hebrew body,
+.hebrew h1, .hebrew h2, .hebrew h3, .hebrew h4, .hebrew h5, .hebrew h6 {
+    font-family: var(--font-hebrew);
+}

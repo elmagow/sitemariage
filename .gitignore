@@ -1,21 +1,33 @@
-# Dependencies
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
 node_modules/
 
-# Build output
-dist/
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Vite cache
-.vite/
 
-# macOS
-.DS_Store
-**/.DS_Store
-
-# Environment files
+# environment variables
 .env
-.env.local
-.env.*.local
+.env.production
 
-# Editor
-.vscode/
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
 .idea/
+
+# editor
+.vscode/
+*.swp
+
+# large image files (commit selectively)
+*.png
+*.JPG
+*.jpeg

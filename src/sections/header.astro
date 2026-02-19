@@ -1,0 +1,15 @@
+---
+import { HeaderControls } from '@/components/HeaderControls';
+---
+
+<header class="fixed top-0 inset-x-0 z-50 bg-background/95 backdrop-blur-sm border-b border-accent/20">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="font-heading text-xl md:text-2xl text-foreground tracking-wide">
+      A &amp; E
+    </a>
+
+    <!-- Controls island -->
+    <HeaderControls client:load />
+  </div>
+</header>
