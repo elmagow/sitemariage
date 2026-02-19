@@ -44,31 +44,67 @@ function getEventName(eventId: EventId, lang: 'fr' | 'he'): string {
 }
 
 /**
+ * Route segments with curved waypoints.
+ * Israel legs arc inland (east) or offshore (west) to avoid visual overlap,
+ * since the 3 Israel events are nearly collinear along the coast.
+ */
+const ROUTE_SEGMENTS: { points: [number, number][]; start: number; end: number }[] = [
+  {
+    // Paris → Neve Tsedek (great-circle across Mediterranean)
+    points: [[2.2567, 48.8966], [34.7659, 32.0606]],
+    start: 0, end: 0.33,
+  },
+  {
+    // Neve Tsedek → Herzliya: arc inland (east) to separate from southbound route
+    points: [[34.7659, 32.0606], [34.84, 32.08], [34.86, 32.13], [34.7875, 32.1629]],
+    start: 0.33, end: 0.66,
+  },
+  {
+    // Herzliya → Beit Hanan: arc offshore (west) to separate from northbound route
+    points: [[34.7875, 32.1629], [34.73, 32.12], [34.69, 32.00], [34.7307, 31.9056]],
+    start: 0.66, end: 1.0,
+  },
+];
+
+/**
  * Return partial route coordinates based on routeProgress (0-1).
  * routeProgress is decoupled from scroll — it only advances during travel phases.
+ * Uses ROUTE_SEGMENTS with curved waypoints to avoid overlapping lines in Israel.
  */
 function getPartialRouteCoords(routeProgress: number): [number, number][] {
   if (routeProgress <= 0) return [];
 
-  const coords = events.map((e) => e.coordinates);
-  const totalLegs = coords.length - 1; // 3 legs
-  const currentLeg = routeProgress * totalLegs;
-  const legIndex = Math.min(Math.floor(currentLeg), totalLegs - 1);
-  const legFraction = currentLeg - legIndex;
-
   const result: [number, number][] = [];
-  for (let i = 0; i <= legIndex; i++) {
-    result.push(coords[i]);
-  }
 
-  // Interpolated tip of the line
-  if (legFraction > 0 && legIndex < totalLegs) {
-    const a = coords[legIndex];
-    const b = coords[legIndex + 1];
-    // Use d3 geoInterpolate for accurate great-circle interpolation
-    const interp = d3Geo.geoInterpolate(a, b);
-    const pt = interp(legFraction);
-    result.push(pt as [number, number]);
+  for (const seg of ROUTE_SEGMENTS) {
+    if (routeProgress <= seg.start) break;
+
+    if (routeProgress >= seg.end) {
+      // Entire segment completed — add all points (skip first if we already have it)
+      for (let i = result.length === 0 ? 0 : 1; i < seg.points.length; i++) {
+        result.push(seg.points[i]);
+      }
+    } else {
+      // Partially through this segment
+      const segProgress = (routeProgress - seg.start) / (seg.end - seg.start);
+      const totalSubLegs = seg.points.length - 1;
+      const currentSubLeg = segProgress * totalSubLegs;
+      const subLegIndex = Math.min(Math.floor(currentSubLeg), totalSubLegs - 1);
+      const subLegFraction = currentSubLeg - subLegIndex;
+
+      // Add completed sub-leg points
+      for (let i = result.length === 0 ? 0 : 1; i <= subLegIndex; i++) {
+        result.push(seg.points[i]);
+      }
+
+      // Interpolate tip
+      if (subLegFraction > 0) {
+        const a = seg.points[subLegIndex];
+        const b = seg.points[subLegIndex + 1];
+        const interp = d3Geo.geoInterpolate(a, b);
+        result.push(interp(subLegFraction) as [number, number]);
+      }
+    }
   }
 
   return result;
@@ -466,32 +502,11 @@ export function GlobeJourney() {
       updateTraveler(routeProgress, highlight, scale);
     }
 
-    // ── RAF lerp loop (decoupled from ScrollTrigger for smooth animation) ──
+    // ── ScrollTrigger (sets target, RAF loop lerps toward it) ──
+    // Created BEFORE initial render so pin-spacer DOM manipulation is complete
     let targetProgress = 0;
     let currentProgress = 0;
-    let rafId: number;
 
-    function animate() {
-      // Lerp toward target scroll progress
-      const delta = targetProgress - currentProgress;
-      if (Math.abs(delta) > 0.0001) {
-        currentProgress += delta * LERP_FACTOR;
-
-        const { lon, lat, scale, routeProgress, highlight } = interpolateKeyframes(currentProgress);
-        renderGlobe(lon, lat, scale, routeProgress, highlight);
-      }
-
-      rafId = requestAnimationFrame(animate);
-    }
-
-    // Initial render
-    const initial = interpolateKeyframes(0);
-    renderGlobe(initial.lon, initial.lat, initial.scale, initial.routeProgress, initial.highlight);
-
-    // Start RAF loop
-    rafId = requestAnimationFrame(animate);
-
-    // ── ScrollTrigger (sets target, RAF loop lerps toward it) ──
     const trigger = ScrollTrigger.create({
       trigger: container,
       start: 'top top',
@@ -501,6 +516,32 @@ export function GlobeJourney() {
       onUpdate: (self) => { targetProgress = self.progress; },
     });
     triggerRef.current = trigger;
+
+    // ── RAF lerp loop (decoupled from ScrollTrigger for smooth animation) ──
+    let rafId: number;
+    let firstFrame = true;
+
+    function animate() {
+      const delta = targetProgress - currentProgress;
+      if (firstFrame || Math.abs(delta) > 0.0001) {
+        firstFrame = false;
+
+        // Snap when very close to target (prevents route from stopping short)
+        if (Math.abs(delta) < 0.001) {
+          currentProgress = targetProgress;
+        } else {
+          currentProgress += delta * LERP_FACTOR;
+        }
+
+        const { lon, lat, scale, routeProgress, highlight } = interpolateKeyframes(currentProgress);
+        renderGlobe(lon, lat, scale, routeProgress, highlight);
+      }
+
+      rafId = requestAnimationFrame(animate);
+    }
+
+    // Start RAF loop (first frame renders immediately after ScrollTrigger DOM is settled)
+    rafId = requestAnimationFrame(animate);
 
     // ── Cleanup ──
     return () => {
