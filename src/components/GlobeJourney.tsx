@@ -372,11 +372,11 @@ export function GlobeJourney() {
     svg.appendChild(travelerGroup);
 
     function updateMarkers(highlightId: EventId | null, currentScale: number) {
-      // Scale range 250-8000: linear sizing tuned for moderate zoom
-      const baseR = Math.max(4, Math.min(10, currentScale / 700));
+      // Scale range 390-15000: sizing tuned for wide zoom range
+      const baseR = Math.max(4, Math.min(12, currentScale / 1200));
       const highlightR = baseR * 1.5;
-      const baseFontSize = Math.max(10, Math.min(15, currentScale / 500));
-      const emojiFontSize = Math.max(14, Math.min(22, currentScale / 400));
+      const baseFontSize = Math.max(10, Math.min(15, currentScale / 1000));
+      const emojiFontSize = Math.max(14, Math.min(22, currentScale / 800));
 
       events.forEach((ev) => {
         const els = markerEls[ev.id];
@@ -454,8 +454,8 @@ export function GlobeJourney() {
           travelerEmoji.textContent = icon;
         }
 
-        // Scale emoji based on zoom (linear for 250-8000 range)
-        const emojiSize = Math.max(16, Math.min(28, currentScale / 350));
+        // Scale emoji based on zoom (linear for 390-15000 range)
+        const emojiSize = Math.max(18, Math.min(30, currentScale / 600));
         travelerEmoji.setAttribute('font-size', String(emojiSize));
       } else {
         travelerGroup.setAttribute('display', 'none');
@@ -510,7 +510,7 @@ export function GlobeJourney() {
     const trigger = ScrollTrigger.create({
       trigger: container,
       start: 'top top',
-      end: '+=700%',
+      end: '+=600%',
       pin: true,
       scrub: true,
       onUpdate: (self) => { targetProgress = self.progress; },

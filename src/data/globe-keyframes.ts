@@ -4,17 +4,19 @@ import type { EventId } from './events';
  * Each keyframe defines a camera state at a specific scroll progress point.
  * The animation interpolates linearly between adjacent keyframes.
  *
- * Flow: start zoomed out → zoom into France → dezoom → fly to Israel → zoom events
+ * Key principle: line drawing and camera movement happen SIMULTANEOUSLY.
+ * routeProgress changes in the SAME beats where the camera moves,
+ * not in separate sequential beats.
  *
- * Route line progress is decoupled: `routeProgress` controls how much of
- * the route is drawn (0 = none, 1 = full Paris->Beit Hanan).
- * The route only advances during travel phases (when routeProgress changes).
+ * Flow: globe fills screen → zoom France → dezoom+line to Israel → zoom events
  *
  * Scale reference (800px viewBox, orthographic):
  *   visible diameter ~ (800 / scale) * 6371 * 2 km
- *   scale    250 -> ~40,800 km (hemisphere — Europe & Med visible)
- *   scale   3000 -> ~3,400 km  (France or Israel + surroundings)
- *   scale   8000 -> ~1,270 km  (tight on central Israel coast)
+ *   scale    390 -> ~26,200 km (globe fills viewport, Med centered)
+ *   scale    500 -> ~20,400 km (dezoom, France+Israel visible)
+ *   scale   3000 -> ~3,400 km  (France zoom)
+ *   scale   6000 -> ~1,700 km  (Israel coast overview)
+ *   scale  15000 -> ~680 km    (Israel event zoom, cities distinguishable)
  */
 export interface GlobeKeyframe {
   center: [number, number];        // [longitude, latitude]
@@ -24,48 +26,54 @@ export interface GlobeKeyframe {
 }
 
 export const globeKeyframes: GlobeKeyframe[] = [
-  // ── Start: zoomed out, Europe & Mediterranean visible ──
-  { center: [18, 40], scale: 250, markerHighlight: null, routeProgress: 0 },
+  // ── PHASE 1: Globe fills screen, zoom to France ──
 
-  // ── Zoom into France / Courbevoie ──
+  // Globe visible, Mediterranean centered, fills viewport
+  { center: [15, 38], scale: 390, markerHighlight: null, routeProgress: 0 },
+
+  // Zoom into France / Courbevoie
   { center: [2.2567, 48.8966], scale: 3000, markerHighlight: 'mairie', routeProgress: 0 },
 
-  // ── Hold on Mairie ──
+  // Hold on Mairie
   { center: [2.2567, 48.8966], scale: 3000, markerHighlight: 'mairie', routeProgress: 0 },
 
-  // ── Dezoom to Mediterranean ──
-  { center: [18, 40], scale: 250, markerHighlight: null, routeProgress: 0 },
+  // ── PHASE 2: Dezoom + line draws SIMULTANEOUSLY to Israel ──
 
-  // ── Line draws across to Israel ──
-  { center: [34.77, 32.06], scale: 250, markerHighlight: null, routeProgress: 0.33 },
+  // Dezoom + line starts drawing (halfway across Mediterranean)
+  // Center shifts toward midpoint, zoom pulls back, line at ~15% drawn
+  { center: [18, 40], scale: 500, markerHighlight: null, routeProgress: 0.15 },
 
-  // ── Zoom in on Welcome Dinner (Neve Tsedek) ──
-  { center: [34.7659, 32.0606], scale: 8000, markerHighlight: 'welcome-dinner', routeProgress: 0.33 },
+  // Continue: line halfway across Med, start zooming toward Israel
+  { center: [26, 36], scale: 600, markerHighlight: null, routeProgress: 0.25 },
 
-  // ── Hold on Welcome Dinner ──
-  { center: [34.7659, 32.0606], scale: 8000, markerHighlight: 'welcome-dinner', routeProgress: 0.33 },
+  // Approaching Israel: zooming in, line nearly there
+  { center: [33, 33], scale: 2000, markerHighlight: null, routeProgress: 0.32 },
 
-  // ── Dezoom (Israel coast) ──
-  { center: [34.77, 32.10], scale: 3000, markerHighlight: null, routeProgress: 0.33 },
+  // Arrive: zoomed in on Neve Tsedek, line completes leg 1
+  { center: [34.7659, 32.0606], scale: 15000, markerHighlight: 'welcome-dinner', routeProgress: 0.33 },
 
-  // ── Line draws north to Herzliya ──
-  { center: [34.79, 32.16], scale: 3000, markerHighlight: null, routeProgress: 0.66 },
+  // Hold on Welcome Dinner
+  { center: [34.7659, 32.0606], scale: 15000, markerHighlight: 'welcome-dinner', routeProgress: 0.33 },
 
-  // ── Zoom in on Beach Party (Herzliya) ──
-  { center: [34.7875, 32.1629], scale: 8000, markerHighlight: 'beach-party', routeProgress: 0.66 },
+  // ── PHASE 3: Dezoom + line to Herzliya (simultaneously) ──
 
-  // ── Hold on Beach Party ──
-  { center: [34.7875, 32.1629], scale: 8000, markerHighlight: 'beach-party', routeProgress: 0.66 },
+  // Dezoom to Israel coast, line starts drawing north
+  { center: [34.77, 32.10], scale: 6000, markerHighlight: null, routeProgress: 0.50 },
 
-  // ── Dezoom ──
-  { center: [34.75, 32.03], scale: 3000, markerHighlight: null, routeProgress: 0.66 },
+  // Zoom back in on Herzliya, line completes leg 2
+  { center: [34.7875, 32.1629], scale: 15000, markerHighlight: 'beach-party', routeProgress: 0.66 },
 
-  // ── Line draws south to Beit Hanan ──
-  { center: [34.73, 31.91], scale: 3000, markerHighlight: null, routeProgress: 1.0 },
+  // Hold on Beach Party
+  { center: [34.7875, 32.1629], scale: 15000, markerHighlight: 'beach-party', routeProgress: 0.66 },
 
-  // ── Zoom in on Wedding (Beit Hanan) ──
-  { center: [34.7307, 31.9056], scale: 8000, markerHighlight: 'wedding-ceremony', routeProgress: 1.0 },
+  // ── PHASE 4: Dezoom + line to Beit Hanan (simultaneously) ──
 
-  // ── Hold on Wedding ──
-  { center: [34.7307, 31.9056], scale: 8000, markerHighlight: 'wedding-ceremony', routeProgress: 1.0 },
+  // Dezoom to Israel coast, line starts drawing south
+  { center: [34.75, 32.00], scale: 6000, markerHighlight: null, routeProgress: 0.83 },
+
+  // Zoom in on Beit Hanan, line completes
+  { center: [34.7307, 31.9056], scale: 15000, markerHighlight: 'wedding-ceremony', routeProgress: 1.0 },
+
+  // Hold on Wedding (final)
+  { center: [34.7307, 31.9056], scale: 15000, markerHighlight: 'wedding-ceremony', routeProgress: 1.0 },
 ];
