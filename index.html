@@ -25,9 +25,12 @@
     </div>
 
     <nav class="lang-switcher" aria-label="Language switcher">
-      <button class="lang-btn is-active" data-lang="fr" aria-label="Français">🇫🇷</button>
-      <button class="lang-btn" data-lang="he" aria-label="עברית">🇮🇱</button>
-
+      <div class="lang-toggle">
+        <button class="lang-toggle__btn is-active" data-lang="fr" aria-label="Français"><span class="lang-toggle__flag">🇫🇷</span></button>
+        <span class="lang-toggle__divider" aria-hidden="true"></span>
+        <button class="lang-toggle__btn" data-lang="he" aria-label="עברית"><span class="lang-toggle__flag">🇮🇱</span></button>
+        <span class="lang-toggle__indicator"></span>
+      </div>
     </nav>
 
     <button class="rsvp-btn" data-i18n="nav.rsvp">RSVP</button>
@@ -35,30 +38,101 @@
 
 
   <!-- ═══════════════════════════════════════
-       HERO SECTION
+       HERO SECTION — Invitation Card
   ═══════════════════════════════════════ -->
   <section class="hero" aria-label="Hero" id="hero-section">
-    <div class="hero__logo" aria-hidden="true">
-      <img src="/logo-tree.png" alt="" class="hero-logo-img" width="260" height="260" />
-    </div>
+    <!-- Floral background corners -->
+    <div class="hero__floral hero__floral--tl" aria-hidden="true"></div>
+    <div class="hero__floral hero__floral--br" aria-hidden="true"></div>
 
-    <h1 class="hero__names" data-i18n="hero.title">Anaël &amp; Eric</h1>
-    <p class="hero__subtitle" data-i18n="hero.subtitle">se marient</p>
-    <p class="hero__date" data-i18n="hero.date">18–20 octobre 2026</p>
-    <p class="hero__location" data-i18n="hero.location">Tel Aviv, Israël</p>
-
-    <div class="hero__countdown" aria-label="Compte à rebours" id="hero-countdown">
-      <div class="hero__countdown-item">
-        <span class="hero__countdown-number" id="cd-months">--</span>
-        <span class="hero__countdown-label" data-i18n="countdown.months">mois</span>
+    <div class="invitation-card">
+      <!-- Floral border — four edges using hero-bg-v2.jpg -->
+      <div class="invitation-card__floral" aria-hidden="true">
+        <div class="invitation-card__floral-edge invitation-card__floral-edge--top"></div>
+        <div class="invitation-card__floral-edge invitation-card__floral-edge--bottom"></div>
+        <div class="invitation-card__floral-edge invitation-card__floral-edge--left"></div>
+        <div class="invitation-card__floral-edge invitation-card__floral-edge--right"></div>
       </div>
-      <div class="hero__countdown-item">
-        <span class="hero__countdown-number" id="cd-days">--</span>
-        <span class="hero__countdown-label" data-i18n="countdown.days">jours</span>
+
+      <!-- Gold frame inside the floral border -->
+      <div class="invitation-card__frame" aria-hidden="true">
+        <!-- Corner flourishes -->
+        <svg class="invitation-card__corner invitation-card__corner--tl" width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <path d="M4 44 Q4 4 44 4" stroke="var(--color-gold)" stroke-width="1.2" fill="none"/>
+          <path d="M4 36 Q4 12 28 4" stroke="var(--color-gold)" stroke-width="0.6" fill="none" opacity="0.5"/>
+          <circle cx="44" cy="4" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+          <circle cx="4" cy="44" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+        </svg>
+        <svg class="invitation-card__corner invitation-card__corner--tr" width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <path d="M44 44 Q44 4 4 4" stroke="var(--color-gold)" stroke-width="1.2" fill="none"/>
+          <path d="M44 36 Q44 12 20 4" stroke="var(--color-gold)" stroke-width="0.6" fill="none" opacity="0.5"/>
+          <circle cx="4" cy="4" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+          <circle cx="44" cy="44" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+        </svg>
+        <svg class="invitation-card__corner invitation-card__corner--bl" width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <path d="M4 4 Q4 44 44 44" stroke="var(--color-gold)" stroke-width="1.2" fill="none"/>
+          <path d="M4 12 Q4 36 28 44" stroke="var(--color-gold)" stroke-width="0.6" fill="none" opacity="0.5"/>
+          <circle cx="44" cy="44" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+          <circle cx="4" cy="4" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+        </svg>
+        <svg class="invitation-card__corner invitation-card__corner--br" width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <path d="M44 4 Q44 44 4 44" stroke="var(--color-gold)" stroke-width="1.2" fill="none"/>
+          <path d="M44 12 Q44 36 20 44" stroke="var(--color-gold)" stroke-width="0.6" fill="none" opacity="0.5"/>
+          <circle cx="4" cy="44" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+          <circle cx="44" cy="4" r="1.5" fill="var(--color-gold)" opacity="0.7"/>
+        </svg>
+      </div>
+
+      <!-- Olive tree watermark -->
+      <div class="invitation-card__watermark" aria-hidden="true">
+        <img src="/logo-tree.png" alt="" width="320" height="320" />
+      </div>
+
+      <!-- Top ornament -->
+      <div class="invitation-card__ornament" aria-hidden="true">
+        <svg width="160" height="24" viewBox="0 0 160 24" fill="none">
+          <line x1="0" y1="12" x2="55" y2="12" stroke="var(--color-gold)" stroke-width="0.75"/>
+          <path d="M62 12 Q68 4 74 12 Q80 4 86 12" stroke="var(--color-gold)" stroke-width="0.8" fill="none"/>
+          <path d="M66 12 Q71 6 76 12 Q81 6 86 12" stroke="var(--color-gold)" stroke-width="0.4" fill="none" opacity="0.4"/>
+          <circle cx="74" cy="8" r="1.2" fill="var(--color-gold)" opacity="0.6"/>
+          <line x1="93" y1="12" x2="160" y2="12" stroke="var(--color-gold)" stroke-width="0.75"/>
+        </svg>
+      </div>
+
+      <h1 class="hero__names" data-i18n="hero.title">Anaël &amp; Eric</h1>
+      <p class="hero__subtitle" data-i18n="hero.subtitle">se marient</p>
+
+      <!-- Arch photo -->
+      <div class="hero__photo-frame">
+        <img src="/couple-photo.jpg" alt="Anaël & Eric" class="hero__photo" width="280" height="340" fetchpriority="high" />
+      </div>
+
+      <!-- Bottom ornament -->
+      <div class="invitation-card__ornament" aria-hidden="true">
+        <svg width="120" height="16" viewBox="0 0 120 16" fill="none">
+          <line x1="0" y1="8" x2="40" y2="8" stroke="var(--color-gold)" stroke-width="0.6"/>
+          <path d="M46 8 Q52 2 58 8 Q64 2 70 8" stroke="var(--color-gold)" stroke-width="0.7" fill="none"/>
+          <circle cx="58" cy="5" r="1" fill="var(--color-gold)" opacity="0.5"/>
+          <line x1="76" y1="8" x2="120" y2="8" stroke="var(--color-gold)" stroke-width="0.6"/>
+        </svg>
+      </div>
+
+      <p class="hero__date" data-i18n="hero.date">18–20 octobre 2026</p>
+      <p class="hero__location" data-i18n="hero.location">Tel Aviv, Israël</p>
+
+      <!-- Refined countdown -->
+      <div class="hero__countdown" aria-label="Compte à rebours" id="hero-countdown">
+        <div class="hero__countdown-item">
+          <span class="hero__countdown-number" id="cd-months">--</span>
+          <span class="hero__countdown-label" data-i18n="countdown.months">mois</span>
+        </div>
+        <span class="hero__countdown-sep" aria-hidden="true">&middot;</span>
+        <div class="hero__countdown-item">
+          <span class="hero__countdown-number" id="cd-days">--</span>
+          <span class="hero__countdown-label" data-i18n="countdown.days">jours</span>
+        </div>
       </div>
     </div>
-
-    <img src="/couple-photo.jpg" alt="Anaël & Eric" class="hero__photo" width="280" height="280" fetchpriority="high" />
 
     <div class="hero__scroll-hint" aria-hidden="true">
       <p data-i18n="hero.scroll_hint">Faites défiler pour découvrir le voyage</p>

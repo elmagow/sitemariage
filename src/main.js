@@ -16,7 +16,7 @@ import { initCountdown } from './modules/countdown.js'
 setLanguage('fr')
 
 // Set initial active state on FR button
-const frBtn = document.querySelector('.lang-btn[data-lang="fr"]')
+const frBtn = document.querySelector('.lang-toggle__btn[data-lang="fr"]')
 if (frBtn) frBtn.classList.add('is-active')
 
 // ─── Initialize modules (listeners attached ONCE here) ───────────────────────
@@ -28,7 +28,7 @@ initCountdown()
 // ─── Language switcher ────────────────────────────────────────────────────────
 // CRITICAL: Only updateEventModalLang() is called on lang switch — NOT initEventModal().
 // Calling initEventModal() again would attach duplicate event listeners on every switch.
-document.querySelectorAll('.lang-btn').forEach(btn => {
+document.querySelectorAll('.lang-toggle__btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const lang = btn.dataset.lang
     if (!lang) return
@@ -51,8 +51,14 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
     })
 
     // Update active button styling
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('is-active'))
+    document.querySelectorAll('.lang-toggle__btn').forEach(b => b.classList.remove('is-active'))
     btn.classList.add('is-active')
+
+    // Move toggle indicator
+    const toggle = document.querySelector('.lang-toggle')
+    if (toggle) {
+      toggle.setAttribute('data-active', lang)
+    }
 
     // Update module t() references ONLY — no listener re-attachment
     updateEventModalLang(t)

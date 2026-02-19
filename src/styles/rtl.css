@@ -11,6 +11,15 @@
   flex-direction: row-reverse;
 }
 
+/* Lang toggle: grid handles layout, just flip the indicator direction */
+:root[dir="rtl"] .lang-toggle {
+  direction: ltr; /* Keep toggle layout stable in RTL */
+}
+
+:root[dir="rtl"] .lang-toggle__indicator {
+  left: 3px;
+}
+
 /* Journey stops: left/right is spatial (relative to the snake curve),
    NOT textual — so we must preserve the LTR flex-direction in RTL.
    Without these overrides the generic RTL row-reverse would flip
@@ -23,13 +32,11 @@
 }
 
 :root[dir="rtl"] .stop-label-group {
+  direction: rtl;
   text-align: end;
 }
 
-:root[dir="rtl"] .traveler {
-  /* Mirror horizontal transport icons for RTL travel direction */
-  transform: scaleX(-1);
-}
+/* Traveler position is set by JS transform — do not override in RTL */
 
 :root[dir="rtl"] .modal-close {
   right: auto;
@@ -62,6 +69,11 @@
   direction: rtl;
 }
 
+/* Invitation card keeps centered layout in RTL */
+:root[dir="rtl"] .invitation-card {
+  direction: rtl;
+}
+
 /* Hebrew font overrides — Frank Ruhl Libre for body text */
 [lang="he"] body,
 [lang="he"] p,
@@ -72,4 +84,18 @@
 [lang="he"] select,
 [lang="he"] button {
   font-family: var(--font-hebrew);
+}
+
+/* Keep accent font for specific elements in Hebrew */
+[lang="he"] .hero__date,
+[lang="he"] .hero__location,
+[lang="he"] .hero__countdown-label {
+  font-family: var(--font-hebrew);
+}
+
+/* Keep heading font for names in Hebrew */
+[lang="he"] .hero__names {
+  font-family: var(--font-hebrew);
+  font-weight: 400;
+  letter-spacing: 0;
 }

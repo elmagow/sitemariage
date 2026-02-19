@@ -2,14 +2,19 @@
   /* Color Palette */
   --color-primary: #C1513A;       /* Terracotta */
   --color-accent-1: #E07B39;      /* Burnt Orange */
-  --color-accent-2: #E8B84B;      /* Warm Yellow */
+  --color-accent-2: #D4A853;      /* Warm Gold (refined from yellow) */
   --color-dark: #3D2314;          /* Deep Brown */
   --color-light: #F5ECD7;         /* Warm Cream */
   --color-olive: #6B7C45;         /* Olive Green */
   --color-surface: #FAF3E8;       /* Off-white warm surface */
+  --color-gold: #C9A84C;          /* True gold for accents */
+  --color-gold-light: rgba(201, 168, 76, 0.15);
+  --color-card: #FBF6ED;          /* Invitation card background */
 
   /* Typography */
-  --font-heading: 'Cormorant Garamond', serif;
+  --font-heading: 'Playfair Display', serif;
+  --font-heading-alt: 'Cormorant Garamond', serif;
+  --font-accent: 'Playfair Display SC', serif;
   --font-body: 'Inter', sans-serif;
   --font-hebrew: 'Frank Ruhl Libre', serif;
 

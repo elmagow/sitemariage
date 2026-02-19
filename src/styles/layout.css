@@ -16,10 +16,7 @@
   text-decoration: none;
   transition: top 0.2s ease;
 }
-
-.skip-link:focus {
-  top: var(--space-sm);
-}
+.skip-link:focus { top: var(--space-sm); }
 
 body {
   font-family: var(--font-body);
@@ -29,7 +26,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Fixed flower background pinned to bottom of viewport */
+/* Fixed flower background */
 body::after {
   content: '';
   position: fixed;
@@ -38,14 +35,12 @@ body::after {
   width: 100%;
   height: 30vh;
   background: url('/hero-bg-v2.jpg') center bottom / cover no-repeat;
-  opacity: 0.3;
+  opacity: 0.2;
   z-index: 0;
   pointer-events: none;
   mask-image: linear-gradient(to bottom, transparent, black);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black);
 }
-
-
 
 /* ═══════════════════════════════════════
    SITE HEADER
@@ -60,90 +55,142 @@ body::after {
   align-items: center;
   justify-content: space-between;
   padding: var(--space-sm) var(--space-md);
-  background: rgba(245, 236, 215, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(107, 124, 69, 0.15);
+  background: rgba(245, 236, 215, 0.8);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
   z-index: var(--z-header);
   gap: var(--space-sm);
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  color: var(--color-olive);
-  flex-shrink: 0;
-}
-
-.logo-img {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-}
+.logo { display: flex; align-items: center; color: var(--color-olive); flex-shrink: 0; }
+.logo-img { width: 40px; height: 40px; object-fit: contain; }
 
 /* ═══════════════════════════════════════
-   LANGUAGE SWITCHER
+   LANGUAGE TOGGLE — Pill Design
 ═══════════════════════════════════════ */
 
 .lang-switcher {
   display: flex;
-  gap: var(--space-xs);
   align-items: center;
 }
 
-.lang-btn {
-  background: transparent;
-  border: 1.5px solid transparent;
+.lang-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  background: rgba(61, 35, 20, 0.06);
   border-radius: var(--radius-full);
-  padding: 0.15rem 0.4rem;
-  font-size: 1.3rem;
+  padding: 3px;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.lang-toggle__btn {
+  position: relative;
+  z-index: 2;
+  background: none;
+  border: none;
+  width: 38px;
+  height: 34px;
+  font-size: 1.15rem;
   line-height: 1;
+  color: var(--color-dark);
+  opacity: 0.45;
   cursor: pointer;
-  transition: opacity var(--transition-fast), border-color var(--transition-fast);
-  min-height: 36px;
-  min-width: 36px;
+  transition: opacity var(--transition-normal);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.6;
+  padding: 0;
 }
 
-.lang-btn:hover {
-  opacity: 1;
-  border-color: var(--color-primary);
+.lang-toggle__flag {
+  display: inline-flex;
+  font-size: 1.15rem;
+  line-height: 1;
+  pointer-events: none;
 }
 
-.lang-btn.is-active {
+.lang-toggle__btn:hover {
+  opacity: 0.75;
+}
+
+.lang-toggle__btn.is-active {
   opacity: 1;
-  border-color: var(--color-primary);
-  background: rgba(193, 81, 58, 0.1);
+}
+
+/* Hide divider */
+.lang-toggle__divider {
+  display: none;
+}
+
+/* Sliding indicator behind active button */
+.lang-toggle__indicator {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 3px;
+  width: 38px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-full);
+  box-shadow: 0 1px 4px rgba(61, 35, 20, 0.1);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When HE is active, slide indicator to right */
+.lang-toggle[data-active="he"] .lang-toggle__indicator {
+  transform: translateX(38px);
 }
 
 /* ═══════════════════════════════════════
-   RSVP BUTTON (header)
+   RSVP BUTTON — Elegant Gold Outline
 ═══════════════════════════════════════ */
 
 .rsvp-btn {
-  background: var(--color-primary);
-  color: white;
-  border: none;
+  background: transparent;
+  color: var(--color-gold);
+  border: 1.5px solid var(--color-gold);
   border-radius: var(--radius-full);
-  padding: 0.5rem 1.25rem;
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
+  padding: 0.4rem 1.2rem;
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal),
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
   white-space: nowrap;
-  min-height: 44px;
+  min-height: 36px;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.rsvp-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-accent-2));
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  border-radius: inherit;
 }
 
 .rsvp-btn:hover {
-  background: var(--color-accent-1);
+  color: var(--color-dark);
+  border-color: var(--color-gold);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(193, 81, 58, 0.3);
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
+}
+
+.rsvp-btn:hover::before {
+  opacity: 0.15;
 }
 
 .rsvp-btn:active {
@@ -156,23 +203,24 @@ body::after {
 
 .site-footer {
   text-align: center;
-  padding: var(--space-xl) var(--space-md);
+  padding: var(--space-2xl) var(--space-md);
   background: var(--color-dark);
   color: var(--color-light);
-  font-size: 0.875rem;
-  opacity: 0.8;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
 }
 
-/* ═══════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════ */
+/* ═══ Responsive ═══ */
 
 @media (min-width: 768px) {
-  .site-header {
-    padding: var(--space-sm) var(--space-xl);
-  }
-
-  .lang-btn {
-    font-size: 1.4rem;
-  }
+  .site-header { padding: var(--space-sm) var(--space-xl); }
+  .logo-img { width: 44px; height: 44px; }
+  .lang-toggle__btn { width: 42px; height: 36px; font-size: 1.25rem; }
+  .lang-toggle__indicator { width: 42px; height: 36px; }
+  .lang-toggle[data-active="he"] .lang-toggle__indicator { transform: translateX(42px); }
 }
