@@ -218,8 +218,11 @@
     }
 }
 
-/* Hebrew font override */
-.hebrew body,
-.hebrew h1, .hebrew h2, .hebrew h3, .hebrew h4, .hebrew h5, .hebrew h6 {
-    font-family: var(--font-hebrew);
+/* Hebrew font override — needs !important to override Tailwind utility classes */
+html.hebrew body,
+html.hebrew h1, html.hebrew h2, html.hebrew h3,
+html.hebrew h4, html.hebrew h5, html.hebrew h6,
+html.hebrew .font-body,
+html.hebrew .font-heading {
+    font-family: var(--font-hebrew) !important;
 }

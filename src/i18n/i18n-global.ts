@@ -21,6 +21,12 @@ function updatePage(lang: Language) {
       el.textContent = t(key, lang);
     }
   });
+
+  // Announce language change to screen readers
+  const liveRegion = document.getElementById('lang-announce');
+  if (liveRegion) {
+    liveRegion.textContent = t('a11y.lang_changed' as TranslationKey, lang);
+  }
 }
 
 // Subscribe to language changes

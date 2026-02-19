@@ -1,4 +1,4 @@
 import { atom } from 'nanostores';
+import type { EventId } from '@/data/events';
 
-export type EventId = 'mairie' | 'welcome-dinner' | 'beach-party' | 'wedding-ceremony';
 export const $activeEvent = atom<EventId | null>(null);

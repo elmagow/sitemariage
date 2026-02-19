@@ -52,6 +52,7 @@ export function EventModal() {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
         showCloseButton
+        aria-describedby={undefined}
         className="bg-card border-t-4 border-accent rounded-2xl shadow-xl max-w-md"
       >
         {event && (
