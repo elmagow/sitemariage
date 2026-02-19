@@ -171,6 +171,7 @@
   color: var(--color-accent-2);
   line-height: 1;
   letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
 .hero__countdown-label {

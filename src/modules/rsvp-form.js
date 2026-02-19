@@ -186,7 +186,7 @@ export function initRsvpForm(tFn) {
     // Show submitting state
     if (submitBtn) {
       submitBtn.disabled = true
-      submitBtn.textContent = currentT ? currentT('rsvp.submitting') : 'Sending...'
+      submitBtn.textContent = currentT ? currentT('rsvp.submitting') : 'Sending\u2026'
     }
 
     // Hide any previous error

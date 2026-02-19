@@ -9,6 +9,7 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: var(--z-modal);
+  overscroll-behavior: contain;
   display: flex;
   align-items: center;
   justify-content: center;

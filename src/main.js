@@ -43,6 +43,13 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
       if (text !== key) el.placeholder = text
     })
 
+    // Update aria-label attributes (data-i18n-aria)
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.getAttribute('data-i18n-aria')
+      const text = t(key)
+      if (text !== key) el.setAttribute('aria-label', text)
+    })
+
     // Update active button styling
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('is-active'))
     btn.classList.add('is-active')
@@ -59,4 +66,11 @@ document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
   const key = el.getAttribute('data-i18n-placeholder')
   const text = t(key)
   if (text !== key) el.placeholder = text
+})
+
+// Initialize aria-label translations for default language
+document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+  const key = el.getAttribute('data-i18n-aria')
+  const text = t(key)
+  if (text !== key) el.setAttribute('aria-label', text)
 })

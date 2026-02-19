@@ -44,6 +44,18 @@ export function initTravelPath() {
   // Cache path length (doesn't change)
   const pathLen = snakePath ? snakePath.getTotalLength() : 0
 
+  // Cache layout dimensions — updated via ResizeObserver instead of per-frame reads
+  let sectionWidth  = section.offsetWidth
+  let sectionHeight = section.offsetHeight
+
+  const ro = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      sectionWidth  = entry.contentBoxSize?.[0]?.inlineSize ?? entry.target.offsetWidth
+      sectionHeight = entry.contentBoxSize?.[0]?.blockSize  ?? entry.target.offsetHeight
+    }
+  })
+  ro.observe(section)
+
   /**
    * Get x at a given y on the snake (binary search, ~15 iterations).
    * Only called once per scroll frame — the CSS transition smooths between frames.
@@ -77,14 +89,12 @@ export function initTravelPath() {
   })
 
   function update(scrollProgress) {
-    const sectionHeight = section.offsetHeight
-
     // progress 0→1 maps to y 2→90 in viewBox units
     const yPct = PATH_Y_START + scrollProgress * (PATH_Y_END - PATH_Y_START)
     const xPct = getXAtY(yPct)
 
     // Single transform — GPU composited, CSS transition smooths it
-    const xPx = (xPct / 100) * section.offsetWidth
+    const xPx = (xPct / 100) * sectionWidth
     const yPx = (yPct / 100) * sectionHeight
     traveler.style.transform = `translate(${xPx}px, ${yPx}px) translate(-50%, -50%)`
 

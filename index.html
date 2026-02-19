@@ -4,22 +4,24 @@
   <!-- SVG symbol definitions (deduplication) — referenced via <use> throughout the page -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F5ECD7" />
   <title>Anaël &amp; Eric — Mariage · Octobre 2026</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/styles/main.css" />
 </head>
 <body>
 
+  <!-- Skip link for keyboard navigation -->
+  <a href="#hero-section" class="skip-link">Aller au contenu principal</a>
 
   <!-- ═══════════════════════════════════════
        HEADER
   ═══════════════════════════════════════ -->
   <header class="site-header">
     <div class="logo" aria-label="Olive tree logo">
-      <img src="/logo-tree.png" alt="" class="logo-img" aria-hidden="true" />
+      <img src="/logo-tree.png" alt="" class="logo-img" aria-hidden="true" width="48" height="48" />
     </div>
 
     <nav class="lang-switcher" aria-label="Language switcher">
@@ -35,9 +37,9 @@
   <!-- ═══════════════════════════════════════
        HERO SECTION
   ═══════════════════════════════════════ -->
-  <section class="hero" aria-label="Hero">
+  <section class="hero" aria-label="Hero" id="hero-section">
     <div class="hero__logo" aria-hidden="true">
-      <img src="/logo-tree.png" alt="" class="hero-logo-img" />
+      <img src="/logo-tree.png" alt="" class="hero-logo-img" width="260" height="260" />
     </div>
 
     <h1 class="hero__names" data-i18n="hero.title">Anaël &amp; Eric</h1>
@@ -56,11 +58,11 @@
       </div>
     </div>
 
-    <img src="/couple-photo.jpg" alt="Anaël & Eric" class="hero__photo" />
+    <img src="/couple-photo.jpg" alt="Anaël & Eric" class="hero__photo" width="280" height="280" fetchpriority="high" />
 
     <div class="hero__scroll-hint" aria-hidden="true">
       <p data-i18n="hero.scroll_hint">Faites défiler pour découvrir le voyage</p>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="scroll-arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="scroll-arrow" aria-hidden="true">
         <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
@@ -176,28 +178,28 @@
 
     <div class="practical-grid">
       <div class="practical-card">
-        <h3 data-i18n="practical.getting_there_title"></h3>
-        <p data-i18n="practical.getting_there_body"></p>
+        <h3 data-i18n="practical.getting_there_title">Comment y aller</h3>
+        <p data-i18n="practical.getting_there_body">Volez vers l'aéroport international Ben Gourion (TLV), à 20 minutes de Tel Aviv.</p>
       </div>
       <div class="practical-card">
-        <h3 data-i18n="practical.where_to_stay_title"></h3>
-        <p data-i18n="practical.where_to_stay_body"></p>
+        <h3 data-i18n="practical.where_to_stay_title">Où séjourner</h3>
+        <p data-i18n="practical.where_to_stay_body">Nous recommandons de séjourner dans le quartier Neve Tsedek ou Jaffa.</p>
       </div>
       <div class="practical-card">
-        <h3 data-i18n="practical.getting_around_title"></h3>
-        <p data-i18n="practical.getting_around_body"></p>
+        <h3 data-i18n="practical.getting_around_title">Se déplacer</h3>
+        <p data-i18n="practical.getting_around_body">Téléchargez l'application Gett pour les taxis.</p>
       </div>
       <div class="practical-card">
-        <h3 data-i18n="practical.currency_title"></h3>
-        <p data-i18n="practical.currency_body"></p>
+        <h3 data-i18n="practical.currency_title">Monnaie</h3>
+        <p data-i18n="practical.currency_body">Shekel israélien (ILS / ₪). Les cartes bancaires sont acceptées partout.</p>
       </div>
       <div class="practical-card">
-        <h3 data-i18n="practical.language_title"></h3>
-        <p data-i18n="practical.language_body"></p>
+        <h3 data-i18n="practical.language_title">Langue</h3>
+        <p data-i18n="practical.language_body">L'hébreu est la langue officielle, mais l'anglais est largement parlé.</p>
       </div>
       <div class="practical-card">
-        <h3 data-i18n="practical.emergency_title"></h3>
-        <p data-i18n="practical.emergency_body"></p>
+        <h3 data-i18n="practical.emergency_title">Numéros utiles</h3>
+        <p data-i18n="practical.emergency_body">Urgences : 100 (police), 101 (ambulance).</p>
       </div>
     </div>
   </section>
@@ -208,7 +210,7 @@
   ═══════════════════════════════════════ -->
   <div class="modal-overlay" id="event-modal" role="dialog" aria-modal="true" aria-labelledby="modal-event-name" hidden>
     <div class="modal-card" tabindex="-1">
-      <button class="modal-close" aria-label="Close dialog">&times;</button>
+      <button class="modal-close" aria-label="Fermer" data-i18n-aria="modal.close">&times;</button>
 
       <div class="modal-header">
         <span class="modal-emoji" id="modal-event-emoji"></span>
@@ -254,7 +256,7 @@
   ═══════════════════════════════════════ -->
   <div class="modal-overlay" id="rsvp-modal" role="dialog" aria-modal="true" aria-labelledby="rsvp-modal-title" hidden>
     <div class="modal-card modal-card--rsvp" tabindex="-1">
-      <button class="modal-close" aria-label="Close dialog">&times;</button>
+      <button class="modal-close" aria-label="Fermer" data-i18n-aria="modal.close">&times;</button>
 
       <h2 id="rsvp-modal-title" data-i18n="rsvp.title">RSVP</h2>
       <p class="rsvp-subtitle" data-i18n="rsvp.subtitle">Nous avons hâte de fêter cela avec vous !</p>
@@ -270,7 +272,7 @@
         <!-- Email -->
         <div class="form-group">
           <label for="rsvp-email" data-i18n="rsvp.email_label"></label>
-          <input type="email" id="rsvp-email" name="email" data-i18n-placeholder="rsvp.email_placeholder" required autocomplete="email" />
+          <input type="email" id="rsvp-email" name="email" data-i18n-placeholder="rsvp.email_placeholder" required autocomplete="email" spellcheck="false" />
           <span class="field-error" id="error-email" hidden></span>
         </div>
 
@@ -299,19 +301,19 @@
         <!-- Additional guests -->
         <div class="form-group">
           <label for="rsvp-guests" data-i18n="rsvp.guests_label"></label>
-          <input type="number" id="rsvp-guests" name="guests" min="0" max="9" value="0" />
+          <input type="number" id="rsvp-guests" name="guests" min="0" max="9" value="0" autocomplete="off" />
         </div>
 
         <!-- Dietary requirements -->
         <div class="form-group">
           <label for="rsvp-dietary" data-i18n="rsvp.dietary_label"></label>
-          <textarea id="rsvp-dietary" name="dietary" rows="2" data-i18n-placeholder="rsvp.dietary_placeholder"></textarea>
+          <textarea id="rsvp-dietary" name="dietary" rows="2" data-i18n-placeholder="rsvp.dietary_placeholder" autocomplete="off"></textarea>
         </div>
 
         <!-- Message -->
         <div class="form-group">
           <label for="rsvp-message" data-i18n="rsvp.message_label"></label>
-          <textarea id="rsvp-message" name="message" rows="3" data-i18n-placeholder="rsvp.message_placeholder"></textarea>
+          <textarea id="rsvp-message" name="message" rows="3" data-i18n-placeholder="rsvp.message_placeholder" autocomplete="off"></textarea>
         </div>
 
         <!-- Submit -->
@@ -319,14 +321,14 @@
       </form>
 
       <!-- Success / Error states -->
-      <div class="rsvp-success" hidden>
+      <div class="rsvp-success" hidden aria-live="polite">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/>
           <path d="M14 24l8 8 12-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <p data-i18n="rsvp.success"></p>
       </div>
-      <div class="rsvp-error" hidden>
+      <div class="rsvp-error" hidden aria-live="polite">
         <p data-i18n="rsvp.error"></p>
       </div>
     </div>

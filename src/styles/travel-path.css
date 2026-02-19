@@ -114,7 +114,9 @@
 }
 
 .event-stop:focus-visible {
-  outline: none;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .event-stop:focus-visible .stop-dot {

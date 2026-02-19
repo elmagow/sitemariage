@@ -2,6 +2,25 @@
    BASE LAYOUT
 ═══════════════════════════════════════ */
 
+/* Skip link — visible only on keyboard focus */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-md);
+  background: var(--color-dark);
+  color: var(--color-light);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  z-index: 999;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-sm);
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-light);
@@ -80,7 +99,7 @@ body::after {
   font-size: 1.3rem;
   line-height: 1;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: opacity var(--transition-fast), border-color var(--transition-fast);
   min-height: 36px;
   min-width: 36px;
   display: flex;
@@ -115,7 +134,7 @@ body::after {
   font-weight: 500;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: var(--transition-normal);
+  transition: background-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
   white-space: nowrap;
   min-height: 44px;
   flex-shrink: 0;
