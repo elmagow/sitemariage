@@ -137,6 +137,7 @@
   pointer-events: none;
   z-index: 3;
   border: 1px solid var(--color-gold);
+  border-radius: 12px;
   opacity: 0.65;
 }
 
