@@ -60,19 +60,29 @@ export function Countdown() {
     : t('countdown.days', lang);
 
   return (
-    <div aria-live="polite" className="flex items-baseline justify-center gap-3 sm:gap-4">
-      <span className="text-accent font-heading text-3xl sm:text-4xl md:text-5xl">
-        {countdown.months}
-      </span>
-      <span className="text-foreground/70 font-body text-base sm:text-lg">
-        {monthLabel}
-      </span>
-      <span className="text-accent font-heading text-3xl sm:text-4xl md:text-5xl">
-        {countdown.days}
-      </span>
-      <span className="text-foreground/70 font-body text-base sm:text-lg">
-        {dayLabel}
-      </span>
+    <div aria-live="polite" className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+      {/* Months tile */}
+      <div className="inline-flex flex-col items-center px-5 py-3 sm:px-6 sm:py-4 border border-accent/30 rounded-lg bg-card/50">
+        <span className="text-accent font-heading text-3xl sm:text-4xl md:text-5xl">
+          {countdown.months}
+        </span>
+        <span className="text-foreground/60 font-body text-xs sm:text-sm uppercase tracking-wider mt-1">
+          {monthLabel}
+        </span>
+      </div>
+
+      {/* Decorative separator */}
+      <span className="text-accent/50 text-sm" aria-hidden="true">◆</span>
+
+      {/* Days tile */}
+      <div className="inline-flex flex-col items-center px-5 py-3 sm:px-6 sm:py-4 border border-accent/30 rounded-lg bg-card/50">
+        <span className="text-accent font-heading text-3xl sm:text-4xl md:text-5xl">
+          {countdown.days}
+        </span>
+        <span className="text-foreground/60 font-body text-xs sm:text-sm uppercase tracking-wider mt-1">
+          {dayLabel}
+        </span>
+      </div>
     </div>
   );
 }

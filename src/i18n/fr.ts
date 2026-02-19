@@ -113,10 +113,13 @@ export const fr: Translations = {
   // Footer
   'footer.made_with_love': 'Fait avec amour par les mariés',
   'footer.copyright': '© 2026 Anaël & Eric',
+  'footer.from_with_love': 'Avec amour, de Paris à Tel Aviv',
 
   // Globe
   'globe.aria_label': 'Globe interactif montrant le parcours Paris – Tel Aviv',
   'globe.static_aria_label': 'Carte du parcours Paris – Tel Aviv',
+  'globe.section_title': 'Notre voyage',
+  'globe.scroll_hint': 'Faites défiler pour explorer',
 
   // Accessibility
   'a11y.skip_to_content': 'Aller au contenu',

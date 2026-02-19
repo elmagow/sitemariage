@@ -144,29 +144,31 @@ export function GlobeJourney() {
     const landGroup = createSVGEl('g');
     svg.appendChild(landGroup);
 
-    function drawLand() {
-      // Clear existing land paths
-      while (landGroup.firstChild) {
-        landGroup.removeChild(landGroup.firstChild);
-      }
-
-      if ('features' in countriesGeo) {
-        for (const feature of (countriesGeo as GeoJSON.FeatureCollection).features) {
-          const d = pathGen(feature);
-          if (d) {
-            const p = createSVGEl('path', {
-              d,
-              fill: COLORS.land,
-              stroke: COLORS.landStroke,
-              'stroke-width': '0.5',
-            });
-            landGroup.appendChild(p);
-          }
-        }
+    // Create land paths ONCE, then only update 'd' attribute on scroll
+    const landPathEls: SVGElement[] = [];
+    if ('features' in countriesGeo) {
+      for (const feature of (countriesGeo as GeoJSON.FeatureCollection).features) {
+        const p = createSVGEl('path', {
+          d: pathGen(feature) || '',
+          fill: COLORS.land,
+          stroke: COLORS.landStroke,
+          'stroke-width': '0.5',
+        });
+        landGroup.appendChild(p);
+        landPathEls.push(p);
       }
     }
 
-    drawLand();
+    // Store features array for reuse in updates
+    const landFeatures = 'features' in countriesGeo
+      ? (countriesGeo as GeoJSON.FeatureCollection).features
+      : [];
+
+    function updateLandPaths() {
+      for (let i = 0; i < landPathEls.length; i++) {
+        landPathEls[i].setAttribute('d', pathGen(landFeatures[i]) || '');
+      }
+    }
 
     // ── Route line (great circle arcs between events) ──
     const routeCoords: [number, number][] = events.map((e) => e.coordinates);
@@ -260,9 +262,11 @@ export function GlobeJourney() {
         $activeEvent.set(ev.id);
       });
 
-      // Hover effect
+      // Hover effect (scale-aware)
       g.addEventListener('mouseenter', () => {
-        circle.setAttribute('r', '11');
+        const s = projection.scale();
+        const hoverR = Math.max(4, Math.min(8, s / 150)) * 1.4;
+        circle.setAttribute('r', String(hoverR));
         circle.setAttribute('fill', COLORS.markerActiveFill);
         circle.setAttribute('stroke', COLORS.markerActiveStroke);
       });
@@ -271,14 +275,22 @@ export function GlobeJourney() {
           (kf) => kf.markerHighlight === ev.id,
         );
         if (!isActive) {
-          circle.setAttribute('r', '8');
+          const s = projection.scale();
+          const baseR = Math.max(4, Math.min(8, s / 150));
+          circle.setAttribute('r', String(baseR));
           circle.setAttribute('fill', COLORS.markerFill);
           circle.setAttribute('stroke', COLORS.markerStroke);
         }
       });
     });
 
-    function updateMarkers(highlightId: EventId | null) {
+    function updateMarkers(highlightId: EventId | null, currentScale: number) {
+      // Scale marker radius and font size proportionally to zoom level
+      const baseRadius = Math.max(4, Math.min(8, currentScale / 150));
+      const highlightRadius = baseRadius * 1.5;
+      const baseFontSize = Math.max(10, Math.min(14, currentScale / 80));
+      const highlightFontSize = baseFontSize * 1.15;
+
       events.forEach((ev) => {
         const els = markerEls[ev.id];
         if (!els) return;
@@ -296,7 +308,7 @@ export function GlobeJourney() {
           els.group.setAttribute('display', 'block');
 
           const isHighlighted = ev.id === highlightId;
-          els.circle.setAttribute('r', isHighlighted ? '12' : '8');
+          els.circle.setAttribute('r', String(isHighlighted ? highlightRadius : baseRadius));
           els.circle.setAttribute(
             'fill',
             isHighlighted ? COLORS.markerActiveFill : COLORS.markerFill,
@@ -306,15 +318,16 @@ export function GlobeJourney() {
             isHighlighted ? COLORS.markerActiveStroke : COLORS.markerStroke,
           );
           els.circle.setAttribute('stroke-width', isHighlighted ? '3' : '2');
-          els.label.setAttribute('font-size', isHighlighted ? '16' : '14');
+          els.label.setAttribute('font-size', String(isHighlighted ? highlightFontSize : baseFontSize));
           els.label.setAttribute('font-weight', isHighlighted ? '600' : '500');
+          els.label.setAttribute('dx', String(isHighlighted ? highlightRadius + 6 : baseRadius + 6));
         } else {
           els.group.setAttribute('display', 'none');
         }
       });
     }
 
-    updateMarkers(globeKeyframes[0].markerHighlight);
+    updateMarkers(globeKeyframes[0].markerHighlight, globeKeyframes[0].scale);
 
     // ── Update globe function (called by ScrollTrigger) ──
     function updateGlobe(progress: number) {
@@ -336,15 +349,14 @@ export function GlobeJourney() {
       // Update projection
       projection.rotate([-lon, -lat]).scale(scale);
 
-      // Update ocean circle radius
+      // Update ocean circle radius (clamped to projection scale)
       oceanCircle.setAttribute('r', String(scale));
 
-      // Redraw graticule
-      const newGraticuleD = pathGen(graticule);
-      graticulePath.setAttribute('d', newGraticuleD || '');
+      // Update graticule path
+      graticulePath.setAttribute('d', pathGen(graticule) || '');
 
-      // Redraw land
-      drawLand();
+      // Update land paths (reuse existing DOM elements)
+      updateLandPaths();
 
       // Update route
       updateRoute();
@@ -361,7 +373,7 @@ export function GlobeJourney() {
       const currentHighlight = beatProgress < 0.5
         ? kfA.markerHighlight
         : kfB.markerHighlight;
-      updateMarkers(currentHighlight);
+      updateMarkers(currentHighlight, scale);
     }
 
     // ── ScrollTrigger ──

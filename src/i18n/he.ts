@@ -113,10 +113,13 @@ export const he: Translations = {
   // Footer
   'footer.made_with_love': 'נעשה באהבה על ידי הזוג',
   'footer.copyright': '© 2026 אנאל ואריק',
+  'footer.from_with_love': 'באהבה, מפריז לתל אביב',
 
   // Globe
   'globe.aria_label': 'גלובוס אינטראקטיבי המציג את המסלול פריז – תל אביב',
   'globe.static_aria_label': 'מפת המסלול פריז – תל אביב',
+  'globe.section_title': 'המסע שלנו',
+  'globe.scroll_hint': 'גללו כדי לחקור',
 
   // Accessibility
   'a11y.skip_to_content': 'דלג לתוכן',

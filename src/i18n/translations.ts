@@ -108,6 +108,11 @@ export type TranslationKey =
   // Globe
   | 'globe.aria_label'
   | 'globe.static_aria_label'
+  // Globe section
+  | 'globe.section_title'
+  | 'globe.scroll_hint'
+  // Footer extras
+  | 'footer.from_with_love'
   // Accessibility
   | 'a11y.skip_to_content'
   | 'a11y.lang_changed';

@@ -13,7 +13,27 @@ import { EventModal } from '@/components/EventModal';
   <Header />
   <main id="main-content">
     <HeroSection />
+
+    <!-- Section divider: Hero → Globe -->
+    <div class="flex justify-center py-8 bg-background" aria-hidden="true">
+      <div class="flex items-center gap-4">
+        <span class="block w-16 h-px bg-accent/40"></span>
+        <span class="text-accent text-sm">✦</span>
+        <span class="block w-16 h-px bg-accent/40"></span>
+      </div>
+    </div>
+
     <GlobeSection />
+
+    <!-- Section divider: Globe → Practical Info -->
+    <div class="flex justify-center py-8 bg-background" aria-hidden="true">
+      <div class="flex items-center gap-4">
+        <span class="block w-16 h-px bg-accent/40"></span>
+        <span class="text-accent text-sm">✦</span>
+        <span class="block w-16 h-px bg-accent/40"></span>
+      </div>
+    </div>
+
     <PracticalInfo />
   </main>
   <Footer />

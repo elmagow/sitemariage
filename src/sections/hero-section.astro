@@ -2,35 +2,53 @@
 import { Countdown } from '@/components/Countdown';
 ---
 
-<section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-12 px-4 bg-background text-center">
-  <!-- Decorative top line -->
-  <div class="w-16 h-px bg-accent/40 mb-8" aria-hidden="true"></div>
+<section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-12 px-4 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-card/50 to-background text-center">
+  <!-- Invitation border frame -->
+  <div class="invitation-border w-full max-w-2xl mx-auto flex flex-col items-center py-12 px-6 sm:px-10">
+    <!-- Decorative top divider -->
+    <div class="flex items-center justify-center gap-3 text-accent mb-8" aria-hidden="true">
+      <span class="block w-12 h-px bg-accent/60"></span>
+      <span class="text-xs">◆</span>
+      <span class="block w-12 h-px bg-accent/60"></span>
+    </div>
 
-  <!-- Couple names -->
-  <h1 class="font-heading italic text-accent text-[clamp(2.5rem,8vw,5rem)] leading-tight" data-i18n="hero.title">
-    Anaël &amp; Eric
-  </h1>
+    <!-- Couple names -->
+    <h1 class="font-heading italic text-accent text-[clamp(2.5rem,8vw,5rem)] leading-tight" data-i18n="hero.title">
+      Anaël &amp; Eric
+    </h1>
 
-  <!-- Subtitle -->
-  <p class="mt-4 font-body text-foreground/70 text-lg sm:text-xl max-w-md" data-i18n="hero.subtitle">
-    Nous nous marions !
-  </p>
+    <!-- Subtitle -->
+    <p class="mt-4 font-heading italic text-foreground/60 text-lg sm:text-xl tracking-wider max-w-md" data-i18n="hero.subtitle">
+      Nous nous marions !
+    </p>
 
-  <!-- Date -->
-  <p class="mt-6 font-heading text-foreground text-xl sm:text-2xl tracking-wide" data-i18n="hero.date">
-    18 – 20 octobre 2026
-  </p>
+    <!-- Decorative middle divider -->
+    <div class="flex items-center justify-center gap-3 text-accent my-6" aria-hidden="true">
+      <span class="block w-12 h-px bg-accent/60"></span>
+      <span class="text-xs">◆</span>
+      <span class="block w-12 h-px bg-accent/60"></span>
+    </div>
 
-  <!-- Location -->
-  <p class="mt-2 font-body text-foreground/60 text-base sm:text-lg" data-i18n="hero.location">
-    Tel Aviv, Israël
-  </p>
+    <!-- Date -->
+    <p class="font-heading text-foreground text-xl sm:text-2xl tracking-wide" data-i18n="hero.date">
+      18 – 20 octobre 2026
+    </p>
 
-  <!-- Countdown -->
-  <div class="mt-10">
-    <Countdown client:load />
+    <!-- Location -->
+    <p class="mt-2 font-body text-foreground/60 text-base sm:text-lg" data-i18n="hero.location">
+      Tel Aviv, Israël
+    </p>
+
+    <!-- Countdown -->
+    <div class="mt-10">
+      <Countdown client:load />
+    </div>
+
+    <!-- Decorative bottom divider -->
+    <div class="flex items-center justify-center gap-3 text-accent mt-10" aria-hidden="true">
+      <span class="block w-12 h-px bg-accent/60"></span>
+      <span class="text-xs">◆</span>
+      <span class="block w-12 h-px bg-accent/60"></span>
+    </div>
   </div>
-
-  <!-- Decorative bottom line -->
-  <div class="w-16 h-px bg-accent/40 mt-10" aria-hidden="true"></div>
 </section>
