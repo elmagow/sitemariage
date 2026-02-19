@@ -83,48 +83,48 @@
 /* Top edge */
 .invitation-card__floral-edge--top {
   top: 0; left: 0; right: 0;
-  height: 70px;
+  height: 120px;
   background-position: center top;
-  background-size: 120% auto;
-  mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+  background-size: 130% auto;
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
 }
 
 /* Bottom edge */
 .invitation-card__floral-edge--bottom {
   bottom: 0; left: 0; right: 0;
-  height: 80px;
+  height: 130px;
   background-position: center bottom;
-  background-size: 120% auto;
-  mask-image: linear-gradient(to top, black 10%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, black 10%, transparent 100%);
+  background-size: 130% auto;
+  mask-image: linear-gradient(to top, black 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
 }
 
 /* Left edge */
 .invitation-card__floral-edge--left {
   top: 0; bottom: 0; left: 0;
-  width: 55px;
+  width: 90px;
   background-position: left center;
-  background-size: auto 110%;
-  mask-image: linear-gradient(to right, black 5%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 5%, transparent 100%);
+  background-size: auto 120%;
+  mask-image: linear-gradient(to right, black 0%, rgba(0,0,0,0.3) 35%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, rgba(0,0,0,0.3) 35%, transparent 100%);
 }
 
 /* Right edge */
 .invitation-card__floral-edge--right {
   top: 0; bottom: 0; right: 0;
-  width: 55px;
+  width: 90px;
   background-position: right center;
-  background-size: auto 110%;
-  mask-image: linear-gradient(to left, black 5%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to left, black 5%, transparent 100%);
+  background-size: auto 120%;
+  mask-image: linear-gradient(to left, black 0%, rgba(0,0,0,0.3) 35%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 0%, rgba(0,0,0,0.3) 35%, transparent 100%);
 }
 
 @media (min-width: 768px) {
-  .invitation-card__floral-edge--top { height: 90px; }
-  .invitation-card__floral-edge--bottom { height: 100px; }
-  .invitation-card__floral-edge--left { width: 70px; }
-  .invitation-card__floral-edge--right { width: 70px; }
+  .invitation-card__floral-edge--top { height: 150px; }
+  .invitation-card__floral-edge--bottom { height: 160px; }
+  .invitation-card__floral-edge--left { width: 110px; }
+  .invitation-card__floral-edge--right { width: 110px; }
 }
 
 /* ═══════════════════════════════════════
