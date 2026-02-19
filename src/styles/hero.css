@@ -38,12 +38,14 @@
   align-items: center;
   gap: 0;
 
-  /* Paper card — soft edges, no hard rectangle */
+  /* Paper card */
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 3px;
   box-shadow:
-    0 4px 24px rgba(61, 35, 20, 0.06),
-    0 16px 48px rgba(61, 35, 20, 0.08);
+    0 1px 0 rgba(201, 168, 76, 0.3),
+    0 2px 8px rgba(61, 35, 20, 0.04),
+    0 8px 24px rgba(61, 35, 20, 0.06),
+    0 20px 60px rgba(61, 35, 20, 0.1);
 
   /* Paper texture */
   background-image:
@@ -70,13 +72,12 @@
   pointer-events: none;
   z-index: 2;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 3px;
 }
 
 .invitation-card__floral-edge {
   position: absolute;
   background: url('/hero-bg-v2.jpg') center / cover no-repeat;
-  filter: blur(1.5px);
 }
 
 /* Top edge */
@@ -132,22 +133,20 @@
 
 .invitation-card__frame {
   position: absolute;
-  inset: 20px;
+  inset: 28px;
   pointer-events: none;
   z-index: 3;
   border: 1px solid var(--color-gold);
-  border-radius: 8px;
-  opacity: 0.55;
+  opacity: 0.65;
 }
 
 /* Second thinner inner line */
 .invitation-card__frame::after {
   content: '';
   position: absolute;
-  inset: 5px;
+  inset: 4px;
   border: 0.5px solid var(--color-gold);
-  border-radius: 5px;
-  opacity: 0.35;
+  opacity: 0.4;
 }
 
 .invitation-card__corner {
@@ -162,7 +161,7 @@
 .invitation-card__corner--br { bottom: -6px; right: -6px; }
 
 @media (min-width: 768px) {
-  .invitation-card__frame { inset: 24px; }
+  .invitation-card__frame { inset: 36px; }
 }
 
 /* ═══════════════════════════════════════
