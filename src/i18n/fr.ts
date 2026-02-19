@@ -25,11 +25,11 @@ export const fr: Translations = {
   'event.mairie.name': 'Cérémonie civile',
   'event.mairie.date': '18 octobre 2026',
   'event.mairie.time': 'Horaire à confirmer',
-  'event.mairie.location': 'Mairie du 4e arrondissement',
-  'event.mairie.address': '2 place Baudoyer, 75004 Paris',
-  'event.mairie.transport': 'Métro Hôtel de Ville (lignes 1, 11)',
+  'event.mairie.location': 'Mairie de Courbevoie',
+  'event.mairie.address': '2 place Henri Barbusse, Courbevoie',
+  'event.mairie.transport': 'Gare de Courbevoie (Transilien L) / La Défense (RER A, métro 1)',
   'event.mairie.dress_code': 'Tenue de ville',
-  'event.mairie.description': 'Cérémonie civile à la mairie de Paris, suivie d\'un moment convivial entre proches.',
+  'event.mairie.description': 'Cérémonie civile à la mairie de Courbevoie, suivie d\'un moment convivial entre proches.',
 
   // Event: Welcome Dinner
   'event.welcome_dinner.name': 'Dîner de bienvenue',

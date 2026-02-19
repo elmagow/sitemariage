@@ -20,6 +20,8 @@ import { StaticMapFallback } from './StaticMapFallback';
 
 // ── Constants ──
 const GLOBE_SIZE = 800;
+const HALF = GLOBE_SIZE / 2;
+
 // Hex values mirror CSS design tokens (--color-wedding-*) for imperative D3/SVG rendering
 const COLORS = {
   ocean: '#EDE5D4',
@@ -31,6 +33,7 @@ const COLORS = {
   markerActiveFill: '#C1513A',
   markerActiveStroke: '#E8B84B',
   graticule: 'rgba(107, 124, 69, 0.08)',
+  labelBg: 'rgba(250, 243, 232, 0.92)',
 } as const;
 
 function getEventName(eventId: EventId, lang: 'fr' | 'he'): string {
@@ -40,31 +43,31 @@ function getEventName(eventId: EventId, lang: 'fr' | 'he'): string {
 }
 
 /**
- * Return partial route coordinates based on scroll progress.
- * At progress=0, returns no points. At progress=1, returns all event coords.
- * Intermediate values interpolate between legs of the journey.
+ * Return partial route coordinates based on routeProgress (0-1).
+ * routeProgress is decoupled from scroll — it only advances during travel phases.
  */
-function getPartialRouteCoords(progress: number): [number, number][] {
+function getPartialRouteCoords(routeProgress: number): [number, number][] {
+  if (routeProgress <= 0) return [];
+
   const coords = events.map((e) => e.coordinates);
   const totalLegs = coords.length - 1; // 3 legs
-  const currentLeg = progress * totalLegs;
+  const currentLeg = routeProgress * totalLegs;
   const legIndex = Math.min(Math.floor(currentLeg), totalLegs - 1);
-  const legProgress = currentLeg - legIndex;
+  const legFraction = currentLeg - legIndex;
 
-  // Include all completed legs
   const result: [number, number][] = [];
   for (let i = 0; i <= legIndex; i++) {
     result.push(coords[i]);
   }
 
-  // Add interpolated point for current leg
-  if (legProgress > 0 && legIndex < totalLegs) {
+  // Interpolated tip of the line
+  if (legFraction > 0 && legIndex < totalLegs) {
     const a = coords[legIndex];
     const b = coords[legIndex + 1];
-    result.push([
-      a[0] + (b[0] - a[0]) * legProgress,
-      a[1] + (b[1] - a[1]) * legProgress,
-    ]);
+    // Use d3 geoInterpolate for accurate great-circle interpolation
+    const interp = d3Geo.geoInterpolate(a, b);
+    const pt = interp(legFraction);
+    result.push(pt as [number, number]);
   }
 
   return result;
@@ -82,13 +85,12 @@ export function GlobeJourney() {
   // Keep langRef in sync for D3 callbacks
   useEffect(() => {
     langRef.current = lang;
-    // Update marker labels when language changes
     if (svgRef.current) {
       const svg = svgRef.current;
       events.forEach((ev) => {
         const label = svg.querySelector(`[data-marker-label="${ev.id}"]`);
         if (label) {
-          label.textContent = `${ev.emoji} ${getEventName(ev.id, lang)}`;
+          label.textContent = getEventName(ev.id, lang);
         }
       });
     }
@@ -111,9 +113,15 @@ export function GlobeJourney() {
     gsap.registerPlugin(ScrollTrigger);
 
     const container = containerRef.current;
+    const svgNS = 'http://www.w3.org/2000/svg';
+
+    function createEl(tag: string, attrs: Record<string, string> = {}): SVGElement {
+      const el = document.createElementNS(svgNS, tag);
+      for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+      return el;
+    }
 
     // ── Create SVG ──
-    const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('viewBox', `0 0 ${GLOBE_SIZE} ${GLOBE_SIZE}`);
     svg.setAttribute('width', '100%');
@@ -128,7 +136,7 @@ export function GlobeJourney() {
 
     // ── Projection ──
     const projection = d3Geo.geoOrthographic()
-      .translate([GLOBE_SIZE / 2, GLOBE_SIZE / 2])
+      .translate([HALF, HALF])
       .scale(globeKeyframes[0].scale)
       .rotate([-globeKeyframes[0].center[0], -globeKeyframes[0].center[1]])
       .clipAngle(90);
@@ -142,27 +150,21 @@ export function GlobeJourney() {
       topology,
       topology.objects.countries as TopoJSON.GeometryCollection,
     );
+    const landFeatures = 'features' in countriesGeo
+      ? (countriesGeo as GeoJSON.FeatureCollection).features
+      : [];
 
-    // ── Helper: create SVG element ──
-    function createSVGEl(tag: string, attrs: Record<string, string> = {}): SVGElement {
-      const el = document.createElementNS(svgNS, tag);
-      for (const [k, v] of Object.entries(attrs)) {
-        el.setAttribute(k, v);
-      }
-      return el;
-    }
-
-    // ── Drop shadow filter for globe ──
-    const defs = createSVGEl('defs');
+    // ── Drop shadow filter ──
+    const defs = createEl('defs');
     defs.innerHTML = `<filter id="globe-shadow" x="-10%" y="-10%" width="120%" height="120%">
   <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.15"/>
 </filter>`;
-    svg.insertBefore(defs, svg.firstChild);
+    svg.appendChild(defs);
 
-    // ── Globe background (ocean) ──
-    const oceanCircle = createSVGEl('circle', {
-      cx: String(GLOBE_SIZE / 2),
-      cy: String(GLOBE_SIZE / 2),
+    // ── Ocean ──
+    const oceanCircle = createEl('circle', {
+      cx: String(HALF),
+      cy: String(HALF),
       r: String(Math.min(projection.scale(), GLOBE_SIZE)),
       fill: COLORS.ocean,
       filter: 'url(#globe-shadow)',
@@ -171,7 +173,7 @@ export function GlobeJourney() {
 
     // ── Graticule ──
     const graticule = d3Geo.geoGraticule10();
-    const graticulePath = createSVGEl('path', {
+    const graticulePath = createEl('path', {
       d: pathGen(graticule) || '',
       fill: 'none',
       stroke: COLORS.graticule,
@@ -179,29 +181,21 @@ export function GlobeJourney() {
     });
     svg.appendChild(graticulePath);
 
-    // ── Land masses ──
-    const landGroup = createSVGEl('g');
+    // ── Land (create once, update d on scroll) ──
+    const landGroup = createEl('g');
     svg.appendChild(landGroup);
 
-    // Create land paths ONCE, then only update 'd' attribute on scroll
     const landPathEls: SVGElement[] = [];
-    if ('features' in countriesGeo) {
-      for (const feature of (countriesGeo as GeoJSON.FeatureCollection).features) {
-        const p = createSVGEl('path', {
-          d: pathGen(feature) || '',
-          fill: COLORS.land,
-          stroke: COLORS.landStroke,
-          'stroke-width': '0.5',
-        });
-        landGroup.appendChild(p);
-        landPathEls.push(p);
-      }
+    for (const feature of landFeatures) {
+      const p = createEl('path', {
+        d: pathGen(feature) || '',
+        fill: COLORS.land,
+        stroke: COLORS.landStroke,
+        'stroke-width': '0.5',
+      });
+      landGroup.appendChild(p);
+      landPathEls.push(p);
     }
-
-    // Store features array for reuse in updates
-    const landFeatures = 'features' in countriesGeo
-      ? (countriesGeo as GeoJSON.FeatureCollection).features
-      : [];
 
     function updateLandPaths() {
       for (let i = 0; i < landPathEls.length; i++) {
@@ -209,8 +203,8 @@ export function GlobeJourney() {
       }
     }
 
-    // ── Route line (progressive draw via partial coordinates) ──
-    const routePath = createSVGEl('path', {
+    // ── Route line ──
+    const routePath = createEl('path', {
       fill: 'none',
       stroke: COLORS.route,
       'stroke-width': '2.5',
@@ -219,109 +213,115 @@ export function GlobeJourney() {
     });
     svg.appendChild(routePath);
 
-    function updateRoute(progress: number) {
-      const partialCoords = getPartialRouteCoords(progress);
+    function updateRoute(routeProgress: number) {
+      const partialCoords = getPartialRouteCoords(routeProgress);
       if (partialCoords.length >= 2) {
-        const partialRoute: GeoJSON.Feature<GeoJSON.LineString> = {
+        const geo: GeoJSON.Feature<GeoJSON.LineString> = {
           type: 'Feature',
           properties: {},
           geometry: { type: 'LineString', coordinates: partialCoords },
         };
-        routePath.setAttribute('d', pathGen(partialRoute) || '');
+        routePath.setAttribute('d', pathGen(geo) || '');
       } else {
         routePath.setAttribute('d', '');
       }
     }
-
-    // Initialize: route hidden (progress = 0)
     updateRoute(0);
 
     // ── Stop markers ──
-    const markersGroup = createSVGEl('g');
+    const markersGroup = createEl('g');
     svg.appendChild(markersGroup);
 
     interface MarkerEls {
       group: SVGElement;
-      circle: SVGElement;
+      dot: SVGElement;
+      emoji: SVGElement;
       label: SVGElement;
+      bgRect: SVGElement;
     }
 
     const markerEls: Record<string, MarkerEls> = {};
 
     events.forEach((ev) => {
-      const g = createSVGEl('g', {
+      const g = createEl('g', {
         'data-marker': ev.id,
         cursor: 'pointer',
         'pointer-events': 'all',
       });
 
-      const circle = createSVGEl('circle', {
+      // Outer ring (v1-style double-ring)
+      const dot = createEl('circle', {
         r: '8',
         fill: COLORS.markerFill,
         stroke: COLORS.markerStroke,
-        'stroke-width': '2',
+        'stroke-width': '2.5',
       });
 
-      const label = createSVGEl('text', {
+      // Label background (semi-transparent cream, like v1)
+      const bgRect = createEl('rect', {
+        rx: '4',
+        ry: '4',
+        fill: COLORS.labelBg,
+        height: '22',
+        y: '-11',
+      });
+
+      // Emoji
+      const emoji = createEl('text', {
+        dy: '5',
+        'font-size': '16',
+        'text-anchor': 'middle',
+        'pointer-events': 'none',
+      });
+      emoji.textContent = ev.emoji;
+
+      // Text label
+      const label = createEl('text', {
         'data-marker-label': ev.id,
-        dx: '14',
-        dy: '4',
-        fill: COLORS.route,
-        'font-size': '14',
-        'font-family': "'DM Sans', system-ui, sans-serif",
-        'font-weight': '500',
+        dy: '5',
+        fill: '#3D2314',
+        'font-size': '13',
+        'font-family': "'Playfair Display', Georgia, serif",
+        'font-weight': '600',
         direction: 'ltr',
         'text-anchor': 'start',
         'pointer-events': 'none',
       });
-      label.textContent = `${ev.emoji} ${getEventName(ev.id, langRef.current)}`;
+      label.textContent = getEventName(ev.id, langRef.current);
 
-      g.appendChild(circle);
+      g.appendChild(dot);
+      g.appendChild(bgRect);
+      g.appendChild(emoji);
       g.appendChild(label);
       markersGroup.appendChild(g);
 
-      markerEls[ev.id] = { group: g, circle, label };
+      markerEls[ev.id] = { group: g, dot, emoji, label, bgRect };
 
-      // D3-style click handler (not React synthetic)
-      g.addEventListener('click', () => {
-        $activeEvent.set(ev.id);
-      });
+      g.addEventListener('click', () => $activeEvent.set(ev.id));
 
-      // Hover effect (scale-aware)
       g.addEventListener('mouseenter', () => {
-        const s = projection.scale();
-        const hoverR = Math.max(4, Math.min(8, s / 150)) * 1.4;
-        circle.setAttribute('r', String(hoverR));
-        circle.setAttribute('fill', COLORS.markerActiveFill);
-        circle.setAttribute('stroke', COLORS.markerActiveStroke);
+        dot.setAttribute('stroke-width', '3.5');
+        const r = parseFloat(dot.getAttribute('r') || '8');
+        dot.setAttribute('r', String(r * 1.3));
       });
       g.addEventListener('mouseleave', () => {
-        const isActive = globeKeyframes.some(
-          (kf) => kf.markerHighlight === ev.id,
-        );
-        if (!isActive) {
-          const s = projection.scale();
-          const baseR = Math.max(4, Math.min(8, s / 150));
-          circle.setAttribute('r', String(baseR));
-          circle.setAttribute('fill', COLORS.markerFill);
-          circle.setAttribute('stroke', COLORS.markerStroke);
-        }
+        dot.setAttribute('stroke-width', '2.5');
+        // Restore appropriate radius — will be set by next updateMarkers call
       });
     });
 
     function updateMarkers(highlightId: EventId | null, currentScale: number) {
-      // Scale marker radius and font size proportionally to zoom level
-      const baseRadius = Math.max(5, Math.min(10, currentScale / 200));
-      const highlightRadius = baseRadius * 1.5;
-      const baseFontSize = Math.max(11, Math.min(16, currentScale / 150));
-      const highlightFontSize = baseFontSize * 1.15;
+      // Marker sizing: at scale 4000 we want r≈10, at scale 300 we want r≈5
+      const baseR = Math.max(5, Math.min(12, currentScale / 350));
+      const highlightR = baseR * 1.4;
+      const baseFontSize = Math.max(11, Math.min(15, currentScale / 300));
+      const emojiFontSize = Math.max(14, Math.min(22, currentScale / 200));
 
       events.forEach((ev) => {
         const els = markerEls[ev.id];
         if (!els) return;
 
         const pos = projection(ev.coordinates);
-        // Check if point is on the visible hemisphere
         const dist = d3Geo.geoDistance(
           ev.coordinates,
           [-(projection.rotate()[0]), -(projection.rotate()[1])],
@@ -329,23 +329,34 @@ export function GlobeJourney() {
         const visible = dist < Math.PI / 2;
 
         if (pos && visible) {
+          const isHl = ev.id === highlightId;
+          const r = isHl ? highlightR : baseR;
+          const fs = isHl ? baseFontSize * 1.15 : baseFontSize;
+          const efs = isHl ? emojiFontSize * 1.2 : emojiFontSize;
+
           els.group.setAttribute('transform', `translate(${pos[0]}, ${pos[1]})`);
           els.group.setAttribute('display', 'block');
 
-          const isHighlighted = ev.id === highlightId;
-          els.circle.setAttribute('r', String(isHighlighted ? highlightRadius : baseRadius));
-          els.circle.setAttribute(
-            'fill',
-            isHighlighted ? COLORS.markerActiveFill : COLORS.markerFill,
-          );
-          els.circle.setAttribute(
-            'stroke',
-            isHighlighted ? COLORS.markerActiveStroke : COLORS.markerStroke,
-          );
-          els.circle.setAttribute('stroke-width', isHighlighted ? '3' : '2');
-          els.label.setAttribute('font-size', String(isHighlighted ? highlightFontSize : baseFontSize));
-          els.label.setAttribute('font-weight', isHighlighted ? '600' : '500');
-          els.label.setAttribute('dx', String(isHighlighted ? highlightRadius + 6 : baseRadius + 6));
+          els.dot.setAttribute('r', String(r));
+          els.dot.setAttribute('fill', isHl ? COLORS.markerActiveFill : COLORS.markerFill);
+          els.dot.setAttribute('stroke', isHl ? COLORS.markerActiveStroke : COLORS.markerStroke);
+          els.dot.setAttribute('stroke-width', isHl ? '3' : '2.5');
+
+          // Position emoji above, label to the right
+          const emojiOffset = -(r + efs * 0.6);
+          els.emoji.setAttribute('y', String(emojiOffset));
+          els.emoji.setAttribute('font-size', String(efs));
+
+          const labelX = r + 8;
+          els.label.setAttribute('x', String(labelX));
+          els.label.setAttribute('font-size', String(fs));
+
+          // Background rect behind label
+          const textLen = (els.label.textContent || '').length * fs * 0.55;
+          els.bgRect.setAttribute('x', String(labelX - 4));
+          els.bgRect.setAttribute('width', String(textLen + 8));
+          els.bgRect.setAttribute('height', String(fs + 8));
+          els.bgRect.setAttribute('y', String(-(fs / 2 + 4)));
         } else {
           els.group.setAttribute('display', 'none');
         }
@@ -354,7 +365,7 @@ export function GlobeJourney() {
 
     updateMarkers(globeKeyframes[0].markerHighlight, globeKeyframes[0].scale);
 
-    // ── Update globe function (called by ScrollTrigger) ──
+    // ── Update globe (called by ScrollTrigger) ──
     function updateGlobe(progress: number) {
       const totalBeats = globeKeyframes.length - 1;
       const rawIndex = progress * totalBeats;
@@ -364,30 +375,25 @@ export function GlobeJourney() {
       const kfA = globeKeyframes[beatIndex];
       const kfB = globeKeyframes[Math.min(beatIndex + 1, totalBeats)];
 
-      // Interpolate center
+      // Interpolate camera
       const lon = kfA.center[0] + (kfB.center[0] - kfA.center[0]) * beatProgress;
       const lat = kfA.center[1] + (kfB.center[1] - kfA.center[1]) * beatProgress;
-
-      // Interpolate scale
       const scale = kfA.scale + (kfB.scale - kfA.scale) * beatProgress;
 
-      // Update projection
+      // Interpolate route progress (decoupled from camera)
+      const routeProgress = kfA.routeProgress + (kfB.routeProgress - kfA.routeProgress) * beatProgress;
+
       projection.rotate([-lon, -lat]).scale(scale);
 
-      // Update ocean circle radius (clamped to avoid SVG overflow at high scale)
+      // Ocean: clamp radius
       oceanCircle.setAttribute('r', String(Math.min(scale, GLOBE_SIZE)));
 
-      // Update graticule path
+      // Redraw paths
       graticulePath.setAttribute('d', pathGen(graticule) || '');
-
-      // Update land paths (reuse existing DOM elements)
       updateLandPaths();
+      updateRoute(routeProgress);
 
-      // Update route with progressive draw based on progress
-      updateRoute(progress);
-
-      // Determine which marker to highlight
-      // Use the closer keyframe's highlight
+      // Marker highlight: snap to closer keyframe
       const currentHighlight = beatProgress < 0.5
         ? kfA.markerHighlight
         : kfB.markerHighlight;
@@ -395,15 +401,14 @@ export function GlobeJourney() {
     }
 
     // ── ScrollTrigger ──
+    // More scroll distance (600%) because we have 14 beats now
     const trigger = ScrollTrigger.create({
       trigger: container,
       start: 'top top',
-      end: '+=400%',
+      end: '+=600%',
       pin: true,
       scrub: true,
-      onUpdate: (self) => {
-        updateGlobe(self.progress);
-      },
+      onUpdate: (self) => updateGlobe(self.progress),
     });
     triggerRef.current = trigger;
 
@@ -411,9 +416,7 @@ export function GlobeJourney() {
     return () => {
       trigger.kill();
       triggerRef.current = null;
-      if (svg.parentNode) {
-        svg.parentNode.removeChild(svg);
-      }
+      if (svg.parentNode) svg.parentNode.removeChild(svg);
       svgRef.current = null;
       projectionRef.current = null;
     };
@@ -429,7 +432,8 @@ export function GlobeJourney() {
       className="w-full h-screen flex items-center justify-center"
       style={{
         direction: 'ltr',
-        background: 'radial-gradient(ellipse at 50% 30%, rgba(232, 184, 75, 0.06) 0%, transparent 60%)',
+        background:
+          'radial-gradient(ellipse at 50% 30%, rgba(232, 184, 75, 0.06) 0%, transparent 60%)',
       }}
     />
   );

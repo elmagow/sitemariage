@@ -25,11 +25,11 @@ export const he: Translations = {
   'event.mairie.name': 'טקס אזרחי',
   'event.mairie.date': '18 באוקטובר 2026',
   'event.mairie.time': 'השעה תעודכן בהמשך',
-  'event.mairie.location': 'בית העירייה, רובע 4',
-  'event.mairie.address': '2 place Baudoyer, 75004 פריז',
-  'event.mairie.transport': 'מטרו Hôtel de Ville (קווים 1, 11)',
+  'event.mairie.location': 'עיריית קורבווא',
+  'event.mairie.address': '2 פלאס אנרי ברביס, קורבווא',
+  'event.mairie.transport': 'תחנת קורבווא (Transilien L) / לה דפאנס (RER A, מטרו 1)',
   'event.mairie.dress_code': 'לבוש עירוני',
-  'event.mairie.description': 'טקס אזרחי בעיריית פריז, ולאחריו כיבוד קל במעגל משפחתי.',
+  'event.mairie.description': 'טקס אזרחי בעיריית קורבווא, ולאחריו כיבוד קל במעגל משפחתי.',
 
   // Event: Welcome Dinner
   'event.welcome_dinner.name': 'ארוחת ערב חגיגית',

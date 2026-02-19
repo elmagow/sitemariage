@@ -20,8 +20,8 @@ export const events: WeddingEvent[] = [
     emoji: '🏛️',
     date: '2026-10-18',
     time: null,
-    location: { name: 'Mairie du 4e', address: '2 place Baudoyer', city: 'Paris' },
-    coordinates: [2.3522, 48.8566],
+    location: { name: 'Mairie de Courbevoie', address: '2 place Henri Barbusse', city: 'Courbevoie' },
+    coordinates: [2.2567, 48.8966],
     translationKey: 'event.mairie',
   },
   {
