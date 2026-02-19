@@ -16,7 +16,20 @@ dist/
 .env.local
 .env.*.local
 
-# Editor
+# Editor / IDE
 .vscode/
 .idea/
 .astro/
+
+# BMAD framework (dev tooling — not part of website)
+_bmad/
+_bmad-output/
+.opencode/
+.agents/
+skills/
+AGENTS.md
+
+# Raw source images (not used by site build)
+*.JPG
+*.PNG
+Adobe Express*
