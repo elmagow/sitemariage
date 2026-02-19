@@ -7,7 +7,7 @@ Wedding website for Anaël & Eric (October 18–20, 2026, Tel Aviv, Israel).
 Single-page, trilingual (French default, Hebrew RTL, English), hosted on GitHub Pages.
 
 **Live URL:** `https://elmagow.github.io/sitemariage/`
-**GitHub repo:** `https://github.com/elmagow/sitemariage` (private)
+**GitHub repo:** `https://github.com/elmagow/sitemariage` (public)
 
 ## Tech Stack
 - **Bundler:** Vite 5
@@ -47,10 +47,12 @@ Single-page, trilingual (French default, Hebrew RTL, English), hosted on GitHub 
 - `--color-light` is the warm cream background tone
 
 ### Git / Deploy
-- **Always commit and push after completing any task**
+- **Always commit after completing each individual task** — never batch multiple tasks into one commit. Commit early and often so work can be reverted cleanly if needed.
+- **Always push after committing** — every push to `main` triggers auto-deploy
 - Remote: `https://github.com/elmagow/sitemariage` (HTTPS, authenticated via `gh` CLI as `elmagow`)
 - Every push to `main` triggers auto-deploy via `.github/workflows/deploy.yml`
 - Run `npm run build` and confirm zero errors before committing
+- Git author: `elmagow <elmagow@users.noreply.github.com>` (set in local config)
 
 ## Project Structure
 ```
