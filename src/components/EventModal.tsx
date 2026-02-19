@@ -20,11 +20,11 @@ interface DetailRowProps {
 
 function DetailRow({ label, value }: DetailRowProps) {
   return (
-    <div className="flex flex-col gap-0.5">
-      <dt className="text-xs font-medium font-body text-muted-foreground uppercase tracking-wide">
+    <div className="flex flex-col gap-0.5 border-s-2 border-accent/30 ps-3">
+      <dt className="text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground font-body font-medium">
         {label}
       </dt>
-      <dd className="text-sm font-body text-foreground">{value}</dd>
+      <dd className="text-sm sm:text-base font-body text-foreground">{value}</dd>
     </div>
   );
 }
@@ -53,31 +53,34 @@ export function EventModal() {
       <DialogContent
         showCloseButton
         aria-describedby={undefined}
-        className="bg-card border-t-4 border-accent rounded-2xl shadow-xl max-w-md"
+        className="bg-card/95 backdrop-blur-sm border border-border/50 rounded-2xl shadow-2xl max-w-md"
       >
+        {/* Decorative gold line */}
+        <div className="h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mb-4" />
+
         {event && (
           <>
             {/* Emoji */}
             <div className="flex justify-center pt-2">
-              <span className="text-5xl" role="img" aria-hidden="true">
+              <span className="text-6xl" role="img" aria-hidden="true">
                 {event.emoji}
               </span>
             </div>
 
             {/* Event name */}
             <DialogHeader className="text-center">
-              <DialogTitle className="font-heading text-2xl text-foreground">
+              <DialogTitle className="font-heading text-2xl sm:text-3xl text-foreground">
                 {t(eventKey('name'), lang)}
               </DialogTitle>
             </DialogHeader>
 
             {/* Description */}
-            <p className="text-sm text-muted-foreground font-body text-center px-2">
+            <p className="text-sm sm:text-base text-muted-foreground/80 font-body text-center px-2">
               {t(eventKey('description'), lang)}
             </p>
 
             {/* Details list */}
-            <dl className="grid gap-4 mt-2 px-2">
+            <dl className="grid gap-5 mt-2 px-2">
               <DetailRow
                 label={t('event.label_date', lang)}
                 value={t(eventKey('date'), lang)}

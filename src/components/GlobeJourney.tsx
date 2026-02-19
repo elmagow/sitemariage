@@ -25,16 +25,16 @@ const LERP_FACTOR = 0.12; // RAF smoothing (0 = frozen, 1 = instant)
 
 // Hex values mirror CSS design tokens (--color-wedding-*) for imperative D3/SVG rendering
 const COLORS = {
-  ocean: '#EDE5D4',
-  land: '#F5ECD7',
-  landStroke: 'rgba(107, 124, 69, 0.3)',
+  ocean: '#E8DFD0',
+  land: '#F0E6D3',
+  landStroke: 'rgba(122, 139, 82, 0.3)',
   route: '#C1513A',
-  markerFill: '#E8B84B',
+  markerFill: '#D4A853',
   markerStroke: '#C1513A',
   markerActiveFill: '#C1513A',
-  markerActiveStroke: '#E8B84B',
-  graticule: 'rgba(107, 124, 69, 0.08)',
-  labelBg: 'rgba(250, 243, 232, 0.92)',
+  markerActiveStroke: '#D4A853',
+  graticule: 'rgba(122, 139, 82, 0.08)',
+  labelBg: 'rgba(247, 240, 228, 0.92)',
 } as const;
 
 function getEventName(eventId: EventId, lang: 'fr' | 'he'): string {
@@ -141,6 +141,10 @@ export function GlobeJourney() {
         const label = svg.querySelector(`[data-marker-label="${ev.id}"]`);
         if (label) {
           label.textContent = getEventName(ev.id, lang);
+        }
+        const marker = svg.querySelector(`[data-marker="${ev.id}"]`);
+        if (marker) {
+          marker.setAttribute('aria-label', getEventName(ev.id, lang));
         }
       });
     }
@@ -297,6 +301,9 @@ export function GlobeJourney() {
         'data-marker': ev.id,
         cursor: 'pointer',
         'pointer-events': 'all',
+        tabindex: '0',
+        role: 'button',
+        'aria-label': getEventName(ev.id, langRef.current),
       });
 
       // Outer ring (v1-style double-ring)
@@ -348,16 +355,28 @@ export function GlobeJourney() {
       markerEls[ev.id] = { group: g, dot, emoji, label, bgRect };
 
       g.addEventListener('click', () => $activeEvent.set(ev.id));
+      g.addEventListener('keydown', (e: Event) => {
+        const ke = e as KeyboardEvent;
+        if (ke.key === 'Enter' || ke.key === ' ') {
+          ke.preventDefault();
+          $activeEvent.set(ev.id);
+        }
+      });
 
-      g.addEventListener('mouseenter', () => {
+      const enlargeMarker = () => {
         dot.setAttribute('stroke-width', '3.5');
         const r = parseFloat(dot.getAttribute('r') || '8');
         dot.setAttribute('r', String(r * 1.3));
-      });
-      g.addEventListener('mouseleave', () => {
+      };
+      const resetMarker = () => {
         dot.setAttribute('stroke-width', '2.5');
         // Restore appropriate radius — will be set by next updateMarkers call
-      });
+      };
+
+      g.addEventListener('mouseenter', enlargeMarker);
+      g.addEventListener('focusin', enlargeMarker);
+      g.addEventListener('mouseleave', resetMarker);
+      g.addEventListener('focusout', resetMarker);
     });
 
     // ── Emoji traveler (follows route tip, v1-style) ──

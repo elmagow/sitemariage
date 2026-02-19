@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import { $language } from '@/stores/language';
 import { t } from '@/i18n/translations';
+import { cn } from '@/lib/utils';
 
 const WEDDING_DATE = new Date('2026-10-18T00:00:00');
 
@@ -31,10 +32,12 @@ function getCountdown() {
 
 export function Countdown() {
   const lang = useStore($language);
+  const [mounted, setMounted] = useState(false);
   const [countdown, setCountdown] = useState(getCountdown);
 
   useEffect(() => {
-    // Update once on mount and then daily
+    // Hydration-safe: update on mount to sync server/client date
+    setMounted(true);
     setCountdown(getCountdown());
     const interval = setInterval(() => {
       setCountdown(getCountdown());
@@ -60,26 +63,44 @@ export function Countdown() {
     : t('countdown.days', lang);
 
   return (
-    <div aria-live="polite" className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+    <div aria-live="polite" className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap">
       {/* Months tile */}
-      <div className="inline-flex flex-col items-center px-5 py-3 sm:px-6 sm:py-4 border border-accent/30 rounded-lg bg-card/50">
-        <span className="text-accent font-heading text-3xl sm:text-4xl md:text-5xl">
+      <div
+        className={cn(
+          'inline-flex flex-col items-center px-7 py-4 sm:px-8 sm:py-5',
+          'bg-gradient-to-b from-card/80 to-card/40',
+          'border border-accent/20 rounded-xl shadow-sm',
+        )}
+      >
+        <span
+          className="text-accent font-heading text-4xl sm:text-5xl md:text-6xl tabular-nums"
+          suppressHydrationWarning
+        >
           {countdown.months}
         </span>
-        <span className="text-foreground/60 font-body text-xs sm:text-sm uppercase tracking-wider mt-1">
+        <span className="text-foreground/50 font-body text-xs uppercase tracking-[0.15em] mt-1.5">
           {monthLabel}
         </span>
       </div>
 
       {/* Decorative separator */}
-      <span className="text-accent/50 text-sm" aria-hidden="true">◆</span>
+      <span className="text-accent/60 text-base select-none" aria-hidden="true">✧</span>
 
       {/* Days tile */}
-      <div className="inline-flex flex-col items-center px-5 py-3 sm:px-6 sm:py-4 border border-accent/30 rounded-lg bg-card/50">
-        <span className="text-accent font-heading text-3xl sm:text-4xl md:text-5xl">
+      <div
+        className={cn(
+          'inline-flex flex-col items-center px-7 py-4 sm:px-8 sm:py-5',
+          'bg-gradient-to-b from-card/80 to-card/40',
+          'border border-accent/20 rounded-xl shadow-sm',
+        )}
+      >
+        <span
+          className="text-accent font-heading text-4xl sm:text-5xl md:text-6xl tabular-nums"
+          suppressHydrationWarning
+        >
           {countdown.days}
         </span>
-        <span className="text-foreground/60 font-body text-xs sm:text-sm uppercase tracking-wider mt-1">
+        <span className="text-foreground/50 font-body text-xs uppercase tracking-[0.15em] mt-1.5">
           {dayLabel}
         </span>
       </div>

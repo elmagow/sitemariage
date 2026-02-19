@@ -74,9 +74,9 @@ export const fr: Translations = {
   'rsvp.title': 'Confirmez votre présence',
   'rsvp.subtitle': 'Merci de nous faire savoir si vous serez des nôtres.',
   'rsvp.name_label': 'Nom complet',
-  'rsvp.name_placeholder': 'Prénom et nom',
+  'rsvp.name_placeholder': 'Prénom et nom\u2026',
   'rsvp.email_label': 'E-mail',
-  'rsvp.email_placeholder': 'votre@email.com',
+  'rsvp.email_placeholder': 'votre@email.com\u2026',
   'rsvp.events_label': 'Événements auxquels vous participerez',
   'rsvp.guests_label': 'Accompagnants',
   'rsvp.guests_description': 'Nombre de personnes supplémentaires (hors vous-même)',
@@ -124,4 +124,5 @@ export const fr: Translations = {
   // Accessibility
   'a11y.skip_to_content': 'Aller au contenu',
   'a11y.lang_changed': 'Langue changée en français',
+  'a11y.close': 'Fermer',
 };

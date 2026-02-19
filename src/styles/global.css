@@ -123,85 +123,90 @@
     /* ── Wedding palette color tokens ── */
     --color-wedding-primary: #C1513A;
     --color-wedding-accent1: #E07B39;
-    --color-wedding-accent2: #E8B84B;
-    --color-wedding-dark: #3D2314;
-    --color-wedding-light: #F5ECD7;
-    --color-wedding-olive: #6B7C45;
-    --color-wedding-surface: #FAF3E8;
+    --color-wedding-accent2: #D4A853;
+    --color-wedding-dark: #2C1810;
+    --color-wedding-light: #F0E6D3;
+    --color-wedding-olive: #7A8B52;
+    --color-wedding-surface: #F7F0E4;
 
     /* ── Font family tokens ── */
     --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
     --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
     --font-hebrew: 'Frank Ruhl Libre', 'Times New Roman', serif;
+
+    /* ── Animation tokens ── */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ── Light theme (wedding palette mapped to shadcn tokens) ── */
 :root {
     --radius: 0.625rem;
-    --background: #FAF3E8;
-    --foreground: #3D2314;
-    --card: #F5ECD7;
-    --card-foreground: #3D2314;
-    --popover: #FAF3E8;
-    --popover-foreground: #3D2314;
+    --background: #F7F0E4;
+    --foreground: #2C1810;
+    --card: #F0E6D3;
+    --card-foreground: #2C1810;
+    --popover: #F7F0E4;
+    --popover-foreground: #2C1810;
     --primary: #C1513A;
-    --primary-foreground: #FAF3E8;
-    --secondary: #F5ECD7;
-    --secondary-foreground: #3D2314;
-    --muted: #F5ECD7;
-    --muted-foreground: #6B7C45;
-    --accent: #E8B84B;
-    --accent-foreground: #3D2314;
+    --primary-foreground: #F7F0E4;
+    --secondary: #F0E6D3;
+    --secondary-foreground: #2C1810;
+    --muted: #EDE3D0;
+    --muted-foreground: #7A8B52;
+    --accent: #D4A853;
+    --accent-foreground: #2C1810;
     --destructive: oklch(0.577 0.245 27.325);
-    --border: #E8DCC6;
-    --input: #E8DCC6;
+    --border: #DDD2BF;
+    --input: #DDD2BF;
     --ring: #C1513A;
     --chart-1: #C1513A;
     --chart-2: #E07B39;
-    --chart-3: #E8B84B;
-    --chart-4: #6B7C45;
-    --chart-5: #3D2314;
-    --sidebar: #F5ECD7;
-    --sidebar-foreground: #3D2314;
+    --chart-3: #D4A853;
+    --chart-4: #7A8B52;
+    --chart-5: #2C1810;
+    --sidebar: #F0E6D3;
+    --sidebar-foreground: #2C1810;
     --sidebar-primary: #C1513A;
-    --sidebar-primary-foreground: #FAF3E8;
-    --sidebar-accent: #E8B84B;
-    --sidebar-accent-foreground: #3D2314;
-    --sidebar-border: #E8DCC6;
+    --sidebar-primary-foreground: #F7F0E4;
+    --sidebar-accent: #D4A853;
+    --sidebar-accent-foreground: #2C1810;
+    --sidebar-border: #DDD2BF;
     --sidebar-ring: #C1513A;
 }
 
 /* ── Dark theme (not primary for wedding, but kept for shadcn compat) ── */
 .dark {
-    --background: #3D2314;
-    --foreground: #FAF3E8;
-    --card: #4D2E1A;
-    --card-foreground: #FAF3E8;
-    --popover: #4D2E1A;
-    --popover-foreground: #FAF3E8;
+    --background: #2C1810;
+    --foreground: #F7F0E4;
+    --card: #3A2218;
+    --card-foreground: #F7F0E4;
+    --popover: #3A2218;
+    --popover-foreground: #F7F0E4;
     --primary: #E07B39;
-    --primary-foreground: #3D2314;
-    --secondary: #4D2E1A;
-    --secondary-foreground: #FAF3E8;
-    --muted: #4D2E1A;
+    --primary-foreground: #2C1810;
+    --secondary: #3A2218;
+    --secondary-foreground: #F7F0E4;
+    --muted: #3A2218;
     --muted-foreground: #C1A87C;
-    --accent: #E8B84B;
-    --accent-foreground: #3D2314;
+    --accent: #D4A853;
+    --accent-foreground: #2C1810;
     --destructive: oklch(0.704 0.191 22.216);
     --border: rgba(255, 255, 255, 0.1);
     --input: rgba(255, 255, 255, 0.15);
     --ring: #E07B39;
     --chart-1: #C1513A;
     --chart-2: #E07B39;
-    --chart-3: #E8B84B;
-    --chart-4: #6B7C45;
-    --chart-5: #F5ECD7;
-    --sidebar: #4D2E1A;
-    --sidebar-foreground: #FAF3E8;
+    --chart-3: #D4A853;
+    --chart-4: #7A8B52;
+    --chart-5: #F0E6D3;
+    --sidebar: #3A2218;
+    --sidebar-foreground: #F7F0E4;
     --sidebar-primary: #E07B39;
-    --sidebar-primary-foreground: #FAF3E8;
-    --sidebar-accent: #4D2E1A;
-    --sidebar-accent-foreground: #FAF3E8;
+    --sidebar-primary-foreground: #F7F0E4;
+    --sidebar-accent: #3A2218;
+    --sidebar-accent-foreground: #F7F0E4;
     --sidebar-border: rgba(255, 255, 255, 0.1);
     --sidebar-ring: #E07B39;
 }
@@ -215,6 +220,7 @@
     }
     h1, h2, h3, h4, h5, h6 {
         @apply font-heading;
+        text-wrap: balance;
     }
 }
 
@@ -227,64 +233,319 @@ html.hebrew .font-heading {
     font-family: var(--font-hebrew) !important;
 }
 
-/* ── Warm Invitation visual design utilities ── */
+/* ═══════════════════════════════════════════════════
+   ATMOSPHERIC BACKGROUNDS & TEXTURES
+   ═══════════════════════════════════════════════════ */
 
-/* Invitation border frame utility */
+/* Noise grain overlay — applied to body for subtle texture */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+}
+
+/* ═══════════════════════════════════════════════════
+   INVITATION BORDER — Refined double-frame with corners
+   ═══════════════════════════════════════════════════ */
+
 .invitation-border {
-  position: relative;
-}
-.invitation-border::before {
-  content: '';
-  position: absolute;
-  inset: 1rem;
-  border: 1px solid var(--accent);
-  border-radius: 0.5rem;
-  pointer-events: none;
-  opacity: 0.7;
-}
-.invitation-border::after {
-  content: '';
-  position: absolute;
-  inset: calc(1rem + 6px);
-  border: 1px solid var(--accent);
-  border-radius: 0.375rem;
-  pointer-events: none;
-  opacity: 0.4;
+    position: relative;
 }
 
-/* Gold ornamental divider */
+/* Outer frame */
+.invitation-border::before {
+    content: '';
+    position: absolute;
+    inset: 0.75rem;
+    border: 1px solid var(--accent);
+    border-radius: 0.25rem;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Inner frame with slight offset */
+.invitation-border::after {
+    content: '';
+    position: absolute;
+    inset: calc(0.75rem + 5px);
+    border: 1px solid var(--accent);
+    border-radius: 0.125rem;
+    pointer-events: none;
+    opacity: 0.25;
+}
+
+/* Decorative corner flourishes via positioned pseudo on child */
+.invitation-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: var(--accent);
+    opacity: 0.6;
+}
+.invitation-corner--tl { top: 0.75rem; left: 0.75rem; inset-inline-start: 0.75rem; border-inline-start: 2px solid; border-top: 2px solid; }
+.invitation-corner--tr { top: 0.75rem; right: 0.75rem; inset-inline-end: 0.75rem; border-inline-end: 2px solid; border-top: 2px solid; }
+.invitation-corner--bl { bottom: 0.75rem; left: 0.75rem; inset-inline-start: 0.75rem; border-inline-start: 2px solid; border-bottom: 2px solid; }
+.invitation-corner--br { bottom: 0.75rem; right: 0.75rem; inset-inline-end: 0.75rem; border-inline-end: 2px solid; border-bottom: 2px solid; }
+
+/* ═══════════════════════════════════════════════════
+   ORNAMENTAL DIVIDERS
+   ═══════════════════════════════════════════════════ */
+
 .ornament-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--accent);
 }
 .ornament-divider::before,
 .ornament-divider::after {
-  content: '';
-  width: 3rem;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.5;
+    content: '';
+    flex: 0 0 3rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.4;
 }
 
-/* Smooth section transitions */
+/* Section ornament — the elegant leaf/scroll SVG motif */
+.section-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem 0;
+}
+.section-ornament::before,
+.section-ornament::after {
+    content: '';
+    width: 4rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.3;
+}
+
+/* ═══════════════════════════════════════════════════
+   CARD SYSTEM — Refined elevation & interaction
+   ═══════════════════════════════════════════════════ */
+
+.card-elevated {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow:
+        0 1px 3px rgba(44, 24, 16, 0.04),
+        0 4px 12px rgba(44, 24, 16, 0.03);
+    transition: transform 500ms var(--ease-out-expo), box-shadow 500ms var(--ease-out-expo);
+}
+.card-elevated:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 4px 8px rgba(44, 24, 16, 0.06),
+        0 12px 32px rgba(44, 24, 16, 0.08);
+}
+
+/* Card with gold top accent */
+.card-accent-top {
+    border-top: 3px solid var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════
+   BUTTON REFINEMENTS
+   ═══════════════════════════════════════════════════ */
+
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+    transition: all 300ms var(--ease-out-quart);
+}
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+.btn-primary:hover {
+    box-shadow: 0 4px 16px rgba(193, 81, 58, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════
+   ENTRANCE ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes draw-line {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes gentle-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+/* Utility classes for entrance animations */
+.animate-fade-up {
+    animation: fade-up 800ms var(--ease-out-expo) both;
+}
+.animate-fade-in {
+    animation: fade-in 600ms var(--ease-out-quart) both;
+}
+.animate-scale-in {
+    animation: scale-in 700ms var(--ease-out-expo) both;
+}
+
+/* Stagger delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+.delay-900 { animation-delay: 900ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* Reduced motion: disable all custom animations */
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-up,
+    .animate-fade-in,
+    .animate-scale-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   GOLD SHIMMER TEXT EFFECT
+   ═══════════════════════════════════════════════════ */
+
+.text-gold-shimmer {
+    background: linear-gradient(
+        110deg,
+        var(--accent) 20%,
+        #F0D078 40%,
+        #F0D078 45%,
+        var(--accent) 65%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION TRANSITIONS
+   ═══════════════════════════════════════════════════ */
+
 section {
-  position: relative;
-}
-
-/* Card hover lift */
-.card-hover {
-  transition: transform 300ms ease, box-shadow 300ms ease;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+    position: relative;
 }
 
 /* Smooth scroll-driven globe animation */
 #journey svg path,
 #journey svg circle {
-  will-change: d, r, transform;
+    will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════
+   FORM REFINEMENTS
+   ═══════════════════════════════════════════════════ */
+
+/* Custom focus ring for form elements */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--accent);
+}
+
+/* Custom checkbox styling enhancement */
+[data-state="checked"] {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL HINT ANIMATION
+   ═══════════════════════════════════════════════════ */
+
+@keyframes scroll-hint {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
+}
+
+.animate-scroll-hint {
+    animation: scroll-hint 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRACTICAL INFO CARD SPECIAL TREATMENTS
+   ═══════════════════════════════════════════════════ */
+
+.info-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #E8C86A);
+    box-shadow: 0 2px 8px rgba(212, 168, 83, 0.2);
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   DIALOG / MODAL REFINEMENTS
+   ═══════════════════════════════════════════════════ */
+
+/* Dialog backdrop */
+[data-state="open"][role="dialog"] {
+    animation: scale-in 300ms var(--ease-out-expo) both;
 }

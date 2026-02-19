@@ -74,9 +74,9 @@ export const he: Translations = {
   'rsvp.title': 'אישור הגעה',
   'rsvp.subtitle': 'נשמח לדעת אם תוכלו להגיע.',
   'rsvp.name_label': 'שם מלא',
-  'rsvp.name_placeholder': 'שם פרטי ומשפחה',
+  'rsvp.name_placeholder': 'שם פרטי ומשפחה\u2026',
   'rsvp.email_label': 'אימייל',
-  'rsvp.email_placeholder': 'your@email.com',
+  'rsvp.email_placeholder': 'your@email.com\u2026',
   'rsvp.events_label': 'לאילו אירועים תגיעו?',
   'rsvp.guests_label': 'מלווים',
   'rsvp.guests_description': 'מספר אנשים נוספים (מלבדכם)',
@@ -124,4 +124,5 @@ export const he: Translations = {
   // Accessibility
   'a11y.skip_to_content': 'דלג לתוכן',
   'a11y.lang_changed': 'השפה שונתה לעברית',
+  'a11y.close': 'סגור',
 };

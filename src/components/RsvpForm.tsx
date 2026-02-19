@@ -113,24 +113,27 @@ export function RsvpForm() {
       <DialogContent
         showCloseButton
         aria-describedby={undefined}
-        className="bg-card border-t-4 border-accent rounded-2xl shadow-xl max-w-lg max-h-[90vh] overflow-y-auto"
+        className="bg-card/95 backdrop-blur-sm border border-border/50 rounded-2xl shadow-2xl max-w-lg max-h-[90vh] overflow-y-auto overscroll-contain"
       >
+        {/* Decorative gold line */}
+        <div className="h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent mb-4" />
+
         {status === 'success' ? (
           /* ── Success state ── */
           <div className="flex flex-col items-center gap-4 py-8 text-center">
             <span className="text-5xl" role="img" aria-hidden="true">
               🎉
             </span>
-            <h2 className="font-heading text-2xl text-foreground">
+            <h2 className="font-heading text-3xl text-accent">
               {t('rsvp.success_title', lang)}
             </h2>
-            <p className="text-muted-foreground font-body">
+            <p className="text-muted-foreground/80 font-body">
               {t('rsvp.success_message', lang)}
             </p>
             <Button
               type="button"
               onClick={() => handleClose(false)}
-              className="min-h-11 mt-4 bg-primary text-primary-foreground hover:bg-primary/90"
+              className="btn-primary min-h-11 mt-4 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
             >
               ✓
             </Button>
@@ -139,10 +142,10 @@ export function RsvpForm() {
           /* ── Form state (idle / submitting / error) ── */
           <>
             <DialogHeader className="text-center">
-              <DialogTitle className="font-heading text-2xl text-foreground">
+              <DialogTitle className="font-heading text-2xl sm:text-3xl text-foreground">
                 {t('rsvp.title', lang)}
               </DialogTitle>
-              <DialogDescription className="text-muted-foreground font-body">
+              <DialogDescription className="text-muted-foreground/80 font-body">
                 {t('rsvp.subtitle', lang)}
               </DialogDescription>
             </DialogHeader>
@@ -150,7 +153,7 @@ export function RsvpForm() {
             {/* Error banner */}
             {status === 'error' && (
               <div
-                className="rounded-lg bg-destructive/10 border border-destructive/20 p-4 text-center"
+                className="rounded-lg bg-primary/5 border border-primary/20 p-4 text-center"
                 role="alert"
               >
                 <p className="font-heading font-semibold text-primary">
@@ -177,19 +180,20 @@ export function RsvpForm() {
             >
               {/* Full name */}
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="rsvp-name" className="font-body font-medium">
+                <Label htmlFor="rsvp-name" className="font-body font-medium text-foreground/80 text-sm">
                   {t('rsvp.name_label', lang)}
                 </Label>
                 <Input
                   id="rsvp-name"
                   {...register('name')}
+                  autoComplete="name"
                   placeholder={t('rsvp.name_placeholder', lang)}
                   disabled={status === 'submitting'}
                   aria-invalid={!!errors.name}
-                  className="min-h-11"
+                  className="min-h-11 bg-background/60 border-border/60 focus:border-accent"
                 />
                 {errors.name && (
-                  <p className="text-sm text-primary font-body" role="alert">
+                  <p className="text-xs text-primary font-body" role="alert">
                     {t('rsvp.error_name_required', lang)}
                   </p>
                 )}
@@ -197,20 +201,22 @@ export function RsvpForm() {
 
               {/* Email */}
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="rsvp-email" className="font-body font-medium">
+                <Label htmlFor="rsvp-email" className="font-body font-medium text-foreground/80 text-sm">
                   {t('rsvp.email_label', lang)}
                 </Label>
                 <Input
                   id="rsvp-email"
                   type="email"
                   {...register('email')}
+                  autoComplete="email"
+                  spellCheck={false}
                   placeholder={t('rsvp.email_placeholder', lang)}
                   disabled={status === 'submitting'}
                   aria-invalid={!!errors.email}
-                  className="min-h-11"
+                  className="min-h-11 bg-background/60 border-border/60 focus:border-accent"
                 />
                 {errors.email && (
-                  <p className="text-sm text-primary font-body" role="alert">
+                  <p className="text-xs text-primary font-body" role="alert">
                     {t('rsvp.error_email_invalid', lang)}
                   </p>
                 )}
@@ -231,7 +237,7 @@ export function RsvpForm() {
                         return (
                           <label
                             key={event.id}
-                            className="flex items-center gap-3 min-h-11 cursor-pointer"
+                            className="flex items-center gap-3 min-h-11 cursor-pointer hover:bg-background/40 rounded-lg px-2 -mx-2 transition-colors"
                           >
                             <Checkbox
                               checked={isChecked}
@@ -260,7 +266,7 @@ export function RsvpForm() {
                   )}
                 />
                 {errors.events && (
-                  <p className="text-sm text-primary font-body" role="alert">
+                  <p className="text-xs text-primary font-body" role="alert">
                     {t('rsvp.error_events_required', lang)}
                   </p>
                 )}
@@ -268,7 +274,7 @@ export function RsvpForm() {
 
               {/* Additional guests */}
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="rsvp-guests" className="font-body font-medium">
+                <Label htmlFor="rsvp-guests" className="font-body font-medium text-foreground/80 text-sm">
                   {t('rsvp.guests_label', lang)}
                 </Label>
                 <p className="text-xs text-muted-foreground font-body">
@@ -277,11 +283,13 @@ export function RsvpForm() {
                 <Input
                   id="rsvp-guests"
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   max={9}
                   {...register('guestCount', { valueAsNumber: true })}
+                  autoComplete="off"
                   disabled={status === 'submitting'}
-                  className="min-h-11 max-w-24"
+                  className="min-h-11 max-w-24 bg-background/60 border-border/60 focus:border-accent"
                 />
               </div>
 
@@ -289,7 +297,7 @@ export function RsvpForm() {
               <div className="flex flex-col gap-1.5">
                 <Label
                   htmlFor="rsvp-dietary"
-                  className="font-body font-medium"
+                  className="font-body font-medium text-foreground/80 text-sm"
                 >
                   {t('rsvp.dietary_label', lang)}
                 </Label>
@@ -299,7 +307,7 @@ export function RsvpForm() {
                   placeholder={t('rsvp.dietary_placeholder', lang)}
                   disabled={status === 'submitting'}
                   rows={2}
-                  className="min-h-11"
+                  className="min-h-11 bg-background/60 border-border/60 focus:border-accent"
                 />
               </div>
 
@@ -307,7 +315,7 @@ export function RsvpForm() {
               <div className="flex flex-col gap-1.5">
                 <Label
                   htmlFor="rsvp-message"
-                  className="font-body font-medium"
+                  className="font-body font-medium text-foreground/80 text-sm"
                 >
                   {t('rsvp.message_label', lang)}
                 </Label>
@@ -317,7 +325,7 @@ export function RsvpForm() {
                   placeholder={t('rsvp.message_placeholder', lang)}
                   disabled={status === 'submitting'}
                   rows={3}
-                  className="min-h-11"
+                  className="min-h-11 bg-background/60 border-border/60 focus:border-accent"
                 />
               </div>
 
@@ -325,11 +333,19 @@ export function RsvpForm() {
               <Button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="min-h-11 w-full bg-primary text-primary-foreground font-heading uppercase tracking-wider hover:bg-primary/90 transition-colors"
+                className="btn-primary min-h-11 w-full rounded-xl bg-primary text-primary-foreground font-heading uppercase tracking-wider hover:bg-primary/90 transition-colors"
               >
-                {status === 'submitting'
-                  ? t('rsvp.submitting', lang)
-                  : t('rsvp.submit', lang)}
+                {status === 'submitting' ? (
+                  <span className="inline-flex items-center gap-2">
+                    <svg className="size-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    {t('rsvp.submitting', lang)}
+                  </span>
+                ) : (
+                  t('rsvp.submit', lang)
+                )}
               </Button>
             </form>
           </>

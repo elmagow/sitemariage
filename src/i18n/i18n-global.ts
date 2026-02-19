@@ -22,6 +22,14 @@ function updatePage(lang: Language) {
     }
   });
 
+  // Update all data-i18n-aria elements (translatable aria-label)
+  document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-aria') as TranslationKey;
+    if (key) {
+      el.setAttribute('aria-label', t(key, lang));
+    }
+  });
+
   // Announce language change to screen readers
   const liveRegion = document.getElementById('lang-announce');
   if (liveRegion) {

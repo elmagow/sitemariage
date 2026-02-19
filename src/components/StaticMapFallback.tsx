@@ -17,11 +17,11 @@ const MAP_WIDTH = 900;
 const MAP_HEIGHT = 500;
 // Hex values mirror CSS design tokens (--color-wedding-*) for imperative D3/SVG rendering
 const COLORS = {
-  ocean: '#EDE5D4',
-  land: '#F5ECD7',
-  landStroke: 'rgba(107, 124, 69, 0.35)',
+  ocean: '#E8DFD0',
+  land: '#F0E6D3',
+  landStroke: 'rgba(122, 139, 82, 0.35)',
   route: '#C1513A',
-  markerFill: '#E8B84B',
+  markerFill: '#D4A853',
   markerStroke: '#C1513A',
 } as const;
 

@@ -115,7 +115,8 @@ export type TranslationKey =
   | 'footer.from_with_love'
   // Accessibility
   | 'a11y.skip_to_content'
-  | 'a11y.lang_changed';
+  | 'a11y.lang_changed'
+  | 'a11y.close';
 
 export type Translations = Record<TranslationKey, string>;
 
