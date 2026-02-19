@@ -39,6 +39,37 @@ function getEventName(eventId: EventId, lang: 'fr' | 'he'): string {
   return t(`${ev.translationKey}.name` as TranslationKey, lang);
 }
 
+/**
+ * Return partial route coordinates based on scroll progress.
+ * At progress=0, returns no points. At progress=1, returns all event coords.
+ * Intermediate values interpolate between legs of the journey.
+ */
+function getPartialRouteCoords(progress: number): [number, number][] {
+  const coords = events.map((e) => e.coordinates);
+  const totalLegs = coords.length - 1; // 3 legs
+  const currentLeg = progress * totalLegs;
+  const legIndex = Math.min(Math.floor(currentLeg), totalLegs - 1);
+  const legProgress = currentLeg - legIndex;
+
+  // Include all completed legs
+  const result: [number, number][] = [];
+  for (let i = 0; i <= legIndex; i++) {
+    result.push(coords[i]);
+  }
+
+  // Add interpolated point for current leg
+  if (legProgress > 0 && legIndex < totalLegs) {
+    const a = coords[legIndex];
+    const b = coords[legIndex + 1];
+    result.push([
+      a[0] + (b[0] - a[0]) * legProgress,
+      a[1] + (b[1] - a[1]) * legProgress,
+    ]);
+  }
+
+  return result;
+}
+
 export function GlobeJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -121,12 +152,20 @@ export function GlobeJourney() {
       return el;
     }
 
+    // ── Drop shadow filter for globe ──
+    const defs = createSVGEl('defs');
+    defs.innerHTML = `<filter id="globe-shadow" x="-10%" y="-10%" width="120%" height="120%">
+  <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.15"/>
+</filter>`;
+    svg.insertBefore(defs, svg.firstChild);
+
     // ── Globe background (ocean) ──
     const oceanCircle = createSVGEl('circle', {
       cx: String(GLOBE_SIZE / 2),
       cy: String(GLOBE_SIZE / 2),
-      r: String(projection.scale()),
+      r: String(Math.min(projection.scale(), GLOBE_SIZE)),
       fill: COLORS.ocean,
+      filter: 'url(#globe-shadow)',
     });
     svg.appendChild(oceanCircle);
 
@@ -170,17 +209,7 @@ export function GlobeJourney() {
       }
     }
 
-    // ── Route line (great circle arcs between events) ──
-    const routeCoords: [number, number][] = events.map((e) => e.coordinates);
-    const routeGeoJSON: GeoJSON.Feature<GeoJSON.LineString> = {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: routeCoords,
-      },
-    };
-
+    // ── Route line (progressive draw via partial coordinates) ──
     const routePath = createSVGEl('path', {
       fill: 'none',
       stroke: COLORS.route,
@@ -190,26 +219,22 @@ export function GlobeJourney() {
     });
     svg.appendChild(routePath);
 
-    // We'll track route dash offset for draw-on animation
-    let routeTotalLength = 0;
-
-    function updateRoute() {
-      const d = pathGen(routeGeoJSON);
-      if (d) {
-        routePath.setAttribute('d', d);
-        // Measure length for dash animation
-        routeTotalLength = (routePath as unknown as SVGPathElement).getTotalLength?.() || 0;
+    function updateRoute(progress: number) {
+      const partialCoords = getPartialRouteCoords(progress);
+      if (partialCoords.length >= 2) {
+        const partialRoute: GeoJSON.Feature<GeoJSON.LineString> = {
+          type: 'Feature',
+          properties: {},
+          geometry: { type: 'LineString', coordinates: partialCoords },
+        };
+        routePath.setAttribute('d', pathGen(partialRoute) || '');
       } else {
         routePath.setAttribute('d', '');
       }
     }
 
-    updateRoute();
-    // Initialize: route hidden
-    if (routeTotalLength > 0) {
-      routePath.style.strokeDasharray = `${routeTotalLength}`;
-      routePath.style.strokeDashoffset = `${routeTotalLength}`;
-    }
+    // Initialize: route hidden (progress = 0)
+    updateRoute(0);
 
     // ── Stop markers ──
     const markersGroup = createSVGEl('g');
@@ -286,9 +311,9 @@ export function GlobeJourney() {
 
     function updateMarkers(highlightId: EventId | null, currentScale: number) {
       // Scale marker radius and font size proportionally to zoom level
-      const baseRadius = Math.max(4, Math.min(8, currentScale / 150));
+      const baseRadius = Math.max(5, Math.min(10, currentScale / 200));
       const highlightRadius = baseRadius * 1.5;
-      const baseFontSize = Math.max(10, Math.min(14, currentScale / 80));
+      const baseFontSize = Math.max(11, Math.min(16, currentScale / 150));
       const highlightFontSize = baseFontSize * 1.15;
 
       events.forEach((ev) => {
@@ -349,8 +374,8 @@ export function GlobeJourney() {
       // Update projection
       projection.rotate([-lon, -lat]).scale(scale);
 
-      // Update ocean circle radius (clamped to projection scale)
-      oceanCircle.setAttribute('r', String(scale));
+      // Update ocean circle radius (clamped to avoid SVG overflow at high scale)
+      oceanCircle.setAttribute('r', String(Math.min(scale, GLOBE_SIZE)));
 
       // Update graticule path
       graticulePath.setAttribute('d', pathGen(graticule) || '');
@@ -358,15 +383,8 @@ export function GlobeJourney() {
       // Update land paths (reuse existing DOM elements)
       updateLandPaths();
 
-      // Update route
-      updateRoute();
-
-      // Animate route draw-on based on progress
-      if (routeTotalLength > 0) {
-        const currentLength = (routePath as unknown as SVGPathElement).getTotalLength?.() || routeTotalLength;
-        routePath.style.strokeDasharray = `${currentLength}`;
-        routePath.style.strokeDashoffset = `${currentLength * (1 - progress)}`;
-      }
+      // Update route with progressive draw based on progress
+      updateRoute(progress);
 
       // Determine which marker to highlight
       // Use the closer keyframe's highlight
@@ -409,7 +427,10 @@ export function GlobeJourney() {
     <div
       ref={containerRef}
       className="w-full h-screen flex items-center justify-center"
-      style={{ direction: 'ltr' }}
+      style={{
+        direction: 'ltr',
+        background: 'radial-gradient(ellipse at 50% 30%, rgba(232, 184, 75, 0.06) 0%, transparent 60%)',
+      }}
     />
   );
 }
