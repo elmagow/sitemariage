@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anael &amp; Eric — UX Design Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════ */
+:root {
+  --color-primary: #C1513A;
+  --color-accent1: #E07B39;
+  --color-accent2: #E8B84B;
+  --color-dark: #3D2314;
+  --color-light: #F5ECD7;
+  --color-olive: #6B7C45;
+  --color-surface: #FAF3E8;
+  --color-white: #FFFFFF;
+  --color-dark-alpha: rgba(61, 35, 20, 0.08);
+
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-hebrew: 'Frank Ruhl Libre', serif;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(61,35,20,0.08);
+  --shadow-md: 0 4px 12px rgba(61,35,20,0.1);
+  --shadow-lg: 0 8px 32px rgba(61,35,20,0.12);
+  --shadow-xl: 0 16px 48px rgba(61,35,20,0.16);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  background: var(--color-surface);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, textarea, select { font-family: inherit; }
+
+/* ═══════════════════════════════════════════
+   TOP NAV — DIRECTION SWITCHER
+   ═══════════════════════════════════════════ */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--color-dark);
+  border-bottom: 2px solid var(--color-accent2);
+  padding: 0;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.top-nav__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.top-nav__inner::-webkit-scrollbar { display: none; }
+
+.top-nav__title {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent2);
+  letter-spacing: 0.05em;
+  border-right: 1px solid rgba(232,184,75,0.2);
+  white-space: nowrap;
+}
+
+.top-nav__btn {
+  flex-shrink: 0;
+  padding: 14px 18px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(245,236,215,0.65);
+  letter-spacing: 0.03em;
+  border-right: 1px solid rgba(245,236,215,0.08);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  position: relative;
+}
+.top-nav__btn:hover {
+  color: var(--color-light);
+  background: rgba(245,236,215,0.06);
+}
+.top-nav__btn.active {
+  color: var(--color-accent2);
+  background: rgba(232,184,75,0.08);
+}
+.top-nav__btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent2);
+}
+.top-nav__btn .num {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  background: rgba(245,236,215,0.12);
+  color: rgba(245,236,215,0.5);
+  margin-right: 6px;
+  transition: all 0.25s ease;
+}
+.top-nav__btn.active .num {
+  background: var(--color-accent2);
+  color: var(--color-dark);
+}
+
+/* ═══════════════════════════════════════════
+   COLOR SWATCH BAR
+   ═══════════════════════════════════════════ */
+.swatch-bar {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-dark-alpha);
+  padding: 8px 0;
+}
+.swatch-bar__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.7rem;
+  color: rgba(61,35,20,0.5);
+}
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.swatch__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(61,35,20,0.1);
+  flex-shrink: 0;
+}
+.swatch__label { font-weight: 500; letter-spacing: 0.03em; }
+
+/* ═══════════════════════════════════════════
+   SECTION SCAFFOLD
+   ═══════════════════════════════════════════ */
+.direction {
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+  display: none;
+}
+.direction.active { display: block; }
+
+.direction__header {
+  max-width: 800px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+.direction__number {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+.direction__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+.direction__subtitle {
+  font-size: 0.95rem;
+  color: rgba(61,35,20,0.6);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.mockup-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Shared label for mockup areas */
+.mock-label {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════
+   SHARED COMPONENT PATTERNS
+   ═══════════════════════════════════════════ */
+
+/* Language switcher */
+.lang-switch {
+  display: inline-flex;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid rgba(61,35,20,0.15);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.lang-switch__btn {
+  padding: 6px 14px;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  color: rgba(61,35,20,0.5);
+}
+.lang-switch__btn.active {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+.lang-switch__btn:not(.active):hover {
+  background: rgba(61,35,20,0.04);
+  color: var(--color-dark);
+}
+
+/* Globe placeholder */
+.globe {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 320px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(232,184,75,0.15), transparent 60%),
+    radial-gradient(circle at 65% 65%, rgba(193,81,58,0.1), transparent 50%),
+    linear-gradient(135deg, var(--color-light) 0%, rgba(224,123,57,0.08) 50%, rgba(107,124,69,0.06) 100%);
+  border: 2px solid rgba(61,35,20,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.globe::before {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  border: 1px dashed rgba(61,35,20,0.08);
+}
+.globe::after {
+  content: '';
+  position: absolute;
+  top: 20%; bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  border-radius: 50%;
+  border: 1px dashed rgba(61,35,20,0.08);
+}
+.globe__label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  z-index: 1;
+  opacity: 0.6;
+}
+.globe__sub {
+  font-size: 0.65rem;
+  color: rgba(61,35,20,0.35);
+  z-index: 1;
+  margin-top: 4px;
+}
+
+/* Route dots on globe */
+.globe__route {
+  position: absolute;
+  z-index: 2;
+}
+.globe__route-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  position: absolute;
+  border: 2px solid var(--color-white);
+}
+.globe__route-dot--start { top: 35%; left: 30%; }
+.globe__route-dot--end { top: 60%; left: 68%; }
+.globe__route-line {
+  position: absolute;
+  top: 38%;
+  left: 33%;
+  width: 38%;
+  height: 1px;
+  background: none;
+  border-top: 2px dashed rgba(193,81,58,0.3);
+  transform: rotate(8deg);
+}
+
+/* ═══════════════════════════════════════════
+   DIRECTION 1: CLASSIC ELEGANCE
+   ═══════════════════════════════════════════ */
+#dir1 { background: var(--color-surface); }
+
+.d1-hero {
+  text-align: center;
+  padding: 60px 20px 80px;
+  max-width: 700px;
+  margin: 0 auto 48px;
+  position: relative;
+}
+.d1-hero::before,
+.d1-hero::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: var(--color-accent2);
+}
+.d1-hero::before { top: 0; }
+.d1-hero::after { bottom: 0; }
+
+.d1-hero__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 24px;
+}
+.d1-hero__names {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 400;
+  color: var(--color-dark);
+  line-height: 1.05;
+  margin-bottom: 8px;
+}
+.d1-hero__ampersand {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--color-accent2);
+  display: block;
+  margin: -8px 0;
+}
+.d1-hero__date {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: rgba(61,35,20,0.5);
+  margin-top: 20px;
+}
+.d1-hero__location {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--color-primary);
+  margin-top: 6px;
+}
+.d1-hero .lang-switch {
+  margin-top: 24px;
+}
+
+.d1-globe-section {
+  margin-bottom: 64px;
+  text-align: center;
+}
+.d1-globe-section .globe {
+  max-width: 380px;
+  box-shadow: var(--shadow-lg);
+}
+
+.d1-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 64px;
+}
+.d1-card {
+  background: var(--color-white);
+  border: 1px solid rgba(61,35,20,0.08);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.d1-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.d1-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(232,184,75,0.15), rgba(193,81,58,0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+.d1-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--color-dark);
+}
+.d1-card__text {
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.6);
+  line-height: 1.6;
+}
+
+/* Event card - Direction 1 */
+.d1-event {
+  background: var(--color-white);
+  border: 1px solid rgba(61,35,20,0.08);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  max-width: 500px;
+  margin: 0 auto 64px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+.d1-event__day {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 12px;
+}
+.d1-event__title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 8px;
+}
+.d1-event__time {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+.d1-event__venue {
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.5);
+  font-style: italic;
+}
+
+/* RSVP - Direction 1 (FAB) */
+.d1-rsvp-area {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.d1-rsvp-fab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 16px 36px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s var(--ease-out);
+}
+.d1-rsvp-fab:hover {
+  background: var(--color-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+.d1-rsvp-form {
+  margin-top: 32px;
+  background: var(--color-white);
+  border: 1px solid rgba(61,35,20,0.08);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-md);
+  text-align: left;
+}
+.d1-rsvp-form__title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.d1-input-group {
+  margin-bottom: 16px;
+}
+.d1-input-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(61,35,20,0.6);
+  margin-bottom: 6px;
+}
+.d1-input-group input,
+.d1-input-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(61,35,20,0.12);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--color-dark);
+  background: var(--color-surface);
+  transition: border-color 0.2s ease;
+  outline: none;
+}
+.d1-input-group input:focus,
+.d1-input-group select:focus {
+  border-color: var(--color-primary);
+}
+.d1-rsvp-submit {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: background 0.2s ease;
+  margin-top: 8px;
+}
+.d1-rsvp-submit:hover { background: var(--color-dark); }
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 2: EDITORIAL STORY
+   ═══════════════════════════════════════════ */
+#dir2 { background: var(--color-white); }
+
+.d2-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto 64px;
+  min-height: 400px;
+}
+.d2-hero__photo {
+  background:
+    linear-gradient(135deg, rgba(193,81,58,0.08) 0%, rgba(107,124,69,0.06) 100%),
+    var(--color-light);
+  border-radius: var(--radius-md);
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(61,35,20,0.2);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+.d2-hero__text {
+  padding: 20px 0;
+}
+.d2-hero__kicker {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 16px;
+}
+.d2-hero__names {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--color-dark);
+  margin-bottom: 20px;
+}
+.d2-hero__names em {
+  color: var(--color-accent2);
+  font-style: italic;
+}
+.d2-hero__date {
+  font-size: 1rem;
+  color: rgba(61,35,20,0.5);
+  line-height: 1.6;
+}
+.d2-hero__lang {
+  margin-top: 24px;
+}
+@media (max-width: 700px) {
+  .d2-hero { grid-template-columns: 1fr; }
+  .d2-hero__photo { max-height: 300px; aspect-ratio: 4/3; }
+}
+
+.d2-pullquote {
+  max-width: 800px;
+  margin: 0 auto 64px;
+  padding: 40px 0;
+  border-top: 2px solid var(--color-dark);
+  border-bottom: 1px solid rgba(61,35,20,0.1);
+}
+.d2-pullquote__text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--color-dark);
+}
+.d2-pullquote__attr {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.d2-globe-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto 64px;
+}
+.d2-globe-section .globe { max-width: 260px; }
+.d2-globe-text {
+  font-size: 0.9rem;
+  color: rgba(61,35,20,0.6);
+  line-height: 1.8;
+}
+.d2-globe-text strong {
+  color: var(--color-dark);
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .d2-globe-section { grid-template-columns: 1fr; }
+}
+
+/* Event strip - Direction 2 */
+.d2-event-strip {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid rgba(61,35,20,0.08);
+  border-bottom: 1px solid rgba(61,35,20,0.08);
+  max-width: 900px;
+  margin: 0 auto 64px;
+}
+.d2-event-strip__accent {
+  width: 6px;
+  background: linear-gradient(to bottom, var(--color-accent2), var(--color-primary));
+  flex-shrink: 0;
+}
+.d2-event-strip__content {
+  padding: 28px 32px;
+  flex: 1;
+}
+.d2-event-strip__day {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 6px;
+}
+.d2-event-strip__title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.d2-event-strip__meta {
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.5);
+}
+
+/* Practical info card - Direction 2 */
+.d2-info-card {
+  max-width: 500px;
+  margin: 0 auto 64px;
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+}
+.d2-info-card__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+.d2-info-card__title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.d2-info-card__text {
+  font-size: 0.82rem;
+  color: rgba(61,35,20,0.6);
+  line-height: 1.6;
+}
+
+/* RSVP - Direction 2 (inline editorial) */
+.d2-rsvp {
+  max-width: 700px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.d2-rsvp__text h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+}
+.d2-rsvp__text p {
+  font-size: 0.9rem;
+  color: rgba(61,35,20,0.6);
+  line-height: 1.7;
+}
+.d2-rsvp__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.d2-rsvp__form input,
+.d2-rsvp__form select {
+  padding: 12px 16px;
+  border: none;
+  border-bottom: 2px solid rgba(61,35,20,0.1);
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--color-dark);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.d2-rsvp__form input:focus,
+.d2-rsvp__form select:focus {
+  border-bottom-color: var(--color-primary);
+}
+.d2-rsvp__form button {
+  padding: 14px;
+  background: var(--color-dark);
+  color: var(--color-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  transition: background 0.2s ease;
+}
+.d2-rsvp__form button:hover { background: var(--color-primary); }
+@media (max-width: 700px) {
+  .d2-rsvp { grid-template-columns: 1fr; }
+}
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 3: MODERN MINIMAL
+   ═══════════════════════════════════════════ */
+#dir3 { background: var(--color-white); }
+
+.d3-hero {
+  max-width: 900px;
+  margin: 0 auto 80px;
+  padding-bottom: 40px;
+  border-bottom: 3px solid var(--color-dark);
+}
+.d3-hero__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.d3-hero__date-block {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(61,35,20,0.4);
+}
+.d3-hero__names {
+  font-family: var(--font-heading);
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--color-dark);
+  letter-spacing: -0.02em;
+}
+.d3-hero__names span {
+  color: var(--color-primary);
+}
+.d3-hero__location {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(61,35,20,0.4);
+}
+
+.d3-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto 64px;
+}
+@media (max-width: 700px) {
+  .d3-grid { grid-template-columns: 1fr; }
+}
+
+/* Globe - Direction 3 */
+.d3-globe-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.d3-globe-wrap .globe {
+  max-width: 280px;
+  border: 3px solid var(--color-dark);
+  background:
+    radial-gradient(circle at 35% 35%, rgba(193,81,58,0.05), transparent 60%),
+    var(--color-white);
+}
+.d3-globe-caption {
+  font-size: 0.75rem;
+  color: rgba(61,35,20,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Event - Direction 3 */
+.d3-event {
+  border: 2px solid var(--color-dark);
+  padding: 32px;
+}
+.d3-event__day {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+.d3-event__title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.d3-event__detail {
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.5);
+  line-height: 1.6;
+}
+
+/* Info card - Direction 3 */
+.d3-info {
+  border: 2px solid var(--color-dark);
+  padding: 28px;
+}
+.d3-info__title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.d3-info__title span { font-size: 1.1rem; }
+.d3-info__text {
+  font-size: 0.82rem;
+  color: rgba(61,35,20,0.55);
+  line-height: 1.6;
+}
+
+/* RSVP - Direction 3 */
+.d3-rsvp {
+  max-width: 900px;
+  margin: 0 auto;
+  border: 3px solid var(--color-dark);
+  padding: 40px;
+}
+.d3-rsvp__title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.d3-rsvp__fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .d3-rsvp__fields { grid-template-columns: 1fr; }
+}
+.d3-rsvp__fields input,
+.d3-rsvp__fields select {
+  padding: 14px;
+  border: 2px solid var(--color-dark);
+  font-size: 0.9rem;
+  background: var(--color-white);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.d3-rsvp__fields input:focus,
+.d3-rsvp__fields select:focus {
+  border-color: var(--color-primary);
+}
+.d3-rsvp__submit {
+  margin-top: 20px;
+  padding: 16px 48px;
+  background: var(--color-dark);
+  color: var(--color-white);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+.d3-rsvp__submit:hover { background: var(--color-primary); }
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 4: IMMERSIVE JOURNEY
+   ═══════════════════════════════════════════ */
+#dir4 {
+  background: var(--color-dark);
+  color: var(--color-light);
+}
+#dir4 .direction__number { color: var(--color-accent2); }
+#dir4 .direction__title { color: var(--color-light); }
+#dir4 .direction__subtitle { color: rgba(245,236,215,0.5); }
+
+.d4-hero {
+  text-align: center;
+  padding: 40px 20px 60px;
+  max-width: 600px;
+  margin: 0 auto 48px;
+}
+.d4-hero__names {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 400;
+  color: var(--color-light);
+  line-height: 1.05;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.d4-hero__ampersand {
+  display: block;
+  font-style: italic;
+  font-size: 0.5em;
+  color: var(--color-accent2);
+}
+.d4-hero__date {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  color: rgba(245,236,215,0.4);
+}
+.d4-hero .lang-switch {
+  margin-top: 24px;
+  border-color: rgba(245,236,215,0.2);
+}
+.d4-hero .lang-switch__btn {
+  color: rgba(245,236,215,0.5);
+}
+.d4-hero .lang-switch__btn.active {
+  background: var(--color-accent2);
+  color: var(--color-dark);
+}
+
+/* Globe - Direction 4 (immersive) */
+.d4-globe-section {
+  position: relative;
+  margin: 0 auto 64px;
+  max-width: 600px;
+}
+.d4-globe-viewport {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 40%, rgba(232,184,75,0.12), transparent 55%),
+    radial-gradient(circle at 60% 60%, rgba(193,81,58,0.08), transparent 50%),
+    radial-gradient(circle, rgba(107,124,69,0.06) 0%, rgba(61,35,20,0.3) 100%);
+  border: 3px solid rgba(232,184,75,0.2);
+  box-shadow:
+    0 0 60px rgba(232,184,75,0.1),
+    0 0 120px rgba(193,81,58,0.05),
+    inset 0 0 80px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.d4-globe-viewport::before {
+  content: '';
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  border: 1px solid rgba(232,184,75,0.08);
+}
+.d4-globe-viewport__label {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-accent2);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+}
+.d4-globe-viewport__sub {
+  font-size: 0.7rem;
+  color: rgba(245,236,215,0.4);
+  margin-top: 6px;
+}
+
+/* Overlay event on globe area */
+.d4-event-overlay {
+  position: relative;
+  max-width: 400px;
+  margin: -60px auto 64px;
+  z-index: 2;
+  background: rgba(61,35,20,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232,184,75,0.15);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+}
+.d4-event-overlay__day {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent2);
+  margin-bottom: 8px;
+}
+.d4-event-overlay__title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--color-light);
+  margin-bottom: 8px;
+}
+.d4-event-overlay__meta {
+  font-size: 0.82rem;
+  color: rgba(245,236,215,0.5);
+}
+
+/* Info card - Direction 4 */
+.d4-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto 64px;
+}
+.d4-card {
+  background: rgba(245,236,215,0.04);
+  border: 1px solid rgba(245,236,215,0.08);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.d4-card:hover {
+  background: rgba(245,236,215,0.08);
+  border-color: rgba(232,184,75,0.2);
+}
+.d4-card__icon {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+.d4-card__title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--color-light);
+  margin-bottom: 6px;
+}
+.d4-card__text {
+  font-size: 0.8rem;
+  color: rgba(245,236,215,0.4);
+  line-height: 1.6;
+}
+
+/* RSVP - Direction 4 */
+.d4-rsvp {
+  max-width: 450px;
+  margin: 0 auto;
+  text-align: center;
+}
+.d4-rsvp__title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-accent2);
+  margin-bottom: 24px;
+}
+.d4-rsvp__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.d4-rsvp__form input,
+.d4-rsvp__form select {
+  padding: 14px 18px;
+  background: rgba(245,236,215,0.06);
+  border: 1px solid rgba(245,236,215,0.12);
+  border-radius: var(--radius-md);
+  color: var(--color-light);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.d4-rsvp__form input::placeholder {
+  color: rgba(245,236,215,0.3);
+}
+.d4-rsvp__form input:focus,
+.d4-rsvp__form select:focus {
+  border-color: var(--color-accent2);
+}
+.d4-rsvp__form select { color: rgba(245,236,215,0.6); }
+.d4-rsvp__form select option { background: var(--color-dark); color: var(--color-light); }
+.d4-rsvp__submit {
+  padding: 16px;
+  background: linear-gradient(135deg, var(--color-accent2), var(--color-accent1));
+  color: var(--color-dark);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: opacity 0.2s ease;
+}
+.d4-rsvp__submit:hover { opacity: 0.9; }
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 5: WARM INVITATION
+   ═══════════════════════════════════════════ */
+#dir5 { background: var(--color-light); }
+
+.d5-hero {
+  max-width: 650px;
+  margin: 0 auto 64px;
+  text-align: center;
+  padding: 48px 40px 56px;
+  border: 2px solid var(--color-accent2);
+  position: relative;
+  background: var(--color-surface);
+}
+/* Decorative corner accents */
+.d5-hero::before,
+.d5-hero::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: var(--color-accent2);
+  border-style: solid;
+}
+.d5-hero::before {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+.d5-hero::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+.d5-hero__ornament {
+  font-size: 0.7rem;
+  letter-spacing: 0.6em;
+  color: var(--color-accent2);
+  margin-bottom: 20px;
+}
+.d5-hero__intro {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(61,35,20,0.5);
+  margin-bottom: 16px;
+}
+.d5-hero__names {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 500;
+  color: var(--color-dark);
+  line-height: 1.1;
+}
+.d5-hero__ampersand {
+  display: block;
+  font-style: italic;
+  color: var(--color-accent2);
+  font-size: 0.45em;
+  margin: 4px 0;
+}
+.d5-hero__rule {
+  display: block;
+  width: 80px;
+  height: 1px;
+  background: var(--color-accent2);
+  margin: 20px auto;
+}
+.d5-hero__date {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+}
+.d5-hero__venue {
+  font-size: 0.82rem;
+  color: rgba(61,35,20,0.5);
+  margin-top: 4px;
+  font-style: italic;
+}
+.d5-hero .lang-switch {
+  margin-top: 24px;
+}
+
+/* Globe - Direction 5 */
+.d5-globe-wrap {
+  max-width: 350px;
+  margin: 0 auto 64px;
+  text-align: center;
+}
+.d5-globe-wrap .globe {
+  max-width: 280px;
+  border: 2px solid var(--color-accent2);
+  box-shadow: 0 4px 24px rgba(232,184,75,0.12);
+}
+.d5-globe-caption {
+  margin-top: 16px;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.5);
+}
+
+/* Event card - Direction 5 (invitation insert) */
+.d5-event-insert {
+  max-width: 450px;
+  margin: 0 auto 64px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-accent2);
+  padding: 36px;
+  text-align: center;
+  position: relative;
+}
+.d5-event-insert::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(232,184,75,0.3);
+  pointer-events: none;
+}
+.d5-event-insert__day {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 12px;
+}
+.d5-event-insert__title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-dark);
+  margin-bottom: 4px;
+}
+.d5-event-insert__rule {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--color-accent2);
+  margin: 12px auto;
+}
+.d5-event-insert__time {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: var(--color-primary);
+}
+.d5-event-insert__venue {
+  font-size: 0.82rem;
+  color: rgba(61,35,20,0.5);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Info card - Direction 5 */
+.d5-info-card {
+  max-width: 400px;
+  margin: 0 auto 64px;
+  background: var(--color-surface);
+  border: 1px solid rgba(232,184,75,0.3);
+  padding: 28px;
+  text-align: center;
+}
+.d5-info-card__icon {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+.d5-info-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.d5-info-card__text {
+  font-size: 0.82rem;
+  color: rgba(61,35,20,0.55);
+  line-height: 1.7;
+}
+
+/* RSVP - Direction 5 */
+.d5-rsvp {
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border: 2px solid var(--color-accent2);
+  padding: 40px;
+  text-align: center;
+  position: relative;
+}
+.d5-rsvp::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(232,184,75,0.3);
+  pointer-events: none;
+}
+.d5-rsvp__title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+.d5-rsvp__subtitle {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(61,35,20,0.5);
+  margin-bottom: 24px;
+}
+.d5-rsvp__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+.d5-rsvp__form input,
+.d5-rsvp__form select {
+  padding: 12px 16px;
+  border: 1px solid rgba(232,184,75,0.4);
+  background: var(--color-white);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.d5-rsvp__form input:focus,
+.d5-rsvp__form select:focus {
+  border-color: var(--color-primary);
+}
+.d5-rsvp__submit {
+  margin-top: 8px;
+  padding: 14px;
+  background: var(--color-accent2);
+  color: var(--color-dark);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+.d5-rsvp__submit:hover { background: var(--color-primary); color: var(--color-white); }
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 6: SPLIT NAVIGATION
+   ═══════════════════════════════════════════ */
+#dir6 { background: var(--color-surface); }
+
+.d6-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+@media (max-width: 800px) {
+  .d6-layout { grid-template-columns: 1fr; }
+  .d6-sidebar { display: none; }
+}
+
+/* Sidebar */
+.d6-sidebar {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  padding: 24px;
+  border-right: 1px solid rgba(61,35,20,0.08);
+  height: fit-content;
+}
+.d6-sidebar__brand {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  margin-bottom: 4px;
+}
+.d6-sidebar__date {
+  font-size: 0.72rem;
+  color: rgba(61,35,20,0.4);
+  margin-bottom: 32px;
+  letter-spacing: 0.05em;
+}
+.d6-sidebar .lang-switch {
+  margin-bottom: 28px;
+}
+
+/* Progress indicator */
+.d6-progress {
+  list-style: none;
+  padding-left: 20px;
+  border-left: 2px solid rgba(61,35,20,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.d6-progress__item {
+  position: relative;
+  padding: 10px 0 10px 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(61,35,20,0.4);
+  transition: color 0.2s ease;
+}
+.d6-progress__item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 2px solid rgba(61,35,20,0.15);
+  transition: all 0.2s ease;
+}
+.d6-progress__item.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.d6-progress__item.active::before {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.d6-progress__item.done::before {
+  background: var(--color-olive);
+  border-color: var(--color-olive);
+}
+
+/* Main content */
+.d6-main {
+  padding: 0 40px 40px;
+}
+
+/* Hero - Direction 6 */
+.d6-hero {
+  padding: 32px 0 40px;
+  border-bottom: 1px solid rgba(61,35,20,0.08);
+  margin-bottom: 40px;
+}
+.d6-hero__names {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: var(--color-dark);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.d6-hero__names em {
+  color: var(--color-accent2);
+  font-style: italic;
+  font-weight: 400;
+}
+.d6-hero__subtitle {
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.5);
+}
+
+/* Globe - Direction 6 */
+.d6-globe-section {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(61,35,20,0.08);
+}
+.d6-globe-section .globe { max-width: 240px; }
+.d6-globe-section .mock-label { margin-bottom: 16px; }
+
+/* Event - Direction 6 */
+.d6-event {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(61,35,20,0.08);
+}
+.d6-event__card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  max-width: 500px;
+}
+.d6-event__day {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 6px;
+}
+.d6-event__title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+.d6-event__meta {
+  font-size: 0.82rem;
+  color: rgba(61,35,20,0.5);
+}
+
+/* Tabbed Info - Direction 6 */
+.d6-tabs {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(61,35,20,0.08);
+}
+.d6-tabs__nav {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(61,35,20,0.08);
+}
+.d6-tabs__tab {
+  padding: 10px 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(61,35,20,0.4);
+  position: relative;
+  transition: color 0.2s ease;
+}
+.d6-tabs__tab:hover { color: var(--color-dark); }
+.d6-tabs__tab.active {
+  color: var(--color-primary);
+}
+.d6-tabs__tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
+}
+.d6-tabs__content {
+  font-size: 0.85rem;
+  color: rgba(61,35,20,0.6);
+  line-height: 1.7;
+  padding: 4px 0;
+}
+.d6-tabs__content strong {
+  color: var(--color-dark);
+  font-weight: 600;
+}
+
+/* RSVP bottom sheet - Direction 6 */
+.d6-rsvp-sheet {
+  background: var(--color-white);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 28px 28px 32px;
+  box-shadow: 0 -4px 24px rgba(61,35,20,0.08);
+  max-width: 600px;
+}
+.d6-rsvp-sheet__handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(61,35,20,0.12);
+  border-radius: var(--radius-full);
+  margin: 0 auto 20px;
+}
+.d6-rsvp-sheet__title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+.d6-rsvp-sheet__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 500px) {
+  .d6-rsvp-sheet__form { grid-template-columns: 1fr; }
+}
+.d6-rsvp-sheet__form input,
+.d6-rsvp-sheet__form select {
+  padding: 12px 14px;
+  border: 1px solid rgba(61,35,20,0.1);
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  background: var(--color-surface);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.d6-rsvp-sheet__form input:focus,
+.d6-rsvp-sheet__form select:focus {
+  border-color: var(--color-primary);
+}
+.d6-rsvp-sheet__submit {
+  grid-column: 1 / -1;
+  padding: 14px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: background 0.2s ease;
+}
+.d6-rsvp-sheet__submit:hover { background: var(--color-dark); }
+
+
+/* ═══════════════════════════════════════════
+   UTILITY ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.direction.active .mockup-container {
+  animation: fadeInUp 0.6s var(--ease-out) both;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.page-footer {
+  text-align: center;
+  padding: 32px 20px;
+  font-size: 0.72rem;
+  color: rgba(61,35,20,0.3);
+  letter-spacing: 0.05em;
+  border-top: 1px solid rgba(61,35,20,0.06);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOP NAVIGATION
+     ═══════════════════════════════════════════ -->
+<nav class="top-nav" role="navigation" aria-label="Design directions">
+  <div class="top-nav__inner">
+    <div class="top-nav__title">A&amp;E Design Directions</div>
+    <button class="top-nav__btn active" data-dir="dir1"><span class="num">1</span>Classic Elegance</button>
+    <button class="top-nav__btn" data-dir="dir2"><span class="num">2</span>Editorial Story</button>
+    <button class="top-nav__btn" data-dir="dir3"><span class="num">3</span>Modern Minimal</button>
+    <button class="top-nav__btn" data-dir="dir4"><span class="num">4</span>Immersive Journey</button>
+    <button class="top-nav__btn" data-dir="dir5"><span class="num">5</span>Warm Invitation</button>
+    <button class="top-nav__btn" data-dir="dir6"><span class="num">6</span>Split Navigation</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     COLOR SWATCH BAR
+     ═══════════════════════════════════════════ -->
+<div class="swatch-bar">
+  <div class="swatch-bar__inner">
+    <span style="font-weight:600; margin-right:4px;">Palette:</span>
+    <span class="swatch"><span class="swatch__dot" style="background:#C1513A"></span><span class="swatch__label">Primary</span></span>
+    <span class="swatch"><span class="swatch__dot" style="background:#E07B39"></span><span class="swatch__label">Accent 1</span></span>
+    <span class="swatch"><span class="swatch__dot" style="background:#E8B84B"></span><span class="swatch__label">Accent 2</span></span>
+    <span class="swatch"><span class="swatch__dot" style="background:#3D2314"></span><span class="swatch__label">Dark</span></span>
+    <span class="swatch"><span class="swatch__dot" style="background:#F5ECD7"></span><span class="swatch__label">Light</span></span>
+    <span class="swatch"><span class="swatch__dot" style="background:#6B7C45"></span><span class="swatch__label">Olive</span></span>
+    <span class="swatch"><span class="swatch__dot" style="background:#FAF3E8"></span><span class="swatch__label">Surface</span></span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIRECTION 1 — CLASSIC ELEGANCE
+     ═══════════════════════════════════════════════════════ -->
+<section id="dir1" class="direction active">
+  <div class="direction__header">
+    <span class="direction__number">Direction 1</span>
+    <h2 class="direction__title">Classic Elegance</h2>
+    <p class="direction__subtitle">Full-bleed hero with large Playfair Display names, minimal chrome, generous whitespace. Cards with thin borders and subtle shadows. RSVP as a floating action button.</p>
+  </div>
+
+  <div class="mockup-container">
+    <!-- Hero -->
+    <div class="d1-hero">
+      <div class="d1-hero__eyebrow">We're getting married</div>
+      <div class="d1-hero__names">
+        Anael
+        <span class="d1-hero__ampersand">&amp;</span>
+        Eric
+      </div>
+      <div class="d1-hero__date">October 18 &ndash; 20, 2026</div>
+      <div class="d1-hero__location">Tel Aviv, Israel</div>
+      <div class="lang-switch">
+        <button class="lang-switch__btn active">FR</button>
+        <button class="lang-switch__btn">HE</button>
+      </div>
+    </div>
+
+    <!-- Globe -->
+    <div class="d1-globe-section">
+      <span class="mock-label">Globe Journey</span>
+      <div class="globe" style="max-width:380px; box-shadow: 0 8px 32px rgba(61,35,20,0.12);">
+        <div class="globe__route">
+          <span class="globe__route-dot globe__route-dot--start"></span>
+          <span class="globe__route-line"></span>
+          <span class="globe__route-dot globe__route-dot--end"></span>
+        </div>
+        <span class="globe__label">Paris &rarr; Tel Aviv</span>
+        <span class="globe__sub">Scroll-driven journey</span>
+      </div>
+    </div>
+
+    <!-- Event Card -->
+    <span class="mock-label" style="display:block; text-align:center;">Event Modal</span>
+    <div class="d1-event">
+      <div class="d1-event__day">Saturday</div>
+      <div class="d1-event__title">The Wedding Ceremony</div>
+      <div class="d1-event__time">5:00 PM &mdash; Sunset</div>
+      <div class="d1-event__venue">Venue to be announced, Tel Aviv</div>
+    </div>
+
+    <!-- Practical Info Cards -->
+    <span class="mock-label">Practical Information</span>
+    <div class="d1-cards">
+      <div class="d1-card">
+        <div class="d1-card__icon">&#9992;</div>
+        <div class="d1-card__title">Getting There</div>
+        <div class="d1-card__text">Direct flights from Paris CDG to Ben Gurion. We recommend booking early for the best fares.</div>
+      </div>
+      <div class="d1-card">
+        <div class="d1-card__icon">&#127976;</div>
+        <div class="d1-card__title">Where to Stay</div>
+        <div class="d1-card__text">We've secured group rates at two hotels near the venue. Details will be shared soon.</div>
+      </div>
+      <div class="d1-card">
+        <div class="d1-card__icon">&#128205;</div>
+        <div class="d1-card__title">Getting Around</div>
+        <div class="d1-card__text">Taxis and ride-shares are widely available. We'll arrange shuttles for the main events.</div>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <div class="d1-rsvp-area">
+      <span class="mock-label">RSVP (Floating Action Button &rarr; Expanded Form)</span>
+      <button class="d1-rsvp-fab">&#9829;&nbsp; RSVP Now</button>
+      <div class="d1-rsvp-form">
+        <div class="d1-rsvp-form__title">Confirm Your Presence</div>
+        <div class="d1-input-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Anael & Eric">
+        </div>
+        <div class="d1-input-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="d1-input-group">
+          <label>Attending?</label>
+          <select>
+            <option>Joyfully Accepts</option>
+            <option>Respectfully Declines</option>
+          </select>
+        </div>
+        <div class="d1-input-group">
+          <label>Number of Guests</label>
+          <select>
+            <option>1</option>
+            <option>2</option>
+            <option>3+</option>
+          </select>
+        </div>
+        <button class="d1-rsvp-submit">Send RSVP</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIRECTION 2 — EDITORIAL STORY
+     ═══════════════════════════════════════════════════════ -->
+<section id="dir2" class="direction">
+  <div class="direction__header">
+    <span class="direction__number">Direction 2</span>
+    <h2 class="direction__title">Editorial Story</h2>
+    <p class="direction__subtitle">Magazine-style layout with asymmetric placement, pull quotes, and decorative typography. Text-heavy, storytelling-focused approach with horizontal event strips.</p>
+  </div>
+
+  <div class="mockup-container">
+    <!-- Hero -->
+    <div class="d2-hero">
+      <div class="d2-hero__photo">PHOTO PLACEHOLDER</div>
+      <div class="d2-hero__text">
+        <div class="d2-hero__kicker">A Love Story &mdash; Chapter III</div>
+        <div class="d2-hero__names">Anael <em>&amp;</em> Eric</div>
+        <div class="d2-hero__date">Three days of celebration in Tel Aviv, Israel.<br>October 18&ndash;20, 2026.</div>
+        <div class="d2-hero__lang">
+          <div class="lang-switch">
+            <button class="lang-switch__btn active">FR</button>
+            <button class="lang-switch__btn">HE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pull Quote -->
+    <div class="d2-pullquote">
+      <div class="d2-pullquote__text">&ldquo;From the streets of Paris to the shores of Tel Aviv &mdash; a journey of two hearts becoming one.&rdquo;</div>
+      <div class="d2-pullquote__attr">&mdash; Our Story</div>
+    </div>
+
+    <!-- Globe -->
+    <span class="mock-label" style="display:block; max-width:900px; margin:0 auto 16px;">Globe Journey</span>
+    <div class="d2-globe-section">
+      <div>
+        <div class="d2-globe-text">
+          <strong>The Journey</strong><br><br>
+          Scroll through our story as a dotted path traces the route from Paris to Tel Aviv. Each stop along the way reveals a chapter of our adventure together &mdash; from where we met, to where we'll say &ldquo;I do.&rdquo;
+        </div>
+      </div>
+      <div class="globe">
+        <div class="globe__route">
+          <span class="globe__route-dot globe__route-dot--start"></span>
+          <span class="globe__route-line"></span>
+          <span class="globe__route-dot globe__route-dot--end"></span>
+        </div>
+        <span class="globe__label">Paris &rarr; Tel Aviv</span>
+        <span class="globe__sub">Scroll-driven</span>
+      </div>
+    </div>
+
+    <!-- Event Strip -->
+    <span class="mock-label" style="display:block; max-width:900px; margin:0 auto 16px;">Event Card (Horizontal Strip)</span>
+    <div class="d2-event-strip">
+      <div class="d2-event-strip__accent"></div>
+      <div class="d2-event-strip__content">
+        <div class="d2-event-strip__day">Saturday, October 19</div>
+        <div class="d2-event-strip__title">The Wedding Ceremony</div>
+        <div class="d2-event-strip__meta">5:00 PM &bull; Venue TBA, Tel Aviv &bull; Cocktail attire</div>
+      </div>
+    </div>
+
+    <!-- Info Card -->
+    <span class="mock-label" style="display:block; max-width:500px; margin:0 auto 16px;">Practical Info</span>
+    <div class="d2-info-card">
+      <div class="d2-info-card__icon">&#9992;</div>
+      <div>
+        <div class="d2-info-card__title">Getting There</div>
+        <div class="d2-info-card__text">Direct flights from Paris CDG to Ben Gurion Airport (TLV). Flight time is approximately 4.5 hours. We recommend booking 3&ndash;4 months in advance.</div>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <span class="mock-label" style="display:block; max-width:700px; margin:0 auto 16px;">RSVP</span>
+    <div class="d2-rsvp">
+      <div class="d2-rsvp__text">
+        <h3>Will You Join Us?</h3>
+        <p>We would be honored to have you celebrate with us in Tel Aviv. Please let us know if you can make it by filling in the form.</p>
+      </div>
+      <div class="d2-rsvp__form">
+        <input type="text" placeholder="Your full name">
+        <input type="email" placeholder="Email address">
+        <select>
+          <option>Will attend</option>
+          <option>Cannot attend</option>
+        </select>
+        <select>
+          <option>1 guest</option>
+          <option>2 guests</option>
+        </select>
+        <button>Confirm</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIRECTION 3 — MODERN MINIMAL
+     ═══════════════════════════════════════════════════════ -->
+<section id="dir3" class="direction">
+  <div class="direction__header">
+    <span class="direction__number">Direction 3</span>
+    <h2 class="direction__title">Modern Minimal</h2>
+    <p class="direction__subtitle">Clean, stripped-back design with strong grid. Near-monochrome palette with terracotta accents. Bold typography hierarchy, maximum readability, minimum decoration.</p>
+  </div>
+
+  <div class="mockup-container">
+    <!-- Hero -->
+    <div class="d3-hero">
+      <div class="d3-hero__top">
+        <div class="d3-hero__date-block">October 18&ndash;20, 2026 &bull; Tel Aviv</div>
+        <div class="lang-switch">
+          <button class="lang-switch__btn active">FR</button>
+          <button class="lang-switch__btn">HE</button>
+        </div>
+      </div>
+      <div class="d3-hero__names">
+        Anael<br><span>&amp;</span> Eric
+      </div>
+      <div class="d3-hero__location">Tel Aviv &mdash; Israel</div>
+    </div>
+
+    <!-- Grid: Globe + Event -->
+    <div class="d3-grid">
+      <div class="d3-globe-wrap">
+        <span class="mock-label">Globe Journey</span>
+        <div class="globe" style="max-width:280px; border:3px solid #3D2314; background: radial-gradient(circle at 35% 35%, rgba(193,81,58,0.05), transparent 60%), #fff;">
+          <div class="globe__route">
+            <span class="globe__route-dot globe__route-dot--start"></span>
+            <span class="globe__route-line"></span>
+            <span class="globe__route-dot globe__route-dot--end"></span>
+          </div>
+          <span class="globe__label">Paris &rarr; Tel Aviv</span>
+          <span class="globe__sub">Scroll-driven</span>
+        </div>
+        <span class="d3-globe-caption">Scroll to follow the journey</span>
+      </div>
+
+      <div>
+        <span class="mock-label">Event</span>
+        <div class="d3-event">
+          <div class="d3-event__day">Saturday</div>
+          <div class="d3-event__title">The Ceremony</div>
+          <div class="d3-event__detail">
+            5:00 PM &mdash; Sunset<br>
+            Venue TBA, Tel Aviv<br>
+            Cocktail attire requested
+          </div>
+        </div>
+
+        <div style="height:24px"></div>
+
+        <span class="mock-label">Practical Info</span>
+        <div class="d3-info">
+          <div class="d3-info__title"><span>&#9992;</span> Getting There</div>
+          <div class="d3-info__text">Direct flights from Paris CDG. Book early for best rates. Ben Gurion Airport is 20 min from Tel Aviv.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <span class="mock-label" style="display:block; max-width:900px; margin:0 auto 16px;">RSVP Form</span>
+    <div class="d3-rsvp">
+      <div class="d3-rsvp__title">RSVP</div>
+      <div class="d3-rsvp__fields">
+        <input type="text" placeholder="Full name">
+        <input type="email" placeholder="Email">
+        <select>
+          <option>Attending</option>
+          <option>Not attending</option>
+        </select>
+        <select>
+          <option>1 guest</option>
+          <option>2 guests</option>
+          <option>3+ guests</option>
+        </select>
+      </div>
+      <button class="d3-rsvp__submit">Submit RSVP</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIRECTION 4 — IMMERSIVE JOURNEY
+     ═══════════════════════════════════════════════════════ -->
+<section id="dir4" class="direction">
+  <div class="direction__header">
+    <span class="direction__number">Direction 4</span>
+    <h2 class="direction__title">Immersive Journey</h2>
+    <p class="direction__subtitle">Full-screen sections with dramatic transitions. Dark mode using deep brown. Globe takes center stage with event info overlaid. Most animation-forward approach.</p>
+  </div>
+
+  <div class="mockup-container">
+    <!-- Hero -->
+    <div class="d4-hero">
+      <div class="d4-hero__names">
+        Anael
+        <span class="d4-hero__ampersand">&amp;</span>
+        Eric
+      </div>
+      <div class="d4-hero__date">October 18 &ndash; 20, 2026 &bull; Tel Aviv</div>
+      <div class="lang-switch">
+        <button class="lang-switch__btn active">FR</button>
+        <button class="lang-switch__btn">HE</button>
+      </div>
+    </div>
+
+    <!-- Globe (large, immersive) -->
+    <span class="mock-label" style="display:block; text-align:center; color:var(--color-accent2);">Globe Journey &mdash; Center Stage</span>
+    <div class="d4-globe-section">
+      <div class="d4-globe-viewport">
+        <div class="globe__route">
+          <span class="globe__route-dot globe__route-dot--start" style="border-color:var(--color-dark);"></span>
+          <span class="globe__route-line" style="border-top-color:rgba(232,184,75,0.3);"></span>
+          <span class="globe__route-dot globe__route-dot--end" style="border-color:var(--color-dark);"></span>
+        </div>
+        <span class="d4-globe-viewport__label">Paris &rarr; Tel Aviv</span>
+        <span class="d4-globe-viewport__sub">Immersive scroll animation</span>
+      </div>
+    </div>
+
+    <!-- Event overlay -->
+    <span class="mock-label" style="display:block; text-align:center; color:var(--color-accent2);">Event Info (Overlaid on Globe Area)</span>
+    <div class="d4-event-overlay">
+      <div class="d4-event-overlay__day">Saturday, October 19</div>
+      <div class="d4-event-overlay__title">The Wedding Ceremony</div>
+      <div class="d4-event-overlay__meta">5:00 PM &bull; Venue TBA, Tel Aviv</div>
+    </div>
+
+    <!-- Practical Info -->
+    <span class="mock-label" style="display:block; text-align:center; color:var(--color-accent2);">Practical Information</span>
+    <div class="d4-cards">
+      <div class="d4-card">
+        <div class="d4-card__icon">&#9992;</div>
+        <div class="d4-card__title">Getting There</div>
+        <div class="d4-card__text">Direct flights from Paris CDG to Ben Gurion. ~4.5 hours.</div>
+      </div>
+      <div class="d4-card">
+        <div class="d4-card__icon">&#127976;</div>
+        <div class="d4-card__title">Where to Stay</div>
+        <div class="d4-card__text">Group rates secured at partner hotels near the venue.</div>
+      </div>
+      <div class="d4-card">
+        <div class="d4-card__icon">&#128205;</div>
+        <div class="d4-card__title">Getting Around</div>
+        <div class="d4-card__text">Shuttles for events. Taxis and Gett app widely available.</div>
+      </div>
+    </div>
+
+    <!-- RSVP -->
+    <div class="d4-rsvp">
+      <div class="d4-rsvp__title">RSVP</div>
+      <div class="d4-rsvp__form">
+        <input type="text" placeholder="Your full name">
+        <input type="email" placeholder="Email address">
+        <select>
+          <option value="">Attending?</option>
+          <option>Joyfully accepts</option>
+          <option>Respectfully declines</option>
+        </select>
+        <select>
+          <option value="">Number of guests</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3+</option>
+        </select>
+        <button class="d4-rsvp__submit">Confirm Attendance</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIRECTION 5 — WARM INVITATION
+     ═══════════════════════════════════════════════════════ -->
+<section id="dir5" class="direction">
+  <div class="direction__header">
+    <span class="direction__number">Direction 5</span>
+    <h2 class="direction__title">Warm Invitation</h2>
+    <p class="direction__subtitle">Feels like a physical wedding invitation. Decorative borders, centered formal layout, gold and cream dominant. Event cards styled as invitation insert cards.</p>
+  </div>
+
+  <div class="mockup-container">
+    <!-- Hero (Invitation) -->
+    <div class="d5-hero">
+      <div class="d5-hero__ornament">&diams; &diams; &diams;</div>
+      <div class="d5-hero__intro">Together with their families</div>
+      <div class="d5-hero__names">
+        Anael
+        <span class="d5-hero__ampersand">&amp;</span>
+        Eric
+      </div>
+      <span class="d5-hero__rule"></span>
+      <div class="d5-hero__date">October 18 &ndash; 20, 2026</div>
+      <div class="d5-hero__venue">Tel Aviv, Israel</div>
+      <div class="lang-switch" style="margin-top:24px;">
+        <button class="lang-switch__btn active">FR</button>
+        <button class="lang-switch__btn">HE</button>
+      </div>
+    </div>
+
+    <!-- Globe -->
+    <span class="mock-label" style="display:block; text-align:center;">Globe Journey</span>
+    <div class="d5-globe-wrap">
+      <div class="globe" style="max-width:280px; border:2px solid #E8B84B; box-shadow:0 4px 24px rgba(232,184,75,0.12);">
+        <div class="globe__route">
+          <span class="globe__route-dot globe__route-dot--start"></span>
+          <span class="globe__route-line"></span>
+          <span class="globe__route-dot globe__route-dot--end"></span>
+        </div>
+        <span class="globe__label">Paris &rarr; Tel Aviv</span>
+        <span class="globe__sub">Scroll-driven journey</span>
+      </div>
+      <div class="d5-globe-caption">Follow our journey across the Mediterranean</div>
+    </div>
+
+    <!-- Event Insert Card -->
+    <span class="mock-label" style="display:block; text-align:center;">Event Card (Invitation Insert)</span>
+    <div class="d5-event-insert">
+      <div class="d5-event-insert__day">Saturday, October Nineteenth</div>
+      <div class="d5-event-insert__title">The Wedding Ceremony</div>
+      <span class="d5-event-insert__rule"></span>
+      <div class="d5-event-insert__time">at five o'clock in the evening</div>
+      <div class="d5-event-insert__venue">Venue to be announced, Tel Aviv</div>
+    </div>
+
+    <!-- Info Card -->
+    <span class="mock-label" style="display:block; text-align:center;">Practical Info</span>
+    <div class="d5-info-card">
+      <div class="d5-info-card__icon">&#9992;</div>
+      <div class="d5-info-card__title">Travel Information</div>
+      <div class="d5-info-card__text">Direct flights available from Paris Charles de Gaulle to Ben Gurion Airport. We recommend booking your flights 3&ndash;4 months in advance for the best availability.</div>
+    </div>
+
+    <!-- RSVP -->
+    <span class="mock-label" style="display:block; text-align:center;">RSVP</span>
+    <div class="d5-rsvp">
+      <div class="d5-rsvp__title">Kindly Respond</div>
+      <div class="d5-rsvp__subtitle">We look forward to celebrating with you</div>
+      <div class="d5-rsvp__form">
+        <input type="text" placeholder="Full name">
+        <input type="email" placeholder="Email address">
+        <select>
+          <option>Joyfully Accepts</option>
+          <option>Respectfully Declines</option>
+        </select>
+        <select>
+          <option>1 guest</option>
+          <option>2 guests</option>
+          <option>3+ guests</option>
+        </select>
+        <button class="d5-rsvp__submit">Send Response</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     DIRECTION 6 — SPLIT NAVIGATION
+     ═══════════════════════════════════════════════════════ -->
+<section id="dir6" class="direction">
+  <div class="direction__header">
+    <span class="direction__number">Direction 6</span>
+    <h2 class="direction__title">Split Navigation</h2>
+    <p class="direction__subtitle">Left sidebar with journey progress indicator, right side shows content as you scroll. Tab-based practical info. More app-like feel with a persistent bottom-sheet RSVP.</p>
+  </div>
+
+  <div class="mockup-container">
+    <div class="d6-layout">
+      <!-- Sidebar -->
+      <aside class="d6-sidebar">
+        <div class="d6-sidebar__brand">Anael &amp; Eric</div>
+        <div class="d6-sidebar__date">Oct 18&ndash;20, 2026 &bull; Tel Aviv</div>
+        <div class="lang-switch">
+          <button class="lang-switch__btn active">FR</button>
+          <button class="lang-switch__btn">HE</button>
+        </div>
+        <ul class="d6-progress">
+          <li class="d6-progress__item done">Our Story</li>
+          <li class="d6-progress__item active">The Journey</li>
+          <li class="d6-progress__item">The Events</li>
+          <li class="d6-progress__item">Practical Info</li>
+          <li class="d6-progress__item">RSVP</li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="d6-main">
+        <!-- Hero -->
+        <div class="d6-hero">
+          <div class="d6-hero__names">Anael <em>&amp;</em> Eric</div>
+          <div class="d6-hero__subtitle">Three days of celebration in Tel Aviv, Israel</div>
+        </div>
+
+        <!-- Globe -->
+        <div class="d6-globe-section">
+          <span class="mock-label">Globe Journey</span>
+          <div class="globe" style="max-width:240px;">
+            <div class="globe__route">
+              <span class="globe__route-dot globe__route-dot--start"></span>
+              <span class="globe__route-line"></span>
+              <span class="globe__route-dot globe__route-dot--end"></span>
+            </div>
+            <span class="globe__label">Paris &rarr; Tel Aviv</span>
+            <span class="globe__sub">Scroll-driven</span>
+          </div>
+        </div>
+
+        <!-- Event -->
+        <div class="d6-event">
+          <span class="mock-label">Event</span>
+          <div class="d6-event__card">
+            <div class="d6-event__day">Saturday, October 19</div>
+            <div class="d6-event__title">The Wedding Ceremony</div>
+            <div class="d6-event__meta">5:00 PM &bull; Venue TBA, Tel Aviv &bull; Cocktail attire</div>
+          </div>
+        </div>
+
+        <!-- Tabbed Info -->
+        <div class="d6-tabs">
+          <span class="mock-label">Practical Info (Tabbed)</span>
+          <div class="d6-tabs__nav">
+            <button class="d6-tabs__tab active">Flights</button>
+            <button class="d6-tabs__tab">Hotels</button>
+            <button class="d6-tabs__tab">Transport</button>
+            <button class="d6-tabs__tab">Tips</button>
+          </div>
+          <div class="d6-tabs__content">
+            <strong>Getting There</strong> &mdash; Direct flights from Paris CDG to Ben Gurion Airport (TLV). Flight time approximately 4.5 hours. We recommend booking 3&ndash;4 months ahead. Airlines: Air France, El Al, easyJet.
+          </div>
+        </div>
+
+        <!-- RSVP Bottom Sheet -->
+        <span class="mock-label">RSVP (Persistent Bottom Sheet)</span>
+        <div class="d6-rsvp-sheet">
+          <div class="d6-rsvp-sheet__handle"></div>
+          <div class="d6-rsvp-sheet__title">RSVP</div>
+          <div class="d6-rsvp-sheet__form">
+            <input type="text" placeholder="Full name">
+            <input type="email" placeholder="Email">
+            <select>
+              <option>Attending</option>
+              <option>Not attending</option>
+            </select>
+            <select>
+              <option>1 guest</option>
+              <option>2 guests</option>
+            </select>
+            <button class="d6-rsvp-sheet__submit">Submit RSVP</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer class="page-footer">
+  Anael &amp; Eric &mdash; Wedding Website Design Directions &mdash; Tokens: Playfair Display &middot; DM Sans &middot; Frank Ruhl Libre &middot; Terracotta &middot; Gold &middot; Warm Cream
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     SCRIPT — Tab Navigation
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  const buttons = document.querySelectorAll('.top-nav__btn');
+  const sections = document.querySelectorAll('.direction');
+
+  function switchDirection(targetId) {
+    sections.forEach(function(s) { s.classList.remove('active'); });
+    buttons.forEach(function(b) { b.classList.remove('active'); });
+
+    var target = document.getElementById(targetId);
+    if (target) {
+      target.classList.add('active');
+      // Re-trigger animation
+      var mc = target.querySelector('.mockup-container');
+      if (mc) {
+        mc.style.animation = 'none';
+        mc.offsetHeight; // force reflow
+        mc.style.animation = '';
+      }
+    }
+
+    buttons.forEach(function(b) {
+      if (b.getAttribute('data-dir') === targetId) {
+        b.classList.add('active');
+      }
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      switchDirection(this.getAttribute('data-dir'));
+    });
+  });
+
+  // Keyboard navigation (left/right arrows)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      var currentBtn = document.querySelector('.top-nav__btn.active');
+      var allBtns = Array.from(buttons);
+      var idx = allBtns.indexOf(currentBtn);
+      if (e.key === 'ArrowRight' && idx < allBtns.length - 1) {
+        switchDirection(allBtns[idx + 1].getAttribute('data-dir'));
+      } else if (e.key === 'ArrowLeft' && idx > 0) {
+        switchDirection(allBtns[idx - 1].getAttribute('data-dir'));
+      }
+    }
+  });
+
+  // Direction 6 tab interactivity
+  var d6Tabs = document.querySelectorAll('.d6-tabs__tab');
+  var tabContent = document.querySelector('.d6-tabs__content');
+  var tabData = {
+    'Flights': '<strong>Getting There</strong> \u2014 Direct flights from Paris CDG to Ben Gurion Airport (TLV). Flight time approximately 4.5 hours. We recommend booking 3\u20134 months ahead. Airlines: Air France, El Al, easyJet.',
+    'Hotels': '<strong>Where to Stay</strong> \u2014 We\u2019ve secured group rates at two hotels near the venue. The David Kempinski (5-star) and Brown TLV (boutique). Booking links will be shared.',
+    'Transport': '<strong>Getting Around</strong> \u2014 Taxis and ride-share (Gett app) are widely available. We\u2019ll arrange shuttle buses for the main events from partner hotels.',
+    'Tips': '<strong>Good to Know</strong> \u2014 October in Tel Aviv is warm (25\u00b0C). Currency is Israeli Shekel (ILS). Most places accept credit cards. Shabbat is Friday evening to Saturday evening.'
+  };
+
+  d6Tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      d6Tabs.forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      if (tabContent && tabData[this.textContent]) {
+        tabContent.innerHTML = tabData[this.textContent];
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
