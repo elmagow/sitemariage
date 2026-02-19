@@ -21,6 +21,7 @@ import { StaticMapFallback } from './StaticMapFallback';
 // ── Constants ──
 const GLOBE_SIZE = 800;
 const HALF = GLOBE_SIZE / 2;
+const LERP_FACTOR = 0.12; // RAF smoothing (0 = frozen, 1 = instant)
 
 // Hex values mirror CSS design tokens (--color-wedding-*) for imperative D3/SVG rendering
 const COLORS = {
@@ -71,6 +72,19 @@ function getPartialRouteCoords(routeProgress: number): [number, number][] {
   }
 
   return result;
+}
+
+/**
+ * Get the emoji icon for the traveler based on current context.
+ */
+function getTravelerIcon(highlightId: EventId | null): string {
+  switch (highlightId) {
+    case 'mairie': return '\u{1F48D}';            // 💍
+    case 'welcome-dinner': return '\u{1F37D}\uFE0F'; // 🍽️
+    case 'beach-party': return '\u{1F3D6}\uFE0F';    // 🏖️
+    case 'wedding-ceremony': return '\u{1F492}';      // 💒
+    default: return '\u2708\uFE0F';                   // ✈️
+  }
 }
 
 export function GlobeJourney() {
@@ -310,12 +324,23 @@ export function GlobeJourney() {
       });
     });
 
+    // ── Emoji traveler (follows route tip, v1-style) ──
+    const travelerGroup = createEl('g', { 'pointer-events': 'none', display: 'none' });
+    const travelerEmoji = createEl('text', {
+      'text-anchor': 'middle',
+      'font-size': '24',
+      dy: '8',
+    });
+    travelerEmoji.textContent = '\u2708\uFE0F'; // ✈️
+    travelerGroup.appendChild(travelerEmoji);
+    svg.appendChild(travelerGroup);
+
     function updateMarkers(highlightId: EventId | null, currentScale: number) {
-      // Marker sizing: at scale 4000 we want r≈10, at scale 300 we want r≈5
-      const baseR = Math.max(5, Math.min(12, currentScale / 350));
+      // Log-scale marker sizing for extreme zoom ranges (300 → 120000)
+      const baseR = Math.max(5, Math.min(14, Math.log10(currentScale) * 3));
       const highlightR = baseR * 1.4;
-      const baseFontSize = Math.max(11, Math.min(15, currentScale / 300));
-      const emojiFontSize = Math.max(14, Math.min(22, currentScale / 200));
+      const baseFontSize = Math.max(11, Math.min(16, Math.log10(currentScale) * 3.2));
+      const emojiFontSize = Math.max(14, Math.min(24, Math.log10(currentScale) * 4));
 
       events.forEach((ev) => {
         const els = markerEls[ev.id];
@@ -363,10 +388,48 @@ export function GlobeJourney() {
       });
     }
 
+    function updateTraveler(routeProgress: number, highlightId: EventId | null, currentScale: number) {
+      if (routeProgress <= 0) {
+        travelerGroup.setAttribute('display', 'none');
+        return;
+      }
+
+      // Get the tip coordinates
+      const coords = getPartialRouteCoords(routeProgress);
+      if (coords.length < 1) {
+        travelerGroup.setAttribute('display', 'none');
+        return;
+      }
+
+      const tipCoord = coords[coords.length - 1];
+      const pos = projection(tipCoord);
+      const dist = d3Geo.geoDistance(
+        tipCoord,
+        [-(projection.rotate()[0]), -(projection.rotate()[1])],
+      );
+
+      if (pos && dist < Math.PI / 2) {
+        travelerGroup.setAttribute('transform', `translate(${pos[0]}, ${pos[1]})`);
+        travelerGroup.setAttribute('display', 'block');
+
+        // Change emoji based on context
+        const icon = getTravelerIcon(highlightId);
+        if (travelerEmoji.textContent !== icon) {
+          travelerEmoji.textContent = icon;
+        }
+
+        // Scale emoji based on zoom (log-scale)
+        const emojiSize = Math.max(20, Math.min(32, Math.log10(currentScale) * 5));
+        travelerEmoji.setAttribute('font-size', String(emojiSize));
+      } else {
+        travelerGroup.setAttribute('display', 'none');
+      }
+    }
+
     updateMarkers(globeKeyframes[0].markerHighlight, globeKeyframes[0].scale);
 
-    // ── Update globe (called by ScrollTrigger) ──
-    function updateGlobe(progress: number) {
+    // ── Keyframe interpolation (pure computation, no side effects) ──
+    function interpolateKeyframes(progress: number) {
       const totalBeats = globeKeyframes.length - 1;
       const rawIndex = progress * totalBeats;
       const beatIndex = Math.min(Math.floor(rawIndex), totalBeats - 1);
@@ -375,14 +438,21 @@ export function GlobeJourney() {
       const kfA = globeKeyframes[beatIndex];
       const kfB = globeKeyframes[Math.min(beatIndex + 1, totalBeats)];
 
-      // Interpolate camera
       const lon = kfA.center[0] + (kfB.center[0] - kfA.center[0]) * beatProgress;
       const lat = kfA.center[1] + (kfB.center[1] - kfA.center[1]) * beatProgress;
       const scale = kfA.scale + (kfB.scale - kfA.scale) * beatProgress;
-
-      // Interpolate route progress (decoupled from camera)
       const routeProgress = kfA.routeProgress + (kfB.routeProgress - kfA.routeProgress) * beatProgress;
 
+      // Snap highlight to closer keyframe
+      const highlight = beatProgress < 0.5
+        ? kfA.markerHighlight
+        : kfB.markerHighlight;
+
+      return { lon, lat, scale, routeProgress, highlight };
+    }
+
+    // ── Render globe (applies smoothed values to DOM) ──
+    function renderGlobe(lon: number, lat: number, scale: number, routeProgress: number, highlight: EventId | null) {
       projection.rotate([-lon, -lat]).scale(scale);
 
       // Ocean: clamp radius
@@ -392,28 +462,49 @@ export function GlobeJourney() {
       graticulePath.setAttribute('d', pathGen(graticule) || '');
       updateLandPaths();
       updateRoute(routeProgress);
-
-      // Marker highlight: snap to closer keyframe
-      const currentHighlight = beatProgress < 0.5
-        ? kfA.markerHighlight
-        : kfB.markerHighlight;
-      updateMarkers(currentHighlight, scale);
+      updateMarkers(highlight, scale);
+      updateTraveler(routeProgress, highlight, scale);
     }
 
-    // ── ScrollTrigger ──
-    // More scroll distance (600%) because we have 14 beats now
+    // ── RAF lerp loop (decoupled from ScrollTrigger for smooth animation) ──
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let rafId: number;
+
+    function animate() {
+      // Lerp toward target scroll progress
+      const delta = targetProgress - currentProgress;
+      if (Math.abs(delta) > 0.0001) {
+        currentProgress += delta * LERP_FACTOR;
+
+        const { lon, lat, scale, routeProgress, highlight } = interpolateKeyframes(currentProgress);
+        renderGlobe(lon, lat, scale, routeProgress, highlight);
+      }
+
+      rafId = requestAnimationFrame(animate);
+    }
+
+    // Initial render
+    const initial = interpolateKeyframes(0);
+    renderGlobe(initial.lon, initial.lat, initial.scale, initial.routeProgress, initial.highlight);
+
+    // Start RAF loop
+    rafId = requestAnimationFrame(animate);
+
+    // ── ScrollTrigger (sets target, RAF loop lerps toward it) ──
     const trigger = ScrollTrigger.create({
       trigger: container,
       start: 'top top',
       end: '+=600%',
       pin: true,
       scrub: true,
-      onUpdate: (self) => updateGlobe(self.progress),
+      onUpdate: (self) => { targetProgress = self.progress; },
     });
     triggerRef.current = trigger;
 
     // ── Cleanup ──
     return () => {
+      cancelAnimationFrame(rafId);
       trigger.kill();
       triggerRef.current = null;
       if (svg.parentNode) svg.parentNode.removeChild(svg);

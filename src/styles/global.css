@@ -282,3 +282,9 @@ section {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
+
+/* Smooth scroll-driven globe animation */
+#journey svg path,
+#journey svg circle {
+  will-change: d, r, transform;
+}
