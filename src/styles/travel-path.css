@@ -163,25 +163,27 @@
 /* ═══ Go-corner arrow (top-right tap affordance) ═══ */
 
 .go-corner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  top: 0;
-  inset-inline-end: 0;
   width: 1.25em;
   height: 1.25em;
+  overflow: hidden;
+  top: 0;
+  inset-inline-end: 0;
   background: linear-gradient(135deg, var(--color-primary), var(--color-dark));
   border-radius: 0 var(--radius-md) 0 var(--radius-lg);
 }
 
-/* Pure CSS chevron — no font rendering quirks */
 .go-arrow {
-  position: absolute;
-  top: 3px;
-  inset-inline-end: 3px;
-  width: 5px;
-  height: 5px;
-  border-top: 1.5px solid var(--color-light);
-  border-inline-end: 1.5px solid var(--color-light);
-  transform: rotate(45deg);
+  margin-top: -2px;
+  margin-inline-end: -2px;
+  color: var(--color-light);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* ═══ Stop Labels ═══ */
