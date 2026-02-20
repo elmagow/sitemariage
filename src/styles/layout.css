@@ -149,20 +149,19 @@ body::after {
 ═══════════════════════════════════════ */
 
 .rsvp-btn {
-  background: transparent;
-  color: var(--color-gold);
-  border: 1.5px solid var(--color-gold);
+  background: var(--color-olive);
+  color: var(--color-light);
+  border: none;
   border-radius: var(--radius-full);
-  padding: 0.4rem 1.2rem;
-  font-family: var(--font-accent);
-  font-size: 0.65rem;
-  font-weight: 400;
-  letter-spacing: 0.18em;
+  padding: 0.5rem 1.4rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
   transition:
     background-color var(--transition-normal),
-    color var(--transition-normal),
     transform var(--transition-normal),
     box-shadow var(--transition-normal);
   white-space: nowrap;
@@ -172,25 +171,10 @@ body::after {
   overflow: hidden;
 }
 
-.rsvp-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--color-gold), var(--color-accent-2));
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-  border-radius: inherit;
-}
-
 .rsvp-btn:hover {
-  color: var(--color-dark);
-  border-color: var(--color-gold);
+  background: #5a6b3a;
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
-}
-
-.rsvp-btn:hover::before {
-  opacity: 0.15;
+  box-shadow: 0 4px 16px rgba(107, 124, 69, 0.35);
 }
 
 .rsvp-btn:active {
