@@ -5,7 +5,7 @@ export default {
     subtitle: 'מתחתנים',
     date: '18–20 באוקטובר 2026',
     location: 'תל אביב, ישראל',
-    scroll_hint: 'גללו לגלות את המסע'
+    scroll_hint: 'גללו לגלות את התוכנית'
   },
   countdown: {
     months: 'חודשים',

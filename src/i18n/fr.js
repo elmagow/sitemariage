@@ -5,7 +5,7 @@ export default {
     subtitle: 'se marient',
     date: '18–20 octobre 2026',
     location: 'Tel Aviv, Israël',
-    scroll_hint: 'Faites défiler pour découvrir le voyage'
+    scroll_hint: 'Faites défiler pour découvrir le programme'
   },
   countdown: {
     months: 'mois',
