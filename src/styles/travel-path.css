@@ -110,11 +110,6 @@
   box-shadow: 0 0 0 2px var(--color-olive), 0 0 8px rgba(107, 124, 69, 0.4);
 }
 
-.event-stop:hover .stop-dot {
-  transform: scale(1.3);
-  box-shadow: 0 0 0 3px var(--color-primary), 0 0 12px rgba(193,81,58,0.3);
-}
-
 .event-stop:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 4px;
@@ -147,6 +142,49 @@
 
 .event-stop .stop-label-group {
   pointer-events: auto;
+}
+
+/* ═══ Event Card — combined notification + card style ═══ */
+
+.event-stop .stop-label-group {
+  position: relative;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1.6rem 0.65rem 1.1rem;
+  border-inline-start: 3px solid var(--color-primary);
+  box-shadow:
+    0 2px 8px rgba(61, 35, 20, 0.08),
+    0 1px 3px rgba(61, 35, 20, 0.06);
+  gap: 3px;
+  overflow: hidden;
+  white-space: normal;
+  max-width: 180px;
+}
+
+/* ═══ Go-corner arrow (top-right tap affordance) ═══ */
+
+.go-corner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 1.5em;
+  height: 1.5em;
+  overflow: hidden;
+  top: 0;
+  inset-inline-end: 0;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-dark));
+  border-radius: 0 var(--radius-md) 0 var(--radius-lg);
+}
+
+.go-arrow {
+  margin-top: -2px;
+  margin-inline-end: -2px;
+  color: var(--color-light);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* ═══ Stop Labels ═══ */
