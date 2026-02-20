@@ -12,7 +12,7 @@ export default {
     days: 'ימים',
   },
   journey: {
-    paris: 'פריז, צרפת',
+    paris: 'צרפת 🇫🇷',
     telaviv: 'תל אביב, ישראל',
     stop_0_name: 'חתונה אזרחית',
     stop_0_location: 'עיריית קורבבואה',

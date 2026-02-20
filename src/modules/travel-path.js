@@ -5,7 +5,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const ICONS = {
   plane:    '✈️',
-  ring:     '💍',
+  car:      '🚗',
   dinner:   '🥂',
   beach:    '🏖️',
   wedding:  '🤵🏻‍♂️👰🏻‍♀️',
@@ -13,9 +13,9 @@ const ICONS = {
 
 // Progress thresholds match evenly-spaced 7 stops:
 // y-positions: 2, 17, 31, 46, 61, 75, 90 → progress = (y - 2) / 88
-// Emoji per segment: plane → ring → plane → dinner → beach → wedding → plane
+// Emoji per segment: plane → car → plane → dinner → beach → wedding → plane
 const STOPS = [
-  { id: 'paris-departure', progress: 0,        icon: 'ring'    },
+  { id: 'paris-departure', progress: 0,        icon: 'car'     },
   { id: 'mairie',          progress: 0.17,     icon: 'plane'   },
   { id: 'tel-aviv',        progress: 0.33,     icon: 'dinner'  },
   { id: 'welcome-dinner',  progress: 0.50,     icon: 'beach'   },

@@ -12,7 +12,7 @@ export default {
     days: 'jours',
   },
   journey: {
-    paris: 'Paris, France',
+    paris: 'France 🇫🇷',
     telaviv: 'Tel Aviv, Israël',
     stop_0_name: 'Mariage civil',
     stop_0_location: 'Mairie de Courbevoie',
