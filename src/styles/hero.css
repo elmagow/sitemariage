@@ -302,6 +302,13 @@
   position: relative;
   z-index: 5;
   animation: detailReveal 0.8s ease 0.9s both;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  border-inline-start: 3px solid var(--color-primary);
+  box-shadow:
+    0 2px 8px rgba(61, 35, 20, 0.08),
+    0 1px 3px rgba(61, 35, 20, 0.06);
+  padding: 0.65rem 1.2rem;
 }
 
 .hero__countdown-item {
