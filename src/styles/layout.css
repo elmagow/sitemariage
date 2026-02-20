@@ -188,8 +188,8 @@ body::after {
 .site-footer {
   text-align: center;
   padding: var(--space-2xl) var(--space-md);
-  background: var(--color-dark);
-  color: var(--color-light);
+  background: transparent;
+  color: var(--color-dark);
   font-family: var(--font-heading);
   font-size: 0.95rem;
   font-weight: 300;
