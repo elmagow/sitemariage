@@ -175,13 +175,13 @@
 /* Pure CSS chevron — no font rendering quirks */
 .go-arrow {
   position: absolute;
-  top: 3px;
-  inset-inline-end: 3px;
+  top: 50%;
+  inset-inline-end: 50%;
   width: 5px;
   height: 5px;
   border-top: 1.5px solid var(--color-light);
   border-inline-end: 1.5px solid var(--color-light);
-  transform: rotate(45deg);
+  transform: translate(60%, -40%) rotate(45deg);
 }
 
 /* ═══ Stop Labels ═══ */
