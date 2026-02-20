@@ -33,3 +33,8 @@ AGENTS.md
 *.JPG
 *.PNG
 Adobe Express*
+
+# Unused SVG assets
+Flag_map_of_Greater_Israel.svg
+israel.svg
+src/assets/israel-map-bg.svg
