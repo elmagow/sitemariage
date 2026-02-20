@@ -177,11 +177,9 @@
 }
 
 .go-arrow {
-  margin-top: -2px;
-  margin-inline-end: -2px;
   color: var(--color-light);
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   line-height: 1;
 }
