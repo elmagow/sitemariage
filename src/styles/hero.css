@@ -302,7 +302,7 @@
   position: relative;
   z-index: 5;
   animation: detailReveal 0.8s ease 0.9s both;
-  background: var(--color-card);
+  background: rgba(245, 236, 215, 0.75);
   border-radius: var(--radius-md);
   border-inline-start: 3px solid var(--color-primary);
   box-shadow:
