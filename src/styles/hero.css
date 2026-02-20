@@ -38,8 +38,8 @@
   align-items: center;
   gap: 0;
 
-  /* Paper card */
-  background: var(--color-card);
+  /* Paper card — same as hero background for seamless floral blending */
+  background: var(--color-light);
   border-radius: 0;
   box-shadow:
     0 1px 0 rgba(201, 168, 76, 0.3),
@@ -51,7 +51,7 @@
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-size: 256px 256px;
-  background-color: var(--color-card);
+  background-color: var(--color-light);
 
   animation: cardReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -129,21 +129,21 @@
   pointer-events: none;
   background:
     /* Top-left corner */
-    radial-gradient(ellipse at 0% 0%, var(--color-card) 0%, transparent 70%) no-repeat 0 0 / 25% 20%,
+    radial-gradient(ellipse at 0% 0%, var(--color-light) 0%, transparent 70%) no-repeat 0 0 / 25% 20%,
     /* Top-right corner */
-    radial-gradient(ellipse at 100% 0%, var(--color-card) 0%, transparent 70%) no-repeat 100% 0 / 25% 20%,
+    radial-gradient(ellipse at 100% 0%, var(--color-light) 0%, transparent 70%) no-repeat 100% 0 / 25% 20%,
     /* Bottom-left corner */
-    radial-gradient(ellipse at 0% 100%, var(--color-card) 0%, transparent 70%) no-repeat 0 100% / 25% 20%,
+    radial-gradient(ellipse at 0% 100%, var(--color-light) 0%, transparent 70%) no-repeat 0 100% / 25% 20%,
     /* Bottom-right corner */
-    radial-gradient(ellipse at 100% 100%, var(--color-card) 0%, transparent 70%) no-repeat 100% 100% / 25% 20%,
+    radial-gradient(ellipse at 100% 100%, var(--color-light) 0%, transparent 70%) no-repeat 100% 100% / 25% 20%,
     /* Left edge */
-    linear-gradient(to right, var(--color-card), transparent 40%) no-repeat 0 0 / 8% 100%,
+    linear-gradient(to right, var(--color-light), transparent 40%) no-repeat 0 0 / 8% 100%,
     /* Right edge */
-    linear-gradient(to left, var(--color-card), transparent 40%) no-repeat 100% 0 / 8% 100%,
+    linear-gradient(to left, var(--color-light), transparent 40%) no-repeat 100% 0 / 8% 100%,
     /* Top edge */
-    linear-gradient(to bottom, var(--color-card), transparent 40%) no-repeat 0 0 / 100% 8%,
+    linear-gradient(to bottom, var(--color-light), transparent 40%) no-repeat 0 0 / 100% 8%,
     /* Bottom edge */
-    linear-gradient(to top, var(--color-card), transparent 40%) no-repeat 0 100% / 100% 8%;
+    linear-gradient(to top, var(--color-light), transparent 40%) no-repeat 0 100% / 100% 8%;
 }
 
 @media (min-width: 768px) {
