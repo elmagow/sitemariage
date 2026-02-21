@@ -80,6 +80,7 @@ export default {
     event_soiree: '💃 מסיבת ערב',
     event_bus_soiree: '🚌 אוטובוס מסיבת ערב',
     event_babysitter: '👶 בייביסיטר',
+    commodites_label: '🛎️ שירותים',
     message_label: '💌 הודעה לזוג',
     message_placeholder: 'כמה מילים עבורנו…',
     submit: 'שלח אישור הגעה',

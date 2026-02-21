@@ -399,12 +399,18 @@
             <span data-i18n="rsvp.event_beach">🏖️ Beach Party</span>
           </label>
           <label class="checkbox-label">
-            <input type="checkbox" name="events" value="bus-beach" />
-            <span data-i18n="rsvp.event_bus_beach">🚌 Bus Beach Party</span>
-          </label>
-          <label class="checkbox-label">
             <input type="checkbox" name="events" value="soiree" />
             <span data-i18n="rsvp.event_soiree">💃 Soirée</span>
+          </label>
+          <span class="field-error" id="error-events" hidden></span>
+        </fieldset>
+
+        <!-- Commodités checkboxes -->
+        <fieldset class="form-group form-group--checkboxes">
+          <legend data-i18n="rsvp.commodites_label">🛎️ Commodités</legend>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="bus-beach" />
+            <span data-i18n="rsvp.event_bus_beach">🚌 Bus Beach Party</span>
           </label>
           <label class="checkbox-label">
             <input type="checkbox" name="events" value="bus-soiree" />
@@ -414,7 +420,6 @@
             <input type="checkbox" name="events" value="babysitter" />
             <span data-i18n="rsvp.event_babysitter">👶 Babysitter</span>
           </label>
-          <span class="field-error" id="error-events" hidden></span>
         </fieldset>
 
         <!-- Message aux mariés -->

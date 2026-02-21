@@ -80,6 +80,7 @@ export default {
     event_soiree: '💃 Soirée',
     event_bus_soiree: '🚌 Bus Soirée',
     event_babysitter: '👶 Babysitter',
+    commodites_label: '🛎️ Commodités',
     message_label: '💌 Message aux mariés',
     message_placeholder: 'Un petit mot pour nous…',
     submit: 'Envoyer RSVP',
