@@ -100,7 +100,12 @@
   letter-spacing: 0;
 }
 
-/* Go-corner arrow: always top-right regardless of direction */
+/* Journey event cards: keep physical left border + top-right arrow regardless of direction */
+:root[dir="rtl"] .event-stop .stop-label-group {
+  border-inline-start: none;
+  border-left: 3px solid var(--color-primary);
+}
+
 :root[dir="rtl"] .go-corner {
   inset-inline-end: auto;
   right: 0;
