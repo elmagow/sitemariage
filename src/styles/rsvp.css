@@ -4,6 +4,16 @@
 
 .modal-card--rsvp {
   max-width: 560px;
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+}
+
+#rsvp-modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  text-align: center;
+  margin: 0 0 var(--space-xs);
 }
 
 .rsvp-subtitle {
@@ -11,8 +21,14 @@
   font-style: italic;
   font-size: 1.05rem;
   color: var(--color-primary);
-  margin-bottom: var(--space-lg);
-  margin-top: calc(-0.5 * var(--space-sm));
+  text-align: center;
+  margin: 0 0 var(--space-lg);
+}
+
+@media (min-width: 640px) {
+  .modal-card--rsvp {
+    padding: var(--space-2xl) var(--space-2xl) var(--space-xl);
+  }
 }
 
 /* ═══ Form Layout ═══ */
