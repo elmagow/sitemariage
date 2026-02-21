@@ -229,7 +229,7 @@ export function initRsvpForm(tFn) {
     }
 
     // Hide any previous error
-    const errorDiv = modal.querySelector('.rsvp-error')
+    const errorDiv = form.querySelector('.rsvp-error')
     if (errorDiv) errorDiv.setAttribute('hidden', '')
 
     try {
@@ -245,10 +245,13 @@ export function initRsvpForm(tFn) {
         throw new Error(`HTTP ${response.status}`)
       }
 
-      // Success: hide form, show success message
-      form.setAttribute('hidden', '')
-      const successDiv = modal.querySelector('.rsvp-success')
+      // Success: hide submit button, show success banner in the same spot
+      if (submitBtn) submitBtn.setAttribute('hidden', '')
+      const successDiv = form.querySelector('.rsvp-success')
       if (successDiv) successDiv.removeAttribute('hidden')
+
+      // Disable all form fields so they can't be changed after success
+      form.querySelectorAll('input, select, textarea').forEach(el => { el.disabled = true })
 
     } catch (err) {
       console.error('[rsvp-form] Submission error:', err)

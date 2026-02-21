@@ -423,21 +423,23 @@
           <textarea id="rsvp-message" name="message" rows="3" data-i18n-placeholder="rsvp.message_placeholder" autocomplete="off"></textarea>
         </div>
 
-        <!-- Submit -->
-        <button type="submit" class="rsvp-submit" data-i18n="rsvp.submit">Envoyer RSVP</button>
-      </form>
+        <!-- Submit / Success / Error — all occupy the same slot -->
+        <div class="rsvp-action-area">
+          <button type="submit" class="rsvp-submit" data-i18n="rsvp.submit">Envoyer RSVP</button>
 
-      <!-- Success / Error states -->
-      <div class="rsvp-success" hidden aria-live="polite">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 24l8 8 12-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <p data-i18n="rsvp.success"></p>
-      </div>
-      <div class="rsvp-error" hidden aria-live="polite">
-        <p data-i18n="rsvp.error"></p>
-      </div>
+          <div class="rsvp-success" hidden aria-live="polite">
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M14 24l8 8 12-16" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span data-i18n="rsvp.success">Merci ! Nous avons bien reçu votre réponse.</span>
+          </div>
+
+          <div class="rsvp-error" hidden aria-live="polite">
+            <p data-i18n="rsvp.error"></p>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
