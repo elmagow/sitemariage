@@ -3,7 +3,7 @@ export default {
   hero: {
     title: 'אנאל & אריק',
     subtitle: 'מתחתנים',
-    date: '18 – 20 באוקטובר 2026',
+    date: '\u200E18\u200E–\u200E20 באוקטובר 2026',
     location: 'תל אביב, ישראל',
     scroll_hint: 'גללו לגלות את התוכנית'
   },
