@@ -14,7 +14,7 @@
  *   3. Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone
  *   4. Copy the deployment URL and paste it below.
  */
-const GOOGLE_APPS_SCRIPT_URL = 'PASTE_YOUR_GAS_URL_HERE'
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykV8UicnM8ZRhjsH5Ankhr8RgkbTnLvXQow-8YKLXq3fHABt-x-WAMCykd9Ik1eP376g/exec'
 
 let lastFocusedEl = null
 let currentT = null  // i18n t() reference — set by initRsvpForm(tFn)
