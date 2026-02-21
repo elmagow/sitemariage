@@ -11,17 +11,22 @@ const ICONS = {
   wedding:  '🤵🏻‍♂️👰🏻‍♀️',
 }
 
-// Progress thresholds match evenly-spaced 7 stops:
-// y-positions: 2, 17, 31, 46, 61, 75, 90 → progress = (y - 2) / 88
-// Emoji per segment: plane → car → plane → dinner → beach → wedding → plane
+// Icon transitions happen at the MIDPOINT between consecutive stops,
+// so the emoji changes smoothly halfway through each segment rather than at the stop dots.
+// Stop y-positions: 2, 17, 31, 46, 61, 75, 90 (progress 0, 0.17, 0.33, 0.50, 0.67, 0.83, 1.0)
+// Transition thresholds = midpoint of each pair of consecutive stops:
+//   car → plane   at (0.17+0.33)/2 = 0.25
+//   plane → dinner at (0.33+0.50)/2 = 0.415
+//   dinner → beach at (0.50+0.67)/2 = 0.585
+//   beach → wedding at (0.67+0.83)/2 = 0.75
+//   wedding → plane at (0.83+1.00)/2 = 0.915
 const STOPS = [
-  { id: 'paris-departure', progress: 0,        icon: 'car'     },
-  { id: 'mairie',          progress: 0.17,     icon: 'plane'   },
-  { id: 'tel-aviv',        progress: 0.33,     icon: 'dinner'  },
-  { id: 'welcome-dinner',  progress: 0.50,     icon: 'beach'   },
-  { id: 'beach-party',     progress: 0.67,     icon: 'wedding' },
-  { id: 'wedding',         progress: 0.83,     icon: 'plane'   },
-  { id: 'return',          progress: 1.0,      icon: 'plane'   },
+  { progress: 0,      icon: 'car'     },   // Paris → Mairie: car
+  { progress: 0.25,   icon: 'plane'   },   // midpoint Mairie↔Tel Aviv
+  { progress: 0.415,  icon: 'dinner'  },   // midpoint Tel Aviv↔Welcome Dinner
+  { progress: 0.585,  icon: 'beach'   },   // midpoint Welcome Dinner↔Beach Party
+  { progress: 0.75,   icon: 'wedding' },   // midpoint Beach Party↔Wedding
+  { progress: 0.915,  icon: 'plane'   },   // midpoint Wedding↔Return
 ]
 
 function getIconForProgress(progress) {
