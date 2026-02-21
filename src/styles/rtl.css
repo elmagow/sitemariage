@@ -100,6 +100,13 @@
   letter-spacing: 0;
 }
 
+/* Go-corner arrow: always top-right regardless of direction */
+:root[dir="rtl"] .go-corner {
+  inset-inline-end: auto;
+  right: 0;
+  border-radius: 0 var(--radius-md) 0 var(--radius-lg);
+}
+
 /* Hebrew font renders smaller — bump RSVP form sizes */
 [lang="he"] .modal-card--rsvp .form-group label,
 [lang="he"] .modal-card--rsvp .form-group legend {
