@@ -46,8 +46,8 @@
 }
 
 :root[dir="rtl"] .practical-card {
-  border-inline-start: 4px solid var(--color-primary);
-  border-right: none;
+  border-inline-start: none;
+  border-right: 4px solid var(--color-primary);
 }
 
 :root[dir="rtl"] #rsvp-form {
