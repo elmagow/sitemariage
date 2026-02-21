@@ -99,3 +99,36 @@
   font-weight: 400;
   letter-spacing: 0;
 }
+
+/* Hebrew font renders smaller — bump RSVP form sizes */
+[lang="he"] .modal-card--rsvp .form-group label,
+[lang="he"] .modal-card--rsvp .form-group legend {
+  font-size: 1rem;
+}
+
+[lang="he"] .modal-card--rsvp .checkbox-label {
+  font-size: 1.05rem;
+}
+
+[lang="he"] .modal-card--rsvp input,
+[lang="he"] .modal-card--rsvp select,
+[lang="he"] .modal-card--rsvp textarea {
+  font-size: 1.05rem;
+}
+
+[lang="he"] .modal-card--rsvp .rsvp-submit {
+  font-size: 1.3rem;
+}
+
+[lang="he"] .modal-card--rsvp .rsvp-success span {
+  font-size: 1.15rem;
+}
+
+[lang="he"] #rsvp-modal-title {
+  font-family: var(--font-hebrew);
+}
+
+[lang="he"] .rsvp-subtitle {
+  font-family: var(--font-hebrew);
+  font-size: 1.15rem;
+}
