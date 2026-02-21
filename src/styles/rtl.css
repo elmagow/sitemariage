@@ -103,32 +103,33 @@
 /* Hebrew font renders smaller — bump RSVP form sizes */
 [lang="he"] .modal-card--rsvp .form-group label,
 [lang="he"] .modal-card--rsvp .form-group legend {
-  font-size: 1rem;
+  font-size: 1.15rem;
 }
 
 [lang="he"] .modal-card--rsvp .checkbox-label {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
 }
 
 [lang="he"] .modal-card--rsvp input,
 [lang="he"] .modal-card--rsvp select,
 [lang="he"] .modal-card--rsvp textarea {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
 }
 
 [lang="he"] .modal-card--rsvp .rsvp-submit {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 [lang="he"] .modal-card--rsvp .rsvp-success span {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
 }
 
 [lang="he"] #rsvp-modal-title {
   font-family: var(--font-hebrew);
+  font-size: 2rem;
 }
 
 [lang="he"] .rsvp-subtitle {
   font-family: var(--font-hebrew);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
 }
