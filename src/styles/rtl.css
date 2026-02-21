@@ -86,18 +86,86 @@
   font-family: var(--font-hebrew);
 }
 
-/* Keep accent font for specific elements in Hebrew */
-[lang="he"] .hero__date,
-[lang="he"] .hero__location,
-[lang="he"] .hero__countdown-label {
-  font-family: var(--font-hebrew);
-}
-
 /* Keep heading font for names in Hebrew */
 [lang="he"] .hero__names {
   font-family: var(--font-hebrew);
   font-weight: 400;
   letter-spacing: 0;
+}
+
+/* ═══════════════════════════════════════
+   Hebrew global font-size bump
+   Frank Ruhl Libre renders ~15-20% smaller than Inter/Playfair
+   at the same CSS size. Scale up everything except the names.
+═══════════════════════════════════════ */
+
+/* Hero section */
+[lang="he"] .hero__subtitle {
+  font-size: clamp(1.6rem, 3.5vw, 1.75rem);
+}
+
+[lang="he"] .hero__date {
+  font-size: clamp(1.3rem, 2.8vw, 1.4rem);
+}
+
+[lang="he"] .hero__location {
+  font-size: clamp(1.2rem, 2.5vw, 1.3rem);
+}
+
+[lang="he"] .hero__countdown-label {
+  font-size: 0.85rem;
+}
+
+[lang="he"] .hero__scroll-hint p {
+  font-size: 1rem;
+}
+
+/* Journey / travel path */
+[lang="he"] .stop-label {
+  font-size: 1.15rem;
+}
+
+[lang="he"] .stop-sublabel {
+  font-size: 0.95rem;
+}
+
+[lang="he"] .stop-date {
+  font-size: 0.88rem;
+}
+
+/* Event modal */
+[lang="he"] .modal-title {
+  font-size: 1.85rem;
+}
+
+[lang="he"] .modal-detail-label {
+  font-size: 0.8rem;
+}
+
+[lang="he"] .modal-detail-value {
+  font-size: 1.05rem;
+}
+
+/* Practical info */
+[lang="he"] .section-title {
+  font-size: clamp(2rem, 5.5vw, 3rem);
+}
+
+[lang="he"] .section-subtitle {
+  font-size: 1.15rem;
+}
+
+[lang="he"] .practical-card h3 {
+  font-size: 1.35rem;
+}
+
+[lang="he"] .practical-card p {
+  font-size: 1.05rem;
+}
+
+/* Footer */
+[lang="he"] .site-footer {
+  font-size: 1.05rem;
 }
 
 /* Journey event cards: keep physical left border + top-right arrow regardless of direction */
