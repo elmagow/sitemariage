@@ -4,10 +4,13 @@
  * Handles the RSVP modal open/close and form submission to Google Sheets
  * via Google Apps Script web app.
  *
- * IMPORTANT: Eric must replace GOOGLE_APPS_SCRIPT_URL with his actual GAS URL.
- * Instructions:
- *   1. Create a Google Sheet with columns: Timestamp, Name, Email, Events, Guests, Dietary, Message
- *   2. Extensions → Apps Script → paste the doPost(e) function (see tech-spec)
+ * Google Sheet columns:
+ *   Timestamp | Nom | Téléphone | Personnes | Mairie | Welcome | Beach |
+ *   Bus Beach | Soirée | Bus Soirée | Babysitter | Message
+ *
+ * Setup:
+ *   1. Create a Google Sheet with the columns above in Row 1
+ *   2. Extensions → Apps Script → paste the doPost(e) function (see below)
  *   3. Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone
  *   4. Copy the deployment URL and paste it below.
  */
@@ -73,7 +76,7 @@ function closeRsvpModal() {
 function validateForm(form) {
   let valid = true
 
-  // Helper: get localized string or fallback to English
+  // Helper: get localized string or fallback
   const msg = (key, fallback) => (currentT ? currentT(key) : fallback)
 
   // Name
@@ -81,7 +84,7 @@ function validateForm(form) {
   const nameError = form.querySelector('#error-name')
   if (nameInput && !nameInput.value.trim()) {
     if (nameError) {
-      nameError.textContent = msg('rsvp.error_name', 'Please enter your name.')
+      nameError.textContent = msg('rsvp.error_name', 'Veuillez saisir votre nom.')
       nameError.removeAttribute('hidden')
     }
     nameInput.focus()
@@ -90,18 +93,32 @@ function validateForm(form) {
     nameError.setAttribute('hidden', '')
   }
 
-  // Email
-  const emailInput = form.querySelector('#rsvp-email')
-  const emailError = form.querySelector('#error-email')
-  if (emailInput && (!emailInput.value.trim() || !emailInput.value.includes('@'))) {
-    if (emailError) {
-      emailError.textContent = msg('rsvp.error_email', 'Please enter a valid email address.')
-      emailError.removeAttribute('hidden')
+  // Phone
+  const phoneInput = form.querySelector('#rsvp-phone')
+  const phoneError = form.querySelector('#error-phone')
+  if (phoneInput && !phoneInput.value.trim()) {
+    if (phoneError) {
+      phoneError.textContent = msg('rsvp.error_phone', 'Veuillez saisir votre numéro de téléphone.')
+      phoneError.removeAttribute('hidden')
     }
-    if (valid) emailInput.focus()
+    if (valid) phoneInput.focus()
     valid = false
-  } else if (emailError) {
-    emailError.setAttribute('hidden', '')
+  } else if (phoneError) {
+    phoneError.setAttribute('hidden', '')
+  }
+
+  // Guests (dropdown — must have a selection)
+  const guestsSelect = form.querySelector('#rsvp-guests')
+  const guestsError = form.querySelector('#error-guests')
+  if (guestsSelect && !guestsSelect.value) {
+    if (guestsError) {
+      guestsError.textContent = msg('rsvp.error_guests', 'Veuillez sélectionner le nombre de personnes.')
+      guestsError.removeAttribute('hidden')
+    }
+    if (valid) guestsSelect.focus()
+    valid = false
+  } else if (guestsError) {
+    guestsError.setAttribute('hidden', '')
   }
 
   // Events checkboxes — at least one must be checked
@@ -110,7 +127,7 @@ function validateForm(form) {
   const anyChecked = Array.from(eventCheckboxes).some(cb => cb.checked)
   if (!anyChecked) {
     if (eventsError) {
-      eventsError.textContent = msg('rsvp.error_events', 'Please select at least one event.')
+      eventsError.textContent = msg('rsvp.error_events', 'Veuillez sélectionner au moins un événement.')
       eventsError.removeAttribute('hidden')
     }
     valid = false
@@ -120,6 +137,17 @@ function validateForm(form) {
 
   return valid
 }
+
+// Checkbox value → Google Sheet column name mapping
+const EVENT_COLUMNS = [
+  'mairie',
+  'welcome',
+  'beach',
+  'bus-beach',
+  'soiree',
+  'bus-soiree',
+  'babysitter',
+]
 
 /**
  * Initialize the RSVP form — attach all listeners ONCE.
@@ -174,10 +202,21 @@ export function initRsvpForm(tFn) {
     // Validate
     if (!validateForm(form)) return
 
-    // Collect checked events into a comma-separated string
-    const checkedEvents = Array.from(form.querySelectorAll('input[name="events"]:checked'))
-      .map(cb => cb.value)
-      .join(', ')
+    // Build URLSearchParams with one key per checkbox (true/false)
+    const params = new URLSearchParams()
+    params.set('name', form.querySelector('#rsvp-name').value.trim())
+    params.set('phone', form.querySelector('#rsvp-phone').value.trim())
+    params.set('guests', form.querySelector('#rsvp-guests').value)
+
+    // Each event checkbox → its own column with true/false
+    const checkedValues = new Set(
+      Array.from(form.querySelectorAll('input[name="events"]:checked')).map(cb => cb.value)
+    )
+    for (const col of EVENT_COLUMNS) {
+      params.set(col, checkedValues.has(col) ? 'TRUE' : 'FALSE')
+    }
+
+    params.set('message', (form.querySelector('#rsvp-message')?.value || '').trim())
 
     // Get submit button for state management
     const submitBtn = form.querySelector('.rsvp-submit')
@@ -186,7 +225,7 @@ export function initRsvpForm(tFn) {
     // Show submitting state
     if (submitBtn) {
       submitBtn.disabled = true
-      submitBtn.textContent = currentT ? currentT('rsvp.submitting') : 'Sending\u2026'
+      submitBtn.textContent = currentT ? currentT('rsvp.submitting') : 'Envoi en cours\u2026'
     }
 
     // Hide any previous error
@@ -196,12 +235,6 @@ export function initRsvpForm(tFn) {
     try {
       // IMPORTANT: Use URLSearchParams (application/x-www-form-urlencoded), NOT FormData.
       // Google Apps Script e.parameter only parses application/x-www-form-urlencoded.
-      // FormData sends multipart/form-data which GAS cannot parse into e.parameter.
-      const formData = new FormData(form)
-      // Manually set events field to our comma-joined string (FormData would send multiple values)
-      formData.set('events', checkedEvents)
-      const params = new URLSearchParams(formData)
-
       const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: 'POST',
         body: params,

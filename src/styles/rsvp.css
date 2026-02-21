@@ -41,7 +41,9 @@
 
 .form-group input[type="text"],
 .form-group input[type="email"],
+.form-group input[type="tel"],
 .form-group input[type="number"],
+.form-group select,
 .form-group textarea {
   width: 100%;
   padding: 0.625rem var(--space-sm);
@@ -56,6 +58,7 @@
 }
 
 .form-group input:focus-visible,
+.form-group select:focus-visible,
 .form-group textarea:focus-visible {
   outline: none;
   border-color: var(--color-primary);
@@ -67,8 +70,23 @@
   min-height: 72px;
 }
 
-.form-group input[type="number"] {
-  max-width: 120px;
+/* ═══ Select / Dropdown ═══ */
+
+.form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px 8px;
+  padding-right: 2.25rem;
+  cursor: pointer;
+  max-width: 200px;
+}
+
+.form-group select:invalid,
+.form-group select option[value=""] {
+  color: #999;
 }
 
 /* ═══ Checkboxes ═══ */

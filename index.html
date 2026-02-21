@@ -340,62 +340,91 @@
       <p class="rsvp-subtitle" data-i18n="rsvp.subtitle">Nous avons hâte de fêter cela avec vous !</p>
 
       <form id="rsvp-form" novalidate>
-        <!-- Full Name -->
+        <!-- Nom Prénom -->
         <div class="form-group">
-          <label for="rsvp-name" data-i18n="rsvp.name_label"></label>
+          <label for="rsvp-name" data-i18n="rsvp.name_label">Nom Prénom</label>
           <input type="text" id="rsvp-name" name="name" data-i18n-placeholder="rsvp.name_placeholder" required autocomplete="name" />
           <span class="field-error" id="error-name" hidden></span>
         </div>
 
-        <!-- Email -->
+        <!-- Téléphone -->
         <div class="form-group">
-          <label for="rsvp-email" data-i18n="rsvp.email_label"></label>
-          <input type="email" id="rsvp-email" name="email" data-i18n-placeholder="rsvp.email_placeholder" required autocomplete="email" spellcheck="false" />
-          <span class="field-error" id="error-email" hidden></span>
+          <label for="rsvp-phone" data-i18n="rsvp.phone_label">Téléphone</label>
+          <input type="tel" id="rsvp-phone" name="phone" data-i18n-placeholder="rsvp.phone_placeholder" required autocomplete="tel" />
+          <span class="field-error" id="error-phone" hidden></span>
+        </div>
+
+        <!-- Nombre de personnes -->
+        <div class="form-group">
+          <label for="rsvp-guests" data-i18n="rsvp.guests_label">Nombre de personnes</label>
+          <select id="rsvp-guests" name="guests" required>
+            <option value="" disabled selected data-i18n="rsvp.guests_placeholder">-- Choisir --</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+          </select>
+          <span class="field-error" id="error-guests" hidden></span>
         </div>
 
         <!-- Events checkboxes -->
         <fieldset class="form-group form-group--checkboxes">
-          <legend data-i18n="rsvp.events_label"></legend>
+          <legend data-i18n="rsvp.events_label">Événements</legend>
           <label class="checkbox-label">
             <input type="checkbox" name="events" value="mairie" />
-            <span data-i18n="rsvp.event_0"></span>
+            <span data-i18n="rsvp.event_mairie">Mairie</span>
           </label>
           <label class="checkbox-label">
-            <input type="checkbox" name="events" value="welcome-dinner" />
-            <span data-i18n="rsvp.event_1"></span>
+            <input type="checkbox" name="events" value="welcome" />
+            <span data-i18n="rsvp.event_welcome">Welcome Diner</span>
           </label>
           <label class="checkbox-label">
-            <input type="checkbox" name="events" value="beach-party" />
-            <span data-i18n="rsvp.event_2"></span>
+            <input type="checkbox" name="events" value="beach" />
+            <span data-i18n="rsvp.event_beach">Beach Party</span>
           </label>
           <label class="checkbox-label">
-            <input type="checkbox" name="events" value="wedding" />
-            <span data-i18n="rsvp.event_3"></span>
+            <input type="checkbox" name="events" value="bus-beach" />
+            <span data-i18n="rsvp.event_bus_beach">Bus Beach Party</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="soiree" />
+            <span data-i18n="rsvp.event_soiree">Soirée</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="bus-soiree" />
+            <span data-i18n="rsvp.event_bus_soiree">Bus Soirée</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="events" value="babysitter" />
+            <span data-i18n="rsvp.event_babysitter">Babysitter</span>
           </label>
           <span class="field-error" id="error-events" hidden></span>
         </fieldset>
 
-        <!-- Additional guests -->
+        <!-- Message aux mariés -->
         <div class="form-group">
-          <label for="rsvp-guests" data-i18n="rsvp.guests_label"></label>
-          <input type="number" id="rsvp-guests" name="guests" min="0" max="9" value="0" autocomplete="off" />
-        </div>
-
-        <!-- Dietary requirements -->
-        <div class="form-group">
-          <label for="rsvp-dietary" data-i18n="rsvp.dietary_label"></label>
-          <textarea id="rsvp-dietary" name="dietary" rows="2" data-i18n-placeholder="rsvp.dietary_placeholder" autocomplete="off"></textarea>
-        </div>
-
-        <!-- Message -->
-        <div class="form-group">
-          <label for="rsvp-message" data-i18n="rsvp.message_label"></label>
+          <label for="rsvp-message" data-i18n="rsvp.message_label">Message aux mariés</label>
           <textarea id="rsvp-message" name="message" rows="3" data-i18n-placeholder="rsvp.message_placeholder" autocomplete="off"></textarea>
         </div>
 
         <!-- Submit -->
-        <button type="submit" class="rsvp-submit" data-i18n="rsvp.submit"></button>
+        <button type="submit" class="rsvp-submit" data-i18n="rsvp.submit">Envoyer RSVP</button>
       </form>
 
       <!-- Success / Error states -->
