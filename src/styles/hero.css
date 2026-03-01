@@ -229,14 +229,68 @@
     0 1px 2px rgba(201, 168, 76, 0.25);
 }
 
+/* Carousel container */
+.hero__carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 98px 98px 2px 2px;
+  overflow: hidden;
+}
+
 .hero__photo {
   width: 100%;
-  height: auto;
+  height: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   object-position: center 20%;
   display: block;
-  border-radius: 98px 98px 2px 2px;
+}
+
+/* Carousel slides stacked */
+.hero__carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero__carousel-slide--active {
+  position: relative;
+  opacity: 1;
+}
+
+/* Arrows */
+.hero__carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  color: var(--color-dark);
+  font-size: 1.2rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  line-height: 1;
+}
+
+.hero__photo-frame:hover .hero__carousel-arrow {
+  opacity: 1;
+}
+
+.hero__carousel-arrow--prev { left: 6px; }
+.hero__carousel-arrow--next { right: 6px; }
+
+.hero__carousel-arrow:hover {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 @keyframes photoReveal {
@@ -249,8 +303,13 @@
     width: 240px;
     border-radius: 120px 120px 4px 4px;
   }
-  .hero__photo {
+  .hero__carousel {
     border-radius: 118px 118px 2px 2px;
+  }
+  .hero__carousel-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 1.4rem;
   }
 }
 

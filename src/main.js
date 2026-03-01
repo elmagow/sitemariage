@@ -9,6 +9,7 @@ import { initTravelPath } from './modules/travel-path.js'
 import { initEventModal, updateEventModalLang } from './modules/event-modal.js'
 import { initRsvpForm, updateRsvpFormLang } from './modules/rsvp-form.js'
 import { initCountdown } from './modules/countdown.js'
+import { initCarousel } from './modules/carousel.js'
 
 // ─── Initialize default language (French) ───────────────────────────────────
 // This sets document.documentElement.lang = 'fr', dir = 'ltr',
@@ -24,6 +25,7 @@ initTravelPath()
 initEventModal(t)   // Pass t() reference — modal uses this to resolve i18n keys
 initRsvpForm(t)
 initCountdown()
+initCarousel()
 
 // ─── Language switcher ────────────────────────────────────────────────────────
 // CRITICAL: Only updateEventModalLang() is called on lang switch — NOT initEventModal().
