@@ -31,6 +31,35 @@ export function initCarousel() {
   prevBtn?.addEventListener('click', () => { prev(); resetTimer(); });
   nextBtn?.addEventListener('click', () => { next(); resetTimer(); });
 
+  // Swipe support
+  const carousel = document.querySelector('.hero__carousel');
+  if (carousel) {
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', (e) => {
+      if (!tracking) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+      // Only handle horizontal swipes
+      if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();
+        tracking = false;
+        if (dx < 0) next(); else prev();
+        resetTimer();
+      }
+    }, { passive: false });
+
+    carousel.addEventListener('touchend', () => { tracking = false; }, { passive: true });
+  }
+
   // Auto-play
   timer = setInterval(next, 3000);
 }
