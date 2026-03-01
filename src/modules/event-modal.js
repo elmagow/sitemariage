@@ -12,9 +12,11 @@ const EVENT_KEYS = {
     emoji:     '🚗',
     name:      'journey.stop_0_name',
     date:      'journey.stop_0_date',
+    time:      'journey.stop_0_time',
     location:  'journey.stop_0_location',
-    transport: 'journey.stop_0_transport',
-    dresscode: 'journey.stop_0_dresscode'
+    address:   'journey.stop_0_address',
+    gmaps:     'https://maps.google.com/?q=Mairie+de+Courbevoie,+2+Place+de+l%27Hôtel+de+Ville,+92400+Courbevoie',
+    waze:      'https://waze.com/ul?q=Mairie+de+Courbevoie&ll=48.8967,2.2567&navigate=yes'
   },
   'welcome-dinner': {
     emoji:     '🥂',
@@ -55,12 +57,52 @@ function openModal(eventId) {
 
   // Populate modal content
   const modalEl = document.getElementById('event-modal')
-  document.getElementById('modal-event-emoji').textContent     = keys.emoji
-  document.getElementById('modal-event-name').textContent      = currentT(keys.name)
-  document.getElementById('modal-event-date').textContent      = currentT(keys.date)
-  document.getElementById('modal-event-location').textContent  = currentT(keys.location)
-  document.getElementById('modal-event-transport').textContent = currentT(keys.transport)
-  document.getElementById('modal-event-dresscode').textContent = currentT(keys.dresscode)
+  document.getElementById('modal-event-emoji').textContent    = keys.emoji
+  document.getElementById('modal-event-name').textContent     = currentT(keys.name)
+  document.getElementById('modal-event-date').textContent     = currentT(keys.date)
+  document.getElementById('modal-event-location').textContent = currentT(keys.location)
+
+  // Time row (only for events that have it)
+  const timeRow = document.getElementById('modal-row-time')
+  if (keys.time) {
+    document.getElementById('modal-event-time').textContent = currentT(keys.time)
+    timeRow.removeAttribute('hidden')
+  } else {
+    timeRow.setAttribute('hidden', '')
+  }
+
+  // Address + map links (only for events that have them)
+  const addressEl = document.getElementById('modal-event-address')
+  const mapLinks = document.getElementById('modal-map-links')
+  if (keys.address) {
+    addressEl.textContent = currentT(keys.address)
+    addressEl.style.display = ''
+    document.getElementById('modal-link-gmaps').href = keys.gmaps
+    document.getElementById('modal-link-waze').href = keys.waze
+    mapLinks.removeAttribute('hidden')
+  } else {
+    addressEl.textContent = ''
+    addressEl.style.display = 'none'
+    mapLinks.setAttribute('hidden', '')
+  }
+
+  // Transport row (hide if not present)
+  const transportRow = document.getElementById('modal-row-transport')
+  if (keys.transport) {
+    document.getElementById('modal-event-transport').textContent = currentT(keys.transport)
+    transportRow.removeAttribute('hidden')
+  } else {
+    transportRow.setAttribute('hidden', '')
+  }
+
+  // Dresscode row (hide if not present)
+  const dresscodeRow = document.getElementById('modal-row-dresscode')
+  if (keys.dresscode) {
+    document.getElementById('modal-event-dresscode').textContent = currentT(keys.dresscode)
+    dresscodeRow.removeAttribute('hidden')
+  } else {
+    dresscodeRow.setAttribute('hidden', '')
+  }
 
   // Show the modal
   modalEl.removeAttribute('hidden')
