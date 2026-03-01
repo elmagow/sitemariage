@@ -73,8 +73,8 @@
   z-index: 2;
   background: url('/sitemariage/hero-bg-v2.jpg') center / cover no-repeat;
   opacity: 0.5;
-  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 45%, black 70%, black 85%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 45%, black 70%, black 85%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 38%, black 58%, black 85%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 38%, black 58%, black 85%, transparent 100%);
 }
 
 /* Individual edges no longer needed — hidden */
