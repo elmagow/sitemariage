@@ -6,11 +6,14 @@
 let timer = null;
 let current = 0;
 let slides = [];
+let dots = [];
 
 function show(index) {
   slides[current].classList.remove('hero__carousel-slide--active');
+  if (dots[current]) dots[current].classList.remove('hero__carousel-dot--active');
   current = (index + slides.length) % slides.length;
   slides[current].classList.add('hero__carousel-slide--active');
+  if (dots[current]) dots[current].classList.add('hero__carousel-dot--active');
 }
 
 function next() { show(current + 1); }
@@ -23,6 +26,7 @@ function resetTimer() {
 
 export function initCarousel() {
   slides = Array.from(document.querySelectorAll('.hero__carousel-slide'));
+  dots = Array.from(document.querySelectorAll('.hero__carousel-dot'));
   if (slides.length < 2) return;
 
   const prevBtn = document.querySelector('.hero__carousel-arrow--prev');
