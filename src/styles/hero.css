@@ -268,7 +268,8 @@
   z-index: 6;
   background: none;
   border: none;
-  color: var(--color-dark);
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   font-size: 1.4rem;
   width: 28px;
   height: 28px;
