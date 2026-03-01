@@ -266,10 +266,10 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 6;
-  background: rgba(255, 255, 255, 0.5);
+  background: none;
   border: none;
   color: var(--color-dark);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -277,20 +277,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  opacity: 0.7;
   transition: opacity 0.3s ease;
   line-height: 1;
-}
-
-.hero__photo-frame:hover .hero__carousel-arrow {
-  opacity: 1;
 }
 
 .hero__carousel-arrow--prev { left: 6px; }
 .hero__carousel-arrow--next { right: 6px; }
 
 .hero__carousel-arrow:hover {
-  background: rgba(255, 255, 255, 0.8);
+  opacity: 1;
 }
 
 @keyframes photoReveal {
