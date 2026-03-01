@@ -12,8 +12,9 @@ export default {
     days: 'ימים',
   },
   journey: {
-    paris: 'צרפת 🇫🇷',
-    telaviv: 'תל אביב, ישראל',
+    paris: 'צרפת',
+    telaviv_name: 'נמל התעופה בן גוריון',
+    telaviv_location: 'תל אביב, ישראל',
     stop_0_name: 'חתונה אזרחית',
     stop_0_location: 'עיריית קורבבואה',
     stop_0_date: 'רביעי, 17 בספטמבר',

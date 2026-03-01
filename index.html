@@ -189,12 +189,9 @@
       The label group is absolutely positioned to the side (left or right) via CSS class.
     -->
 
-    <!-- STOP 1: Paris departure — x=50%, y=2% — label right -->
+    <!-- STOP 1: Paris departure — x=50%, y=2% — dot only -->
     <div class="journey-stop journey-stop--city stop-label--right" data-stop="paris-departure" style="--sx:50%;--sy:2%">
       <span class="stop-dot"></span>
-      <div class="stop-label-group">
-        <span class="stop-label" data-i18n="journey.paris">France 🇫🇷</span>
-      </div>
     </div>
 
     <!-- STOP 2: Mairie — x=35%, y=17% — label RIGHT (inside snake) -->
@@ -208,11 +205,12 @@
       </div>
     </button>
 
-    <!-- STOP 3: Tel Aviv — x=65%, y=31% — label LEFT (inside snake) -->
-    <div class="journey-stop journey-stop--city stop-label--left" data-stop="tel-aviv" style="--sx:65%;--sy:31%">
+    <!-- STOP 3: Tel Aviv — x=65%, y=31% — label LEFT, card style, not clickable -->
+    <div class="journey-stop journey-stop--card stop-label--left" data-stop="tel-aviv" style="--sx:65%;--sy:31%">
       <span class="stop-dot"></span>
       <div class="stop-label-group">
-        <span class="stop-label" data-i18n="journey.telaviv">Tel Aviv 🇮🇱</span>
+        <span class="stop-label" data-i18n="journey.telaviv_name">Aéroport de Ben Gourion</span>
+        <span class="stop-sublabel" data-i18n="journey.telaviv_location">Tel Aviv, Israël</span>
       </div>
     </div>
 

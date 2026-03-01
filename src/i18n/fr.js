@@ -12,8 +12,9 @@ export default {
     days: 'jours',
   },
   journey: {
-    paris: 'France 🇫🇷',
-    telaviv: 'Tel Aviv, Israël',
+    paris: 'France',
+    telaviv_name: 'Aéroport de Ben Gourion',
+    telaviv_location: 'Tel Aviv, Israël',
     stop_0_name: 'Mariage civil',
     stop_0_location: 'Mairie de Courbevoie',
     stop_0_date: 'Mercredi 17 septembre',
